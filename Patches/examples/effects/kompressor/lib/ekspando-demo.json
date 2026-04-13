@@ -1,0 +1,39 @@
+{
+	"pattrstorage" : 	{
+		"name" : "ekspando-demo",
+		"slots" : 		{
+			"1" : 			{
+				"id" : 1,
+				"data" : 				{
+					"ekspando::attack" : [ 20.0 ],
+					"ekspando::bypass" : [ 0 ],
+					"ekspando::exp-ratio" : [ 84.0 ],
+					"ekspando::key" : [ 0 ],
+					"ekspando::lookahead" : [ 2200 ],
+					"ekspando::makeup-gain" : [ 20.0 ],
+					"ekspando::release" : [ 50.0 ],
+					"ekspando::threshold" : [ -23.0 ]
+				}
+
+			}
+,
+			"2" : 			{
+				"id" : 2,
+				"data" : 				{
+					"ekspando::attack" : [ 10.0 ],
+					"ekspando::bypass" : [ 0 ],
+					"ekspando::exp-ratio" : [ 0.0 ],
+					"ekspando::key" : [ 0 ],
+					"ekspando::lookahead" : [ 2200 ],
+					"ekspando::makeup-gain" : [ 0.0 ],
+					"ekspando::release" : [ 10.0 ],
+					"ekspando::threshold" : [ 0.0 ]
+				}
+
+			}
+
+		}
+
+	}
+
+}
