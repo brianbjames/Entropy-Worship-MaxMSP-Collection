@@ -1,4 +1,4 @@
-# 🜃 ENTROPY WORSHIP 🜃  
+# 🜃 ENTROPY WORSHIP 🜃 
 # ⚙︎ Max/MSP Collection ⚒︎
 ## ☍ What Lives Here
 ```
@@ -15,6 +15,6 @@
 
 ## ☍ Final Note
 
-Nothing in this repository is finished and nothing here is meant to last.  
+Nothing in this repository is finished and nothing here is meant to last
 
 ---
