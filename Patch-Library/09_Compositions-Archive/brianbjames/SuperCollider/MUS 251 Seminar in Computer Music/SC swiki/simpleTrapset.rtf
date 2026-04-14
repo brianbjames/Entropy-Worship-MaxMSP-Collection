@@ -1,0 +1,190 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\deftab720
+\pard\pardeftab720\sa260\ql\qnatural
+
+\f0\b\fs32 \cf0 simpleTrapset\
+\pard\pardeftab720\ql\qnatural
+
+\f1\b0\fs18 \cf0 here's a simple trapset: kick, snare and hat.\
+feel free to make better ones out of it!\
+\
+\
+\
+(\
+// simple trapset v.1\
+\
+var dur;\
+var kSeqs, snSeqs, kSeq, snSeq;\
+\
+\
+\
+SynthDef("kickTrig1", \{ arg levK=1, t_trig=0, dur=0.125;\
+	var kEnv, out;\
+	var kickEnv;\
+	kickEnv = Env.linen(0.001, 1.9, 0.099, 1);\
+	kEnv=EnvGen.ar(kickEnv,1, doneAction:2, timeScale: dur, levelScale: levK);\
+	out =Pan2.ar(Decay2.kr(t_trig, 0.005, 0.45, \
+	FSinOsc.ar(26.midicps, 0.4)+FSinOsc.ar(38.midicps, 0.2)),0);\
+	\
+		Out.ar(0, out*kEnv);\
+	\}).load(s);\
+\
+SynthDef("snTrig1", \{ arg levSn=1, t_trig=0, dur=0.125, panPos=0;\
+	var snEnv, out;\
+	var snareEnv;\
+	snareEnv = Env.linen(0.001, 1.9, 0.099, 1);\
+	snEnv=EnvGen.ar(snareEnv,1, doneAction:2, timeScale: dur, levelScale: levSn);\
+	out =Pan2.ar(Decay2.kr(t_trig, 0.005, 0.25, FSinOsc.ar(38.midicps, 0.3)+ 		BrownNoise.ar(0.4)),panPos);\
+	\
+		Out.ar(0, out*snEnv);\
+	\}).load(s);\
+\
+SynthDef("hihatNew1", \{ arg  dur=0.125, hatlev=1, panPos=0, noiseLev=0.5, rezFreq=2000;\
+	var hhEnv, out, env;\
+	hhEnv= Env.perc(0.001, 0.5, 1, -4);\
+	env=EnvGen.ar(hhEnv,1, doneAction:2, timeScale: dur*1.5, levelScale: hatlev);\
+	out=	Pan2.ar(Resonz.ar(WhiteNoise.ar(noiseLev+0.1), rezFreq+1000, XLine.kr(0.2, 0.001, dur)),\
+								 panPos);\
+		Out.ar(0, out*env);\
+			 \}).load(s);\
+			 \
+//////////////////////\
+\
+Tempo.bpm = 130;\
+\
+dur = Tempo.beats2secs(0.25);\
+\
+kSeqs = \
+[Pseq(#[1,0,0,1, 0,0,0.3,0, 0.8,0,0,0, 0,0,0.5,0]),\
+Pseq(#[1,0.6,0,0, 0,0,0.3,0, 0.8,0,0,0, 0,0,0.4,0.2]),\
+Pseq(#[1,0,0,0, 0,0,0.3,0, 0,0,0,0, 0,0,0.4,0.2])];\
+\
+snSeqs=[Pseq(#[0,0,0,0, 0,0,0,0, 1,0.2,0,0, 0,0,0,0]),\
+Pseq(#[0,0,0,0, 0,0,0.2,0.1, 1,0,0,0, 0,0,0,0]),\
+Pseq(#[0,0,0,0, 0,0,0,0, 1,0.2,0,0, 0,0,0.1,0.2]),\
+Pseq.new(#[0,0,0,0, 0,0,0,0,  0,0,0,0, 1,0.1,0.6,0.4]),\
+Pseq.new(#[0,0,0,0, 0,0,0,0, 0,0,0,0, 0.1,0.2,0,0])];\
+  \
+kSeq= Pswitch([kSeqs@0, kSeqs@1, kSeqs@2], Prand([0,1,2], inf)).asStream;\
+snSeq= Pswitch([snSeqs@0, snSeqs@1, snSeqs@2, snSeqs@3, snSeqs@4], Prand([0,1,2,3,4], inf)).asStream;\
+\
+\
+Routine(\{\
+OSCSched.global.tdeltaTillNext(4.0).wait;\
+        loop(\{\
+                s.sendMsg(\\s_new, \\kickTrig1, -1, 1, 0, \
+                \\t_trig, kSeq.next);\
+                s.sendMsg(\\s_new, \\snTrig1, -1, 1, 0, \
+                \\t_trig, snSeq.next,\
+                \\dur, dur,\
+                \\panPos, 0.1.rand2);\
+                dur.wait;\
+        \});\
+\}).play; \
+Routine(\{ arg nextTime;\
+OSCSched.global.tdeltaTillNext(4.0).wait;\
+      	  loop(\{\
+		nextTime= [dur, dur*2, dur*4, dur*8].wchoose([0.5, 0.2, 0.2, 0.1]);\
+ 				s.sendMsg(\\s_new, \\hihatNew1, -1, 1, 0,\
+				\\dur, nextTime,\
+				\\noiseLev, 0.6.rand,\
+				\\rezFreq,2500.rand,\
+				\\panPos, 0.25.rand2\
+				);\
+				nextTime.wait;\
+			\});\
+\}).play;\
+)\
+\
+\
+(\
+// simple trapset v.2\
+\
+var dur;\
+var kSeqs, snSeqs, kSeq, snSeq;\
+\
+\
+\
+SynthDef("kickTrig1", \{ arg levK=1, t_trig=0, dur=0.125;\
+	var kEnv, out;\
+	var kickEnv;\
+	kickEnv = Env.linen(0.001, 1.9, 0.099, 1);\
+	kEnv=EnvGen.ar(kickEnv,1, doneAction:2, timeScale: dur, levelScale: levK);\
+	out =Pan2.ar(Decay2.kr(t_trig, 0.005, 0.45, \
+	FSinOsc.ar(26.midicps, 0.4)+FSinOsc.ar(38.midicps, 0.2)),0);\
+	\
+		Out.ar(0, out*kEnv);\
+	\}).load(s);\
+\
+SynthDef("snTrig1", \{ arg levSn=1, t_trig=0, dur=0.125, panPos=0;\
+	var snEnv, out;\
+	var snareEnv;\
+	snareEnv = Env.linen(0.001, 1.9, 0.099, 1);\
+	snEnv=EnvGen.ar(snareEnv,1, doneAction:2, timeScale: dur, levelScale: levSn);\
+	out =Pan2.ar(Decay2.kr(t_trig, 0.005, 0.25, FSinOsc.ar(38.midicps, 0.4)+ 		BrownNoise.ar(0.5)),panPos);\
+	\
+		Out.ar(0, out*snEnv);\
+	\}).load(s);\
+\
+SynthDef("hihatNew2", \{ arg  dur=0.125, hatlev=1, panPos=0, noiseLev=0.5, rezFreq=2500, rezMul=0.5;\
+	var hhEnv, out, env;\
+	hhEnv= Env.perc(0.001, 0.5, 1, -4);\
+	env=EnvGen.ar(hhEnv,1, doneAction:2, timeScale: dur*1.5, levelScale: hatlev);\
+	out=	Pan2.ar(Resonz.ar(WhiteNoise.ar(noiseLev+0.1), rezFreq+3000, SinOsc.kr(rezMul+0.001)),\
+								 panPos);\
+		Out.ar(0, AllpassN.ar(out*env,0.030, [0.025.rand,0.020.rand], 0.25));\
+			 \}).load(s);\
+			 \
+//////////////////////\
+\
+Tempo.bpm = 110;\
+\
+dur = Tempo.beats2secs(0.25);\
+\
+kSeqs = \
+[Pseq(#[1,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0]),\
+Pseq(#[1,0,0,0, 0,0,0,0, 1,0,0,0, 0,0,0,0]),\
+Pseq(#[1,0,0,0, 1,0,0,0, 1,0,0,0, 1,0,0,0]),\
+Pseq(#[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]),\
+Pseq(#[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])\
+];\
+\
+snSeqs=[Pseq(#[0,0,0.8,0, 0,0,0.8,0, 1,0.2,0,0, 0.3,0.4,0.6,0.7]),\
+Pseq(#[0,0,0.8,0, 0,0,0.2,0.1, 1,0,0,0, 1,0,0,0]),\
+Pseq(#[0,0,0.7,0, 0,0,0.7,0, 1,0.2,0,0, 0,0,0.1,0.2]),\
+Pseq.new(#[0.3,0.2,0.1,0.2, 0,0,0,0,  0,0,0,0, 1,0.1,0.6,0.4]),\
+Pseq.new(#[0,0,0,0, 1,0,0.6,0, 1,0,0.8,0, 0.1,0.2,0,0])];\
+  \
+kSeq= Pswitch([kSeqs@0, kSeqs@1, kSeqs@2, kSeqs@3, kSeqs@4], Prand([0,1,2, 3,4], inf)).asStream;\
+snSeq= Pswitch([snSeqs@0, snSeqs@1, snSeqs@2, snSeqs@3, snSeqs@4], Prand([0,1,2,3,4], inf)).asStream;\
+\
+\
+Routine(\{\
+OSCSched.global.tdeltaTillNext(4.0).wait;\
+        loop(\{\
+                s.sendMsg(\\s_new, \\kickTrig1, -1, 1, 0, \
+                \\t_trig, kSeq.next);\
+                s.sendMsg(\\s_new, \\snTrig1, -1, 1, 0, \
+                \\t_trig, snSeq.next,\
+                \\dur, dur,\
+                \\panPos, 0.1.rand2);\
+                dur.wait;\
+        \});\
+\}).play; \
+Routine(\{ arg nextTime;\
+OSCSched.global.tdeltaTillNext(4.0).wait;\
+      	  loop(\{\
+		nextTime= [dur, dur*2, dur*4, dur*8].wchoose([0.5, 0.2, 0.2, 0.1]);\
+ 				s.sendMsg(\\s_new, \\hihatNew2, -1, 1, 0,\
+				\\dur, nextTime,\
+				\\noiseLev, 0.6.rand,\
+				\\rezFreq,2500.rand,\
+				\\rezMul, 0.6.rand,\
+				\\panPos, 0.25.rand2\
+				);\
+				nextTime.wait;\
+			\});\
+\}).play;\
+)}

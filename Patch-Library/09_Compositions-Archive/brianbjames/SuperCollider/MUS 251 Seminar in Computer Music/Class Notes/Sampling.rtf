@@ -1,0 +1,215 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf0 (	\cf2 // get audio input, and slow-pan it through stereo output\cf0 \
+\cf2 // AudioIn channels start at 1 ! (left input)\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "audioIn"\cf0 ,\{ \cf3 arg\cf0  in=1; \
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(\cf3 AudioIn\cf0 .ar(in),	\cf2 // Pan2 balances the input between two adjacent outputs\cf0 \
+			\cf3 SinOsc\cf0 .kr(0.2),		\cf2 // use a sinewave to control pan pos\cf0 \
+			0.5))\
+\}).play;\
+)\
+	\
+(	\cf2 // define a sampler\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "sampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, 	loop=1.0;\
+\cf2 //	PlayBuf.ar(numChannels,bufnum,rate,trigger,startPos,loop)\cf0 \
+	\cf3 Out\cf0 .ar(0,\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,			\cf2 // which bufnum to play\cf0 \
+		\cf3 BufRateScale\cf0 .kr(sampbuf)*rate,   \cf2 // gets sampRate for this Buffer\cf0 \
+		1.0,		\cf2 // trigger arg, causes jump to startPos when changing from 0 (or less) to positive\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos, in sampleFrames of Buffer\cf0 \
+		loop))			\cf2 // 1 means loop, 0 means no loop\cf0 \
+\}).load(s);		\cf2 // load the SynthDef, but don't play it\cf0 \
+)\
+\
+\cf2 // play the sampler, and change its rate using a Routine\cf0 \
+( \cf3 var\cf0  buf, filename;\
+filename = \cf4 "sounds/a11wlk01.wav"\cf0 ; 	\cf2 // give the directory path of your sample -- this points to the default soundfile within the "sounds" directory of the SC application -- put your own soundfile here, or direct it from the default SC folder to your own sounds directory, such as ../Desktop/mySound/\cf0 \
+buf = \cf3 Buffer\cf0 .read(s,filename);	\cf2 // read the file into a new Buffer  on 's' Server\cf0 \
+x = \cf3 Synth\cf0 (\cf4 "sampler"\cf0 ,[\cf4 "sampbuf"\cf0 , buf.bufnum]).play; \cf2 //play it -- the array argument of the"sampler" Synth sets its arguments in pairs of names and values, in this case the "sampbuf" arg, and its bufnum\cf0 \
+\cf3 Routine\cf0 (\{\
+	loop(\{ 								\cf2 // change it's rate\cf0 \
+		x.set(\cf4 "rate"\cf0 ,rrand(-2.0,2.0).postln); \cf2 // choose a random rate between +-2.0\cf0 \
+		rrand(2.0,0.2).wait		\cf2 // at random time intervals\cf0 \
+	\})\
+\}).play;\
+)\
+\
+( 	\cf2 // this sampler allows you to set its loop endPos too, and introduces Classes that get important info about each different sample you use\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq;\
+		\cf2 // BufRateScale converts for differences in samplerate between different recorded samples and your playback rate\cf0 \
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+		\cf2 // BufDur gets the duration of the Buffer \cf0 \
+		\cf2 // 'abs' method gets absolute value, to convert negative\cf0 \
+		\cf2 //	results to positive durations\cf0 \
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+		\cf2 // frequency of looping is the reciprocal of the loop duration -- also guard against Infinite frequency using 'min' -- this returns the \cf2 \ul \ulc2 smaller\cf2 \ulnone  of the reciprocal or 100\cf0 \
+	loopFrq = (thisDur.reciprocal).min(100);  \
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		\cf2 // BufFrames gets number of sample frames of current sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop))\
+\}).load(s);\
+)\
+\cf2 //  play the loopSampler\cf0 \
+( \
+	\cf3 var\cf0  buf, filename;\
+	filename = \cf4 "sounds/a11wlk01.wav"\cf0 ;\
+	buf = \cf3 Buffer\cf0 .read(s,filename);	\cf2 // read the file into a Buffer\cf0 \
+	x = \cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,\
+		[\cf4 "sampbuf"\cf0 ,buf.bufnum,\cf4 "startPos"\cf0 ,0.3,\cf4 "endPos"\cf0 ,0.5]).play;\
+)\
+x.set(\cf4 "endPos"\cf0 ,0.34);\
+x.set(\cf4 "rate"\cf0 ,-1.0);	\cf2 // note that negative rate, plays backwards\cf0 \
+x.set(\cf4 "rate"\cf0 ,1.0);\
+\
+\cf2 // the first time the sampler plays, it sometimes plays from the start of the sample -- why?  because the sample hasn't loaded yet, so there is no accurate count of the number of frames in the Buffer -- so, it is usually better to load your samples first, before starting any Synths that play them -- alternatively, you can use the 'action' argument of Buffer.read to start the Synth after reading is complete -- see the help-file for Buffer to see explanation, and here is an implemented version:\cf0 \
+\
+( \
+	\cf3 var\cf0  filename;\
+	filename = \cf4 "sounds/a11wlk01.wav"\cf0 ;\
+	\cf3 Buffer\cf0 .read(s,filename,		\cf2 // read the file into a Buffer\cf0 \
+		action: \{ \cf3 arg\cf0  buf;		\cf2 // the action is passed the new Buffer as an argument\cf0 \
+			x = \cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,		\cf2 // this is the completionMessage\cf0 \
+			[\cf4 "sampbuf"\cf0 ,buf.bufnum,\cf4 "startPos"\cf0 ,0.15,\cf4 "endPos"\cf0 ,0.25]).play; \
+		\}\
+	);\
+)\
+\
+ \cf2 // create another Buffer to record Audio input -- note that it's assigned to environmental variable 'b', so that we can continue to reference it in the next compilation\cf0 \
+b = \cf3 Buffer\cf0 .alloc(s,s.sampleRate*4.0,1); \cf2 // a 4 second, 1 channel Buffer\cf0 \
+\
+( \cf2 // record into it\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "recAudioIn"\cf0 ,\{ \cf3 arg\cf0  bufnum=0, in=1;\
+	\cf3 RecordBuf\cf0 .ar(\cf3 AudioIn\cf0 .ar(in),bufnum, loop:0) \cf2 // record once, then stop\cf0 \
+\}).play(s,[\cf5 \\bufnum\cf0 ,b.bufnum]);\
+)\
+\cf2 // then play it\cf0 \
+x = \cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,b.bufnum]).play;\
+\
+(\
+ 	\cf2 // make some generic GUI Controls for loopSampler\cf0 \
+	\cf3 var\cf0  myWind;\
+	myWind =  \cf3 SCWindow\cf0 .new(\cf4 "sampler"\cf0 ); \cf2 // create a window\cf0 \
+\cf2 // you can position it by providing a "bounds" arg, in the form or a Rect (rectangle), like this: Rect.new(inLeft, inTop, inWidth, inHeight) -- all argument numbers are in pixels\cf0 \
+	myWind.front;	\cf2 // and display it\cf0 \
+	 \cf2 // create a slider, with dimensions relative to myWind given by Rect\cf0 \
+	\cf3 SCSlider\cf0 (myWind,\cf3 Rect\cf0 (120,20,40,200)).value_(1)\
+		.action = \{ \cf3 arg\cf0  slider; \cf2 // give it an action to do when moved\cf0 \
+			x.set(\cf4 "rate"\cf0 ,slider.value)\
+		\};\
+	\cf2 // make a text label for the slider\cf0 \
+	\cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (120,230,40,20)).string_(\cf4 " rate"\cf0 );\
+	\cf3 SCSlider\cf0 (myWind,\cf3 Rect\cf0 (180,20,40,200)).value_(0)\
+		.action = \{ \cf3 arg\cf0  slider; \
+			x.set(\cf4 "startPos"\cf0 ,slider.value)\
+		\};\
+	\cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (180,230,40,20)).string_(\cf4 " start"\cf0 );\
+	\cf3 SCSlider\cf0 (myWind,\cf3 Rect\cf0 (240,20,40,200)).value_(1)\
+		.action = \{ \cf3 arg\cf0  slider; \
+			x.set(\cf4 "endPos"\cf0 ,slider.value)\
+		\};\
+	\cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (240,230,40,20)).string_(\cf4 " end"\cf0 );\
+)\
+\
+\cf2 // The next example is a granular sampler, which will get rid of the click at the beginning and end of the sampler\cf0 \
+\
+(\
+\cf3 SynthDef\cf0 (\cf4 "granSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0, dir=1, loop=1.0;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq, env;\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	loopFrq = (thisDur.reciprocal).min(100);\
+	env = \cf3 Env\cf0 .new([0,1,1,0],[0.0125,1.0-0.025,0.0125]);  \
+	\cf3 Out\cf0 .ar(0,\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop)*\
+		\cf2 // trigger an envelope on the sample "grain" in sync with loop\cf0 \
+		\cf3 EnvGen\cf0 .ar(env,\cf3 Impulse\cf0 .kr(loopFrq), \cf2 // Impulse is 'gate' arg of EnvGen\cf0 \
+					timeScale: thisDur.max(\cf3 BufRateScale\cf0 .kr(sampbuf)*0.01));\
+	)\
+\}).load(s);\
+)\
+x = \cf3 Synth\cf0 (\cf4 "granSampler"\cf0 ,[\cf5 \\startPos\cf0 ,0.2,\cf5 \\endPos\cf0 ,0.4]);\
+x.set(\cf5 \\endPos\cf0 ,0.05);\
+\
+\cf2 // This next SynthDef plays just a single grain of sound before deAllocating itself using an EnvGen with doneAction: 2.  We will use the timeScale arg of the same EnvGen to adjust the length of the grain.\cf0 \
+(\
+\cf3 SynthDef\cf0 (\cf4 "grain"\cf0 ,\{ \cf3 arg\cf0  bufnum=0, rate=1.0, startPos=0, size=1;\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(\
+			\cf3 PlayBuf\cf0 .ar(1,bufnum,\
+				rate*\cf3 BufRateScale\cf0 .kr(bufnum),\
+				1,			\cf2 // trigger\cf0 \
+				startPos*\cf3 BufSamples\cf0 .kr(bufnum),\
+				1), 		\cf2 // loop\cf0 \
+			0,	\cf2 // pan position\cf0 \
+			\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 ([0,0.2,0],[0.05,0.05],\cf5 \\sine\cf0 ), 1, \cf2 // a sinusoidal envelope\cf0 \
+			\cf2 // timeScale will lengthen durations proportionally\cf0 \
+			timeScale: size, doneAction: 2)\
+		)\
+	);\
+\}).load(s); \
+)\
+x = \cf3 Synth\cf0 (\cf4 "grain"\cf0 ,[\cf4 "startPos"\cf0 ,0.5,\cf4 "size"\cf0 ,10]);\
+\
+\cf2 // Now we make a GUI to control a Routine that automatically plays grains with different argument values.  This GUI will use a convenience class called EZSlider that easily links an SCSlider with a number readout of its value and a label.  It also includes a ControlSpec, that automatically scales the slider's range and sets other useful characteristics like its default value, step resolution, and "warp", which allows for non-linear scaling of graphical controls.\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf2 // 
+\f1\b \cf2 EZSlider(window, dimensions, label, controlSpec, action, initVal, initAction, labelWidth, numberWidth)\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //	ControlSpec.new( minval, maxval, warp, step, default,units);\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0 \cf0 \
+(	\cf2 // play the grain sampler from a gui - try moving the start slider slowly through its range -- you will hear a granular scan through the soundfile\cf0 \
+\
+\cf3 var\cf0  myWind,rate=1.0,startPos=0,size=1;\
+myWind = \cf3 SCWindow\cf0 .new(\cf4 "granSamp"\cf0 );\
+\cf2 //	 a FlowLayout allows automated placement of GUI objects in a window\cf0 \
+myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);\
+myWind.front;\
+\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "rate"\cf0 ,[0.25,4.0,\cf5 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; rate = slider.value \},1.0,numberWidth:40);\
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "start"\cf0 ,[0.0,1.0,\cf5 \\lin\cf0 ,0,0.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; startPos = slider.value \},0.0,numberWidth:40);\
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "size"\cf0 ,[1.0,10.0,\cf5 \\lin\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; size = slider.value \},1.0,numberWidth:40);\
+\
+\cf3 Routine\cf0 (\{ \
+	loop(\{ \
+		\cf3 Synth\cf0 (\cf4 "grain"\cf0 ,[\cf4 "bufnum"\cf0 ,0,\
+			\cf4 "rate"\cf0 ,rate,\cf4 "startPos"\cf0 ,startPos,\
+			\cf4 "size"\cf0 ,size]);\
+			(0.02*size).wait; \
+		\}); \
+\}).play;\
+)\
+\cf2 // in the above code, a new Synth is created with every loop, and each Synth is deallocated after its amplitude envelope completes --  there are always 5 Synths active at any one time -- why?)\cf0 \
+\
+\
+\cf2 // SuperCollider output defaults to "float"  -- a recording in float format cannot be opened in many commercial sound editors, although the freeware "Audacity" will open it; but to record your output in 16bit format, first execute:\cf0 \
+\
+s.recSampleFormat = \cf4 "int16"\cf0 ; \
+\
+\cf2 // then click the 'prepare rec' button, followed by a click again on the same button, now reading 'record' -- your file is saved to 'SuperCollider_f/recordings'\cf0 \
+}

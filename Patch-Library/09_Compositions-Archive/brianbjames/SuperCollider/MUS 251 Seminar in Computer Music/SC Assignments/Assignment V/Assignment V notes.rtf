@@ -1,0 +1,949 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\froman\fcharset77 Times-Roman;\f1\fnil\fcharset77 Monaco;\f2\fswiss\fcharset77 ArialMT;
+\f3\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\deftab720
+\pard\pardeftab720\sa320\qc
+
+\f0\fs26 \cf0 Assignment V\
+Brian B. James\
+\
+1) Extend the "Simple FM w/ GUI Index and C:M ratio controls" program from this week's code examples to implement a cascade multiple-modulator instrument, similar to that shown in the cascade diagram.\
+2) Starting from the model given in the last of this week's code examples "dCarSModEnv", create one or more FM SynthDefs whose parameters are controlled by other envelope generator SynthDefs. Write a Routine that plays notes automatically, but at changing speeds (you could create your own GUI with sliders to control the speeds manually). Adjust the AutoGui and/or your own GUI controls as the Routine plays, and record the results to make a piece.
+\f1 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\
+// MORE ABOUT ENVELOPES:  Remember that the use of levelScale and timeScale arguments of EnvGen make an Env very flexible -- Env is essentially a specification of the \ul \ulc2 proportion\ulnone  of values and times that can be stretched. It's not possible to pass an Env as an argument, or as a Control, to a Synth.  Arguments of a Synth CAN however be used in an enclosed Env specification to change its shape as it runs, and you can even use Controls, as shown in last week's "Klank" code, to pass Arrays to change the levels and times Arrays of an Env inside a Synth. However, this can get messy if you want a lot of flexibility.  One simpler way of attaining a variety of  envelopes to control running Synths is to define multiple versions of that Synth, each containing a different envelope.  But if you still want more flexibility, you can define SynthDefs that do not output any sound, but that function as envelope generators by writing their control rate outputs to control busses.  The code below implements this method, and also forms an introduction to the class Bus, which provides a powerful facility for patching audio as well as control signals between running Synths.\
+\
+\
+\
+//Use this for the second part of the assignment\cf0 \
+( \cf2 // same as SynthDef above, but will use Bus.control inputs to for amp and indexCtls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=60, carFreq2=122, carFreq3=248, carFreq4=502, cmRatio=1.0, ampCtl1=0.1, ampCtl2=0.1, ampCtl3=0.1, ampCtl4=0.1, indexCtl1=0.25, indexCtl2=0.15, indexCtl3=0.10, indexCtl4=0.05, amp=0.2;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+	\cf2 // use SendTrig to send values from a running Synth to SCLang where they can be viewed as they change-- an essential debugging tool!  See its help-file to see how to receive and print messages\cf0 \
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,indexCtl2); \cf2 // SendTrig (send trigger) args are trig, id, value: value is sent when a trigger occurs, and you assign the id (1) to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2,indexCtl3,indexCtl4]*modFreq,\
+				[carFreq1,carFreq2,carFreq3,carFreq4]\
+			),0,\
+			[ampCtl1,ampCtl2,ampCtl3,ampCtl4]*0.25	 \cf2 // quarter of the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar([0,1],fm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq3\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq4\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // make a number of envelopes that write to Bus.control outputs, no ar here...kr sends out on control busses, you dont hear it, it just affects the output\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=14.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,2.0,0],[0.2,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=7.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.70;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,3.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.40;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,5.0,0.51,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.50;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,2.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // play one FM Synth controlled by envGen Synths\cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, dur, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 , \cf5 \\ampEnv3\cf0 , \cf5 \\ampEnv4\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 , \cf5 \\idxEnv3\cf0 , \cf5 \\idxEnv4\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,8);	\cf2 // this allocates 8 control Bus indices, like virtual patch chords and buffer on the server \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\ampCtl3\cf0 ,cBus.index,\cf5 \\ampCtl4\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3,cBus.index+1,\cf5 \\indexCtl3\cf0 ,cBus.index+2,\cf5 \\indexCtl4\cf0 ,cBus.index+3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	x.mapn(\\ampCtl1,cBus.index,4);  // this SHOULD also work, but there's a bug that I just reported, so it's not currently working\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(0.001,7.0);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+4,\cf5 \\dur\cf0 ,dur]);\
+		(dur+1.0).wait     \cf2 //synths are being written to the busses\cf0 \
+	\})\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f2 \cf0 s.recSampleFormat = \cf4 "int16"\cf0 ;
+\f1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //first recording named 
+\f3 \cf0 SC_061002_165753.aiff
+\f1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f2 \cf0 (	\cf2 // LOAD THE SOUNDS FIRST!   SAVE REFERENCES TO THE BUFFERS CREATED IN VARIABLES\cf0 \
+a = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf0 SC_061002_165753.aiff
+\f2 \cf4 "\cf0 )\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 (\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq;\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	loopFrq = (thisDur.reciprocal).min(100);  \
+	\cf3 Out\cf0 .ar([0,1],\
+		\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop))\
+\}).store;\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 ( 	\cf2 // NEXT, PLAY THEM USING 'loopSampler', and specifying the argument "sampbuf' by using the variables that refer to each Buffer\cf0 \
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,a.bufnum]);\
+)
+\f1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+( \cf2 // same as SynthDef above, but will use Bus.control inputs to for amp and indexCtls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=30, carFreq2=61, carFreq3=124, carFreq4=251, cmRatio=1.0, ampCtl1=0.1, ampCtl2=0.1, ampCtl3=0.1, ampCtl4=0.1, indexCtl1=0.25, indexCtl2=0.15, indexCtl3=0.10, indexCtl4=0.05, amp=0.2;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+	\cf2 // use SendTrig to send values from a running Synth to SCLang where they can be viewed as they change-- an essential debugging tool!  See its help-file to see how to receive and print messages\cf0 \
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,indexCtl2); \cf2 // SendTrig (send trigger) args are trig, id, value: value is sent when a trigger occurs, and you assign the id (1) to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2,indexCtl3,indexCtl4]*modFreq,\
+				[carFreq1,carFreq2,carFreq3,carFreq4]\
+			),0,\
+			[ampCtl1,ampCtl2,ampCtl3,ampCtl4]*0.25	 \cf2 // quarter of the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar([0,1],fm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq3\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq4\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // make a number of envelopes that write to Bus.control outputs, no ar here...kr sends out on control busses, you dont hear it, it just affects the output\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=14.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,2.0,0],[0.2,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=7.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.70;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,3.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.40;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,5.0,0.51,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.50;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,2.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // play one FM Synth controlled by envGen Synths\cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, dur, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 , \cf5 \\ampEnv3\cf0 , \cf5 \\ampEnv4\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 , \cf5 \\idxEnv3\cf0 , \cf5 \\idxEnv4\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,8);	\cf2 // this allocates 8 control Bus indices, like virtual patch chords and buffer on the server \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\ampCtl3\cf0 ,cBus.index,\cf5 \\ampCtl4\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3,cBus.index+1,\cf5 \\indexCtl3\cf0 ,cBus.index+2,\cf5 \\indexCtl4\cf0 ,cBus.index+3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	x.mapn(\\ampCtl1,cBus.index,4);  // this SHOULD also work, but there's a bug that I just reported, so it's not currently working\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(0.001,7.0);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+4,\cf5 \\dur\cf0 ,dur]);\
+		(dur+4.0).wait     \cf2 //synths are being written to the busses\cf0 \
+	\})\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f2 \cf0 s.recSampleFormat = \cf4 "int16"\cf0 ;
+\f1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //second recording named 
+\f3 SC_061002_171602.aiff
+\f1 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f2 \cf0 (	\cf2 // LOAD THE SOUNDS FIRST!   SAVE REFERENCES TO THE BUFFERS CREATED IN VARIABLES\cf0 \
+a = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf0 SC_061002_165753.aiff
+\f2 \cf4 "\cf0 );\
+b = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf2 SC_061002_171602.aiff
+\f2 \cf4 "\cf0 )\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 (\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq;\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	loopFrq = (thisDur.reciprocal).min(100);  \
+	\cf3 Out\cf0 .ar([0,1],\
+		\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop))\
+\}).store;\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 ( 	\cf2 // NEXT, PLAY THEM USING 'loopSampler', and specifying the argument "sampbuf' by using the variables that refer to each Buffer\cf0 \
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,a.bufnum]);\cf3 \
+Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,b.bufnum]);\
+)
+\f1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+( \cf2 // same as SynthDef above, but will use Bus.control inputs to for amp and indexCtls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=15, carFreq2=30.5, carFreq3=62, carFreq4=125.5, cmRatio=1.0, ampCtl1=0.1, ampCtl2=0.1, ampCtl3=0.1, ampCtl4=0.1, indexCtl1=0.25, indexCtl2=0.15, indexCtl3=0.10, indexCtl4=0.05, amp=0.1;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+	\cf2 // use SendTrig to send values from a running Synth to SCLang where they can be viewed as they change-- an essential debugging tool!  See its help-file to see how to receive and print messages\cf0 \
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,indexCtl2); \cf2 // SendTrig (send trigger) args are trig, id, value: value is sent when a trigger occurs, and you assign the id (1) to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2,indexCtl3,indexCtl4]*modFreq,\
+				[carFreq1,carFreq2,carFreq3,carFreq4]\
+			),0,\
+			[ampCtl1,ampCtl2,ampCtl3,ampCtl4]*0.25	 \cf2 // quarter of the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar([0,1],fm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq3\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq4\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // make a number of envelopes that write to Bus.control outputs, no ar here...kr sends out on control busses, you dont hear it, it just affects the output\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=14.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0],[0.2,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=1, amp=1.0, dur=7.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=2, amp=1.0, dur=0.70;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,3.0,0.1,0.5,0],[0.3,0.1,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=3, amp=1.0, dur=0.40;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,5.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.1;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,1.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=1, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.1,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=2, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=3, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // play one FM Synth controlled by envGen Synths\cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, dur, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 , \cf5 \\ampEnv3\cf0 , \cf5 \\ampEnv4\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 , \cf5 \\idxEnv3\cf0 , \cf5 \\idxEnv4\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,8);	\cf2 // this allocates 8 control Bus indices, like virtual patch chords and buffer on the server \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\ampCtl3\cf0 ,cBus.index,\cf5 \\ampCtl4\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3,cBus.index+1,\cf5 \\indexCtl3\cf0 ,cBus.index+2,\cf5 \\indexCtl4\cf0 ,cBus.index+3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	x.mapn(\\ampCtl1,cBus.index,4);  // this SHOULD also work, but there's a bug that I just reported, so it's not currently working\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(1.0,1.1);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+4,\cf5 \\dur\cf0 ,dur]);\
+		(dur+0.1).wait     \cf2 //synths are being written to the busses\cf0 \
+	\})\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f2 \cf0 s.recSampleFormat = \cf4 "int16"\cf0 ;
+\f1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //third recording is named 
+\f3\fs24 SC_061002_175649.aiff
+\f1\fs26 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f2 \cf0 (	\cf2 // LOAD THE SOUNDS FIRST!   SAVE REFERENCES TO THE BUFFERS CREATED IN VARIABLES\cf0 \
+a = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf0 SC_061002_165753.aiff
+\f2 \cf4 "\cf0 );\
+b = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf2 SC_061002_171602.aiff
+\f2 \cf4 "\cf0 );\
+c = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3\fs24 \cf2 SC_061002_175649.aiff
+\f2\fs26 \cf4 "\cf0 )\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 (\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq;\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	loopFrq = (thisDur.reciprocal).min(100);  \
+	\cf3 Out\cf0 .ar([0,1],\
+		\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop))\
+\}).store;\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 ( 	\cf2 // NEXT, PLAY THEM USING 'loopSampler', and specifying the argument "sampbuf' by using the variables that refer to each Buffer\cf0 \
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,a.bufnum]);\cf3 \
+Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,b.bufnum]);\
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,c.bufnum]);\
+)
+\f1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+( \cf2 // same as SynthDef above, but will use Bus.control inputs to for amp and indexCtls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=7.5, carFreq2=15.25, carFreq3=31, carFreq4=62.75, cmRatio=1.0, ampCtl1=0.1, ampCtl2=0.1, ampCtl3=0.1, ampCtl4=0.1, indexCtl1=0.25, indexCtl2=0.15, indexCtl3=0.10, indexCtl4=0.05, amp=0.05;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+	\cf2 // use SendTrig to send values from a running Synth to SCLang where they can be viewed as they change-- an essential debugging tool!  See its help-file to see how to receive and print messages\cf0 \
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,indexCtl2); \cf2 // SendTrig (send trigger) args are trig, id, value: value is sent when a trigger occurs, and you assign the id (1) to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2,indexCtl3,indexCtl4]*modFreq,\
+				[carFreq1,carFreq2,carFreq3,carFreq4]\
+			),0,\
+			[ampCtl1,ampCtl2,ampCtl3,ampCtl4]*0.10	 \cf2 // quarter of the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar([0,1],fm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq3\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq4\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // make a number of envelopes that write to Bus.control outputs, no ar here...kr sends out on control busses, you dont hear it, it just affects the output\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=14.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0],[0.2,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=1, amp=1.0, dur=7.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=2, amp=1.0, dur=0.70;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,3.0,0.1,0.5,0],[0.3,0.1,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=3, amp=1.0, dur=0.40;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,5.0,0.1,0.5,0],[0.3,0.2,0.3,0.1]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=0.1;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,1.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=1, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.1,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=2, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=3, amp=1.0, dur=0.01;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // play one FM Synth controlled by envGen Synths\cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, dur, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 , \cf5 \\ampEnv3\cf0 , \cf5 \\ampEnv4\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 , \cf5 \\idxEnv3\cf0 , \cf5 \\idxEnv4\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,8);	\cf2 // this allocates 8 control Bus indices, like virtual patch chords and buffer on the server \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\ampCtl3\cf0 ,cBus.index,\cf5 \\ampCtl4\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3,cBus.index+1,\cf5 \\indexCtl3\cf0 ,cBus.index+2,\cf5 \\indexCtl4\cf0 ,cBus.index+3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	x.mapn(\\ampCtl1,cBus.index,4);  // this SHOULD also work, but there's a bug that I just reported, so it's not currently working\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(0.1,0.1);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+4,\cf5 \\dur\cf0 ,dur]);\
+		(dur+0.05).wait     \cf2 //synths are being written to the busses\cf0 \
+	\})\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f2 \cf0 s.recSampleFormat = \cf4 "int16"\cf0 ;
+\f1 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //fourth recording is named 
+\f3\fs24 SC_061002_181958.aiff
+\f1\fs26 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f2 \cf0 (	\cf2 // LOAD THE SOUNDS FIRST!   SAVE REFERENCES TO THE BUFFERS CREATED IN VARIABLES\cf0 \
+a = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf0 SC_061002_165753.aiff
+\f2 \cf4 "\cf0 );\
+b = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3 \cf2 SC_061002_171602.aiff
+\f2 \cf4 "\cf0 );\
+c = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3\fs24 \cf2 SC_061002_175649.aiff
+\f2\fs26 \cf4 "\cf0 );\
+d = \cf3 Buffer\cf0 .read(s,\cf4 "sounds/
+\f3\fs24 \cf2 SC_061002_181958.aiff
+\f2\fs26 \cf4 "\cf0 )\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 (\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1;\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq;\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	loopFrq = (thisDur.reciprocal).min(100);  \
+	\cf3 Out\cf0 .ar([0,1],\
+		\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+		sampbuf,				\cf2 // which bufnum to play\cf0 \
+		thisRate,   			\cf2 // rate\cf0 \
+		\cf3 Impulse\cf0 .kr(loopFrq),		\cf2 // Impulse Ugen retriggers sample\cf0 \
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+		loop))\
+\}).store;\
+)\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 ( 	\cf2 // NEXT, PLAY THEM USING 'loopSampler', and specifying the argument "sampbuf' by using the variables that refer to each Buffer\cf0 \
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,a.bufnum]);\cf3 \
+Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,b.bufnum]);\
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,c.bufnum]);\
+\cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,[\cf4 "sampbuf"\cf0 ,d.bufnum]);\
+)
+\f1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\
+\
+\
+\cf2 //part 1\cf0 \
+\
+(	\
+\cf2 //	Simple FM w/ GUI Index and C:M ratio controls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "simpleFM_CMratio"\cf0 ,\{  \cf3 arg\cf0  carFreq=400,cmRatio=1.0,\
+	index=1,amp=0.2;\
+	\cf3 var\cf0  fm, modFreq;\
+	modFreq = carFreq/cmRatio;  \
+				\cf2 // set modFreq by ratio of carFreq to modFreq\cf0 \
+				\cf2 // fc / fm = cmRatio;  so, fm = fc/cmRatio\cf0 \
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 SinOsc\cf0 .ar(modFreq,0,\
+			modFreq*index,\
+			carFreq\
+		),\
+		0,amp);\
+	\cf3 Out\cf0 .ar(0,fm)\
+\}).store;\
+\cf3 Spec\cf0 .specs.add(\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1));\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\simpleFM_CMratio\cf0 ));\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 \
+\
+\
+\
+\
+\
+\
+\
+\cf2 //the following is from the example given in blackboard\
+\cf0 \
+\
+\
+\
+s.boot\
+\
+( \cf2 //	Ring Modulation, check online for diagram\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "ringMod"\cf0 ,\{ \cf3 arg\cf0  carFreq=400, modFreq=10.0, modIndex=0.5, amp=0.2;\cf2 //amp of carrier\cf0 \
+	\cf3 var\cf0  rm; \
+	rm = \cf3 SinOsc\cf0 .ar(carFreq,0,		\cf2 // carrier Sinewave, freq and phase, rm = ring modulation\cf0 \
+		\cf3 SinOsc\cf0 .ar(modFreq,		\cf2 // amplitude is set by 2nd Sinewave\cf0 \
+					0,					\cf2 // frequency phase\cf0 \
+					modIndex)); 	\cf2 // amplitude sets index of modulation\cf0 \
+	\cf3 Out\cf0 .ar(0,rm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\modFreq\cf0 ->\cf3 ControlSpec\cf0 (1.0,4000,\cf5 \\exp\cf0 ),\
+	\cf5 \\modIndex\cf0 ->\cf3 ControlSpec\cf0 (0,1,\cf5 \\lin\cf0 )\
+]);\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\ringMod\cf0 ));\
+\
+(	\cf2 //	Amplitude Modulation\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // in amplitude modulation the modulator output swings from 0 -> 1.0\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "ampMod"\cf0 ,\{ \cf3 arg\cf0  carFreq=400, modFreq=10.0, modIndex=0.5, amp=0.2;\
+	\cf3 var\cf0  am;\
+	am = \cf3 SinOsc\cf0 .ar(carFreq,0,\
+		\cf3 SinOsc\cf0 .ar(modFreq,0,\
+			modIndex*0.5,	\cf2 // amplitude of modulator = index/2, limiting range to 1\cf0 \
+			0.5)); 	\cf2 // this is the 'add' argument, to shift range from -0.5 - +0.5 to 0 - 1.0, getting the hang of using the add arg is the trick\cf0 \
+	\cf3 Out\cf0 .ar(0,am*amp)\
+\}).store;\
+)\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\ampMod\cf0 ));\
+\
+(	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	Simple FM \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "simpleFM"\cf0 ,\{ \cf3 arg\cf0  carFreq=400, modFreq=200, 				freqDev=100, amp=0.2;\
+	\cf3 var\cf0  fm;\
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 SinOsc\cf0 .ar(modFreq,	 \cf2 // carrier frequency controlled directly by modulator output, freq deviation is how much the modFreq mods the carFreq\cf0 \
+			0,\
+			freqDev,		\cf2 // the 'mul' argument of modulator will set frequency Deviation, because it sets the range of values being output by modulator\cf0 \
+			carFreq), 	\cf2 //	the 'add' argument of the modulator adds center value of carFreq to the modulator output, the carFreq is providing the offset\cf0 \
+		0,amp\
+	);\
+	\cf3 Out\cf0 .ar(0,fm)\
+\}).store;\
+\cf3 Spec\cf0 .specs.add(\cf5 \\freqDev\cf0 ->\cf3 ControlSpec\cf0 (0.001,4000.0,\cf5 \\exp\cf0 ));  \cf2 //0.001 because if 0 the computer will fail\cf0 \
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\simpleFM\cf0 ));\
+\
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	Simple FM w/ GUI Index control\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "simpleFMIndex"\cf0 ,\{ \cf3 arg\cf0  carFreq=400, modFreq=200, 				index=1, amp=0.2;\
+	\cf3 var\cf0  fm;\
+	fm = \cf3 SinOsc\cf0 .ar( \
+		\cf3 SinOsc\cf0 .ar(modFreq,0,\
+		modFreq*index,	\cf2 // I = D/M, or I*M= D,\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // index = deviation/modFreq, or index*modFreq  = freqDeviation\cf0 \
+		carFreq),\
+		0,amp);\
+	\cf3 Out\cf0 .ar(0,fm)\
+\}).store;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Spec\cf0 .specs.add(\cf5 \\index\cf0 ->\cf3 ControlSpec\cf0 (0,16));\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\simpleFMIndex\cf0 ));\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //This one for this weeks assigment...make a cascade, multi-modulator instrument\cf0 \
+\
+(	\
+\cf2 //	Simple FM w/ GUI Index and C:M ratio controls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "simpleFM_CMratio"\cf0 ,\{  \cf3 arg\cf0  carFreq=400,cmRatio=1.0,\
+	index=1,amp=0.2;\
+	\cf3 var\cf0  fm, modFreq;\
+	modFreq = carFreq/cmRatio;  \
+				\cf2 // set modFreq by ratio of carFreq to modFreq\cf0 \
+				\cf2 // fc / fm = cmRatio;  so, fm = fc/cmRatio\cf0 \
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 SinOsc\cf0 .ar(modFreq,0,\
+			modFreq*index,\
+			carFreq\
+		),\
+		0,amp);\
+	\cf3 Out\cf0 .ar(0,fm)\
+\}).store;\
+\cf3 Spec\cf0 .specs.add(\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1));\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\simpleFM_CMratio\cf0 ));\
+\
+( \cf2 // double Carrier, single modulator FM \cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\dblCarSglMod\cf0 ,\{ \cf3 arg\cf0  carFreq1=200, carAmp1=0.1, index1=1.0, cmRatio=1.0, amp=0.2;\
+	\cf3 var\cf0  fm, modFreq;\
+	modFreq = carFreq1/cmRatio; \
+	fm = \cf3 Mix\cf0 .new( \cf2 //if not Mix.new, stero voices would occur..due to it ebing multiplied by two\cf0 \
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[index1,index2]*modFreq,\
+				[carFreq1,carFreq2]\
+			),0,\
+			[carAmp1*0.5, carAmp2*0.5]	 \cf2 // avoid distortion since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar(0,fm*amp)\
+\}).store;\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carAmp1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ),\
+	\cf5 \\carAmp2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ),\
+	\cf5 \\index1\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index2\cf0 ->\cf3 ControlSpec\cf0 (0,16)\
+]);\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\dblCarSglMod\cf0 ));\
+\
+( \cf2 // double modulator, single carrier FM, sidebands of sidebands!\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\dblModSglCar\cf0 ,\{ \cf3 arg\cf0  carFreq=200, carAmp=0.1, index1=1.0, 	index2=4.0, cmRatio1=0.5, cmRatio2=6.0, amp=0.2;\
+	\cf3 var\cf0  fm, modFreq1, modFreq2, modFreq3, modulator;\
+	modFreq1 = carFreq/cmRatio1; \
+	modFreq2 = carFreq/cmRatio2; \
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 Mix\cf0 .new([\
+			\cf3 SinOsc\cf0 .ar(modFreq1,0,index1*modFreq1,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq2,0,index2*modFreq2,carFreq)])\
+	,0,carAmp);\
+	\cf3 Out\cf0 .ar(0,fm*amp)\
+\}).store;\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carAmp\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ),\
+	\cf5 \\index1\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index2\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\cmRatio1\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio2\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1)\
+]);\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\dblCarSglMod\cf0 ));\
+\
+( \cf2 // triple modulator, single carrier FM, sidebands of sidebands of sidebands!\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\tripleModSglCar\cf0 ,\{ \cf3 arg\cf0  carFreq=200, carAmp=0.1, index1=1.0, 	index2=4.0,index3=2.0, cmRatio1=0.5, cmRatio2=6.0,cmRatio3=6.0, amp=0.2;\
+	\cf3 var\cf0  fm, modFreq1, modFreq2, modFreq3, modulator;\
+	modFreq1 = carFreq/cmRatio1; \
+	modFreq2 = carFreq/cmRatio2; \
+	modFreq3 = carFreq/cmRatio3; \
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 Mix\cf0 .new([\
+			\cf3 SinOsc\cf0 .ar(modFreq1,0,index1*modFreq1,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq2,0,index2*modFreq2,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq3,0,index3*modFreq3,carFreq)])\
+	,0,carAmp);\
+	\cf3 Out\cf0 .ar(0,fm*amp)\
+\}).store;\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carAmp\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ),\
+	\cf5 \\index1\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index2\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index3\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\cmRatio1\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio2\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio3\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1)\
+]);\
+)\
+\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\tripleModSglCar\cf0 ));\
+\
+( \cf2 // quadruple modulator, single carrier FM, sidebands of sidebands of sidebands of sidebands!\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\quadModSglCar\cf0 ,\{ \cf3 arg\cf0  carFreq=200, carAmp=0.1, index1=0, index2=0,index3=0, index4=0, cmRatio1=6, cmRatio2=6.0,cmRatio3=6.0,cmRatio4=6.0, amp=0.1;\
+	\cf3 var\cf0  fm, modFreq1, modFreq2, modFreq3, modFreq4;\
+	modFreq1 = carFreq/cmRatio1; \
+	modFreq2 = carFreq/cmRatio2; \
+	modFreq3 = carFreq/cmRatio3;\
+	modFreq4 = carFreq/cmRatio4; \
+	fm = \cf3 SinOsc\cf0 .ar(\
+		\cf3 Mix\cf0 .new([\
+			\cf3 SinOsc\cf0 .ar(modFreq1,0,index1*modFreq1,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq2,0,index2*modFreq2,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq3,0,index3*modFreq3,carFreq),\
+			\cf3 SinOsc\cf0 .ar(modFreq4,0,index4*modFreq4,carFreq)])\
+	,0,carAmp);\
+	\cf3 Out\cf0 .ar(0,fm*amp)\
+\}).store;\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carAmp\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ),\
+	\cf5 \\index1\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index2\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index3\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\index4\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf5 \\cmRatio1\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio2\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio3\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1),\
+	\cf5 \\cmRatio4\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1)\
+]);\
+)\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\quadModSglCar\cf0 ));\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // MORE ABOUT ENVELOPES:  Remember that the use of levelScale and timeScale arguments of EnvGen make an Env very flexible -- Env is essentially a specification of the \ul proportion\ulnone  of values and times that can be stretched. It's not possible to pass an Env as an argument, or as a Control, to a Synth.  Arguments of a Synth CAN however be used in an enclosed Env specification to change its shape as it runs, and you can even use Controls, as shown in last week's "Klank" code, to pass Arrays to change the levels and times Arrays of an Env inside a Synth. However, this can get messy if you want a lot of flexibility.  One simpler way of attaining a variety of  envelopes to control running Synths is to define multiple versions of that Synth, each containing a different envelope.  But if you still want more flexibility, you can define SynthDefs that do not output any sound, but that function as envelope generators by writing their control rate outputs to control busses.  The code below implements this method, and also forms an introduction to the class Bus, which provides a powerful facility for patching audio as well as control signals between running Synths.\
+\
+\
+\
+//Use this for the second part of the assignment\cf0 \
+\
+( \cf2 // same as SynthDef above, but will use Bus.control inputs to for amp and indexCtls\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=200, carFreq2=400, cmRatio=1.0, \
+	ampCtl1=0.1, ampCtl2=0.1, indexCtl1=0.25, indexCtl2=0.25, amp=0.2;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+	\cf2 // use SendTrig to send values from a running Synth to SCLang where they can be viewed as they change-- an essential debugging tool!  See its help-file to see how to receive and print messages\cf0 \
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,indexCtl2); \cf2 // SendTrig (send trigger) args are trig, id, value: value is sent when a trigger occurs, and you assign the id (1) to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2]*modFreq,\
+				[carFreq1,carFreq2]\
+			),0,\
+			[ampCtl1,ampCtl2]*0.5	 \cf2 // half the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar(0,fm*amp)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // make a number of envelopes that write to Bus.control outputs, no ar here...kr sends out on control busses, you dont hear it, it just affects the output\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0],[0.2,0.8]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,2.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // play one FM Synth controlled by envGen Synths\cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, dur, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,4);	\cf2 // this allocates 4 control Bus indices, like virtual patch chords and buffer on the server \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	x.mapn(\\ampCtl1,cBus.index,4);  // this SHOULD also work, but there's a bug that I just reported, so it's not currently working\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(0.1,3.0);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		(dur+0.2).wait     \cf2 //synths are being written to the busses\cf0 \
+	\})\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // register to receive the SendTrig message, compile this before running the code above to see what the above code does\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 OSCresponder\cf0 (s.addr,\cf5 '/tr'\cf0 ,\{ \cf3 arg\cf0  time,responder,msg;\
+	msg.postln;\
+\}).add;\
+	\
+	\
+\
+	}

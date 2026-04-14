@@ -1,0 +1,174 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs20 \cf2 // MORE ABOUT ENVELOPES:  Remember that the use of levelScale and timeScale arguments of EnvGen make an Env very flexible -- Env is essentially a specification of the \ul \ulc2 proportion\ulnone  of values and times that can be stretched. It's not possible to pass an Env as an argument, or as a Control, to a Synth.  Arguments of a Synth CAN however be used in an enclosed Env specification to change its shape as it runs, and you can even use Controls, as shown in last week's "Klank" code, to pass Arrays to change the levels and times Arrays of an Env inside a Synth. However, this can get messy if you want a lot of flexibility.  One simpler way of attaining a variety of  envelopes to control running Synths is to define multiple versions of that Synth, each containing a different envelope.  But if you still want more flexibility, you can define SynthDefs that do not output any sound, but that function as envelope generators by writing their control rate outputs to control busses.  The code below implements this method, and also forms an introduction to the class Bus, which provides a powerful facility for patching audio as well as control signals between running Synths.\cf0 \
+\
+( \
+\cf3 SynthDef\cf0 (\cf4 "dCarSModEnv"\cf0 ,\{ \cf3 arg\cf0  carFreq1=200, carFreq2=400, cmRatio=1.0, ampCtl1=0.1, ampCtl2=0.1, indexCtl1=0.25, indexCtl2=0.25, amp=0.2, panPos=0.0;\
+	\cf3 var\cf0  modFreq, fm;\
+	modFreq = carFreq1/cmRatio;\
+\
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),1,ampCtl1); \cf2 // args are trig, id, value: value is sent when a trigger occurs, and you assign the id to distinguish between possible multiple triggers \cf0 \
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq,0,\
+				[indexCtl1,indexCtl2]*modFreq,\
+				[carFreq1,carFreq2]\
+			),0,\
+			[ampCtl1,ampCtl2]*0.25	 \cf2 // half the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(fm*amp ,panPos))\
+\}).store;\
+\
+\cf2 //User Control of Synth 1\cf0 \
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf5 \\carFreq1\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\carFreq2\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\
+	\cf5 \\cmRatio\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+\
+\cf3 SynthDef\cf0 (\cf4 "fm2"\cf0 ,\{ \cf3 arg\cf0  carFreq3=200, carFreq4=400, cmRatio2=1.0, ampCtl3=0.1, ampCtl4=0.1, indexCtl3=0.25, indexCtl4=0.25, amp=0.2, panPos2=0.0;\
+	\cf3 var\cf0  modFreq2, fm;\
+	modFreq2 = carFreq3/cmRatio2;\
+\
+	\cf3 SendTrig\cf0 .kr(\cf3 Impulse\cf0 .kr(10),2,ampCtl3);\
+	fm = \cf3 Mix\cf0 .new(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(modFreq2,0,\
+				[indexCtl3,indexCtl4]*modFreq2,\
+				[carFreq3,carFreq4]\
+			),0,\
+			[ampCtl3,ampCtl4]*0.25	 \cf2 // half the volume,  since these mix\cf0 \
+	));\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(fm*amp ,panPos2))\
+\}).store;\
+\
+\
+\
+\
+\cf2 // Envelopes for Synth 1\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0],[0.2,0.8]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv1\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,2.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv2\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\
+\
+\
+\cf2 // Envelopes for Synth 2\cf0 \
+\
+\cf2 //-------------------------Amp Envelopes - Synth 2\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum, \cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0],[0.2,0.8]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\
+\cf3 SynthDef\cf0 (\cf5 \\ampEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,1.0,0.1,0.5,0],[0.3,0.2,0.3,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\
+\cf2 //-------------------------index Envelopes - Synth 2\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv3\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([0,10,2.0,0],[0.1,0.7,0.2]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\idxEnv4\cf0 ,\{ \cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([10,0.5,4,1.0],[0.4,0.1,0.5]),\
+		levelScale: amp, timeScale: dur, doneAction: 2))\
+\}).store;\
+\
+\cf2 //-------------------------Frequency Envelopes - Synth 2\cf0 \
+\cf3 SynthDef\cf0 (\cf5 \\freqEnv3\cf0 , \{\cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([200, 300, 100, 200], [0.5, 3, 0.25]),\
+		levelScale:amp, timeScale: dur, doneAction:2))\
+\}).store;\
+\cf3 SynthDef\cf0 (\cf5 \\freqEnv4\cf0 , \{\cf3 arg\cf0  ctlBusNum=0, amp=1.0, dur=1.0;\
+	\cf3 Out\cf0 .kr(ctlBusNum,\
+		\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 .new([30, 60, 120, 240], [3.0, 0.25, 0.5]),\
+		levelScale:amp, timeScale: dur, doneAction:2))\
+\}).store;\
+\
+)\
+\
+\
+\
+\
+\
+\cf2 // Playback - \cf0 \
+( \cf3 var\cf0  ampEnvs,idxEnvs, freqEnvs, dur, dur2, cBus;\
+ampEnvs = [\cf5 \\ampEnv1\cf0 , \cf5 \\ampEnv2\cf0 , \cf5 \\ampEnv3\cf0 , \cf5 \\ampEnv4\cf0 ];\
+idxEnvs = [\cf5 \\idxEnv1\cf0 , \cf5 \\idxEnv2\cf0 , \cf5 \\idxEnv3\cf0 , \cf5 \\idxEnv4\cf0 ];\
+freqEnvs = [\cf5 \\freqEnv3\cf0 , \cf5 \\freqEnv4\cf0 ];\
+cBus = \cf3 Bus\cf0 .control(s,4);\
+cBus2 = Bus.control(s, 6)	\cf2  \cf0 \
+\
+\cf2 //Synth1 User Control\
+\cf3 Spec\cf0 .specs.add(\cf5 \\dur\cf0 ->\cf3 ControlSpec\cf0 (0.1,20,\cf5 \\linear\cf0 ,0.1));\
+\cf3 AutoGui\cf0 (x = \cf3 Synth\cf0 (\cf5 \\dCarSModEnv\cf0 ));\
+x.map(\cf5 \\ampCtl1\cf0 ,cBus.index,\cf5 \\ampCtl2\cf0 ,cBus.index+1,\cf5 \\indexCtl1\cf0 ,cBus.index+2,\cf5 \\indexCtl2\cf0 ,cBus.index+3);\
+\
+\cf2 //Synth2 Computer Control\cf0 \
+y=\cf3 Synth\cf0 (\cf5 \\fm2\cf0 );\
+y.map(\cf5 \\ampCtl3\cf0 , cBus.index+4, \cf5 \\ampCtl4\cf0 , cBus.index+5, \cf5 \\indexCtl3\cf0 , cBus.index+6, \cf5 \\indexCtl4\cf0 , cBus.index+7, \cf5 \\carFreq3\cf0 , cBus.index+8, \cf5 \\carFreq4\cf0 , cBus.index+9);\
+\
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur = rrand(0.1,3.0);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+1,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+2,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+3,\cf5 \\dur\cf0 ,dur]);\
+		(dur+0.2).wait\
+	\})\
+\}).play;\
+\
+\cf3 Routine\cf0 (\{\
+	loop(\{ \
+		dur2 = rrand(0.01,5.0);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+4,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (ampEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+5,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+6,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (idxEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+7,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (freqEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+8,\cf5 \\dur\cf0 ,dur]);\
+		\cf3 Synth\cf0 (freqEnvs.choose,[\cf5 \\ctlBusNum\cf0 ,cBus.index+9,\cf5 \\dur\cf0 ,dur]);\
+		y.set(\cf5 \\panPos2\cf0 , rrand(-1.0, 1.0));\
+		(dur2+0.2).wait\
+	\})\
+\}).play;\
+		\
+\
+\
+)\
+\
+\cf2 // register to receive the SendTrig message\cf0 \
+\cf3 OSCresponder\cf0 (s.addr,\cf5 '/tr'\cf0 ,\{ \cf3 arg\cf0  time,responder,msg;\
+	msg.postln;\
+\}).add;\
+	\
+	}

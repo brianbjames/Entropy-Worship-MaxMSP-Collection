@@ -1,0 +1,397 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf2 //Scissors, by Kevin Adams (requires Nick Collins' BBCut2 classes)\cf0 \
+\cf2 //3 voices plus one live input.  \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf2 //s.latency=0.05\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs38 \cf0 (
+\fs24  \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 var\cf0  bufs, cutsynth1, cutsynth2, cutsynth3, cutsynth4, cutsynth5, cutproc1,cutproc2,cutproc3,cutproc4, pattern, newbarl, phrasecount, bufSeq, bufclock, test, testclock, bufSel, ampvars, input;\
+\
+\cf2 // ______________________________________________________GUI BS\cf0 \
+\cf3 var\cf0  w;\
+\cf3 var\cf0  slider,string;\
+\cf3 var\cf0  num;\
+\cf3 var\cf0  names,data, specs, lastval;\
+\cf3 var\cf0  bbcutter, clock,clock2,clock3;\
+\
+names= [\cf4 "tempo"\cf0 ,\cf4 "ampv1___"\cf0 ,\cf4 "ampv2___"\cf0 ,\cf4 "ampv3___"\cf0 ,\cf4 "INPUT___"\cf0 ,\cf4 "verb1"\cf0 ,\cf4 "verb2"\cf0 ,\cf4 "verb3"\cf0 ,\cf4 "mod1___"\cf0 ,\cf4 "mod2___"\cf0 ,\cf4 "mod3___"\cf0 ,\cf4 "mFreq1"\cf0 ,\cf4 "mFreq2"\cf0 ,\cf4 "mFreq3"\cf0 ,\cf4 "Sr1___"\cf0 ,\cf4 "Sr2___"\cf0 ,\cf4 "Sr3___"\cf0 ,\cf4 "bits1"\cf0 ,\cf4 "bits2"\cf0 ,\cf4 "bits3"\cf0 ,\cf4 "delT1___"\cf0 ,\cf4 "delT2___"\cf0 ,\cf4 "delT3___"\cf0 ,\cf4 "decT1"\cf0 ,\cf4 "decT2"\cf0 ,\cf4 "decT3"\cf0 ,\cf4 "bufSel1___"\cf0 ,\cf4 "bufSel2___"\cf0 ,\cf4 "bufSel3___"\cf0 ,\cf4 "algos1"\cf0 ,\cf4 "algos2"\cf0 ,\cf4 "algos3"\cf0 ,\cf4 "algos4"\cf0 ,\cf4 "pitchvar"\cf0 ,\cf4 "clock2___"\cf0 ,\cf4 "clock3___"\cf0 ,\cf4 "inVerb"\cf0 , \cf4 "inMod"\cf0 ,\cf4 "inModF"\cf0 ,\cf4 "inSR"\cf0 ,\cf4 "inDel"\cf0 ,\cf4 "inDec"\cf0 ,];\
+\
+data=	\
+[\
+\
+[0.0,8,\cf5 \\lin\cf0 , 0.5,2],		\cf2 //tempo 0\cf0 \
+\
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //ampvar1 1\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //ampvar2 2\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //ampvar3 3\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //INPUT gain 4\cf0 \
+\
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //verb1 5\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //verb1 6\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //verb1 7\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //mod1amt 8\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //mod1amt 9\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //mod1amt 10\cf0 \
+[200,4000,\cf5 \\lin\cf0 , 0.0,2800],	\cf2 //modfreq 11\cf0 \
+[200,4000,\cf5 \\lin\cf0 , 0.0,2800],	\cf2 //modfreq 12\cf0 \
+[200,4000,\cf5 \\lin\cf0 , 0.0,2800],	\cf2 //modfreq 13\cf0 \
+[1000,22500,\cf5 \\lin\cf0 , 0,22500],	\cf2 //SR 14\cf0 \
+[1000,22500,\cf5 \\lin\cf0 , 0,22500],	\cf2 //SR 15\cf0 \
+[1000,22500,\cf5 \\lin\cf0 , 0,22500],	\cf2 //SR 16\cf0 \
+[2,16,\cf5 \\lin\cf0 , 0,16],			\cf2 //bits 17\cf0 \
+[2,16,\cf5 \\lin\cf0 , 0,16],			\cf2 //bits 18\cf0 \
+[2,16,\cf5 \\lin\cf0 , 0,16],			\cf2 //bits 19\cf0 \
+[0.0,1.0,\cf5 \\lin\cf0 , 0.0,0.7],	\cf2 //del time 20\cf0 \
+[0.0,1.0,\cf5 \\lin\cf0 , 0.0,0.7],	\cf2 //del time 21\cf0 \
+[0.0,1.0,\cf5 \\lin\cf0 , 0.0,0.7],	\cf2 //del time 22\cf0 \
+[0.0,4.0,\cf5 \\lin\cf0 , 0.0,0.0],	\cf2 //decay time 23\cf0 \
+[0.0,4.0,\cf5 \\lin\cf0 , 0.0,0.0],	\cf2 //decay time 24\cf0 \
+[0.0,4.0,\cf5 \\lin\cf0 , 0.0,0.0],	\cf2 //decay time 25\cf0 \
+\
+[0,10,\cf5 \\lin\cf0 , 1,0],			\cf2 //bufSel 26 \cf0 \
+[0,10,\cf5 \\lin\cf0 , 1,1],			\cf2 //bufSel 27 \cf0 \
+[0,10,\cf5 \\lin\cf0 , 1,2],			\cf2 //bufSel 28 \cf0 \
+\
+[0,9,\cf5 \\lin\cf0 , 1,3],			\cf2 //algos 29\cf0 \
+[0,9,\cf5 \\lin\cf0 , 1,3],			\cf2 //algos 30\cf0 \
+[0,9,\cf5 \\lin\cf0 , 1,3],			\cf2 //algos 31\cf0 \
+[0,9,\cf5 \\lin\cf0 , 1,3],			\cf2 //algos 32\cf0 \
+[0.0,1.0,\cf5 \\lin\cf0 , 0.0,0.0],	\cf2 //V2PitchVar 33\cf0 \
+[0.0,8,\cf5 \\lin\cf0 , 0.5,2],		\cf2 //tempo 34\cf0 \
+[0.0,8,\cf5 \\lin\cf0 , 0.5,2],		\cf2 //tempo 35\cf0 \
+\
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //IN verb 36\cf0 \
+[0.0,1.0,\cf5 \\amp\cf0 , 0.0,0.0],	\cf2 //IN aMod 37\cf0 \
+[200,4000,\cf5 \\lin\cf0 , 0.0,2800],	\cf2 //IN aModFreq 38\cf0 \
+[1000,32200,\cf5 \\lin\cf0 , 0,22500],	\cf2 //IN SR 39\cf0 \
+[0.0,1.0,\cf5 \\lin\cf0 , 0.0,0.7],	\cf2 //IN delTime 41\cf0 \
+[0.0,4.0,\cf5 \\lin\cf0 , 0.0,0.0],	\cf2 //In decTIme 42\cf0 \
+\
+\
+];\
+\
+specs= \cf3 Array\cf0 .fill(data.size, \{\cf3 arg\cf0  i; \cf3 ControlSpec\cf0 .performList(\cf5 \\new\cf0 , data.at(i))\});\
+\
+num= names.size;\
+\
+w = \cf3 SCWindow\cf0 (\cf4 "K_Cutterv1"\cf0 , \cf3 Rect\cf0 .new(75, 300, 300, (21*num)));\
+\cf2 //w.alpha= 0.9;\cf0 \
+string= \cf3 Array\cf0 .fill(num);\
+slider= \cf3 Array\cf0 .fill(num);\
+\cf2 //Fill with defaults. This array will hold the updated last value of any GUI element\cf0 \
+lastval= \cf3 Array\cf0 .fill(num, \{\cf3 arg\cf0  i; data.at(i).at(4);\}); \
+\
+num.do(\
+\{\
+\cf3 arg\cf0  i;\
+\
+\cf3 SCStaticText\cf0 ( w, \cf3 Rect\cf0 .new(5, (20*i)+5, 95,20)).string_(names.at(i));\
+slider.put(i,\cf3 SCSlider\cf0 .new( w, \cf3 Rect\cf0 .new(60, (20*i)+5, 95,20)));\
+\cf2 //set slider to default value, else will default to 0.0\cf0 \
+slider.at(i).value_(specs.at(i).unmap(data.at(i).at(4)));\
+string.put(i, \cf3 SCStaticText\cf0 ( w, \cf3 Rect\cf0 .new(170, (20*i)+5, 95,20)).string_(data.at(i).at(4)));\
+\
+slider.at(i).action_(\{\cf3 arg\cf0  sl; \
+\cf3 var\cf0  val; val = specs.at(i).map(sl.value);  string.at(i).string_(val); \
+lastval.put(i, val);  \cf2 //set associated variable to this value, bbcut code will poll this rather than the slider directly\cf0 \
+\});\
+\
+\});\
+\
+w.front;\
+\
+\cf2 //______________________________________________ end GUI BS\cf0 \
+\
+\cf2 //CLOCKS\cf0 \
+\cf3 SystemClock\cf0 .sched(0.0,\{clock.tempoclock.tempo_(lastval.at(0)); 0.1\});\
+clock= \cf3 ExternalClock\cf0 (\cf3 TempoClock\cf0 (lastval[0])).play;\
+\
+\cf3 SystemClock\cf0 .sched(0.0,\{clock2.tempoclock.tempo_(lastval.at(34)); 0.1\});\
+clock2= \cf3 ExternalClock\cf0 (\cf3 TempoClock\cf0 (lastval[34])).play;\
+\
+\cf3 SystemClock\cf0 .sched(0.0,\{clock3.tempoclock.tempo_(lastval.at(35)); 0.1\});\
+clock3= \cf3 ExternalClock\cf0 (\cf3 TempoClock\cf0 (lastval[35])).play;\
+\
+phrasecount = 0;\
+bufclock = \{bufSeq.next.postln\};\
+\
+\cf2 //SEQUNCER disabled by default, enable below\cf0 \
+pattern = \cf3 Pseq\cf0 ([\
+		\cf3 Pseq\cf0 (#[5,5,5,5,5,5,5,5],\cf3 inf\cf0 ),\
+		\cf3 Pseq\cf0 (#[3,3,3,3,3,3,3,1],4),\
+		\cf3 Pseq\cf0 (#[4,3,3,4,1,5,4,1]),\
+		\cf3 Pseq\cf0 (#[2,3,2,3,2,3,2,6])\
+		],\cf3 inf\cf0 ).asStream;\
+		\
+\cf3 Routine\cf0 .run(\{\
+\cf2 //BUFFERS\cf0 \
+bufs =	\cf3 BBCutBuffer\cf0 .array(\
+[\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf4 "
+\fs24 sounds/
+\f1\fs26 251Beats/
+\fs24 251beat3.aif
+\f0\fs20 "\cf0 ,
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 "sounds/
+\f1\fs26 251Beats/testMelo.wav"\cf0 ,
+\f0\fs24 \
+\cf4 "sounds/
+\f1\fs26 251Beats/251_fin1/251_Guitar1.aif"
+\f0\fs24 \cf0 ,\
+\cf4 "sounds/
+\f1\fs26 251Beats/251percmotif.aif
+\f0\fs24 "\cf0 ,\
+\cf4 "sounds/
+\f1\fs26 251Beats/
+\fs24 UpUp15bars.wav"\cf0 ,\
+
+\f0 \cf4 "sounds/
+\f1\fs26 251Beats/cazadores.wav"\cf0 ,\
+
+\f0\fs24 \cf4 "sounds/
+\f1\fs26 251Beats/
+\fs24 Beck24.wav"\cf0 ,
+\fs26 \
+
+\f0\fs24 \cf4 "sounds/
+\f1\fs26 251Beats/
+\fs24 251_beat2.aif"\cf0 ,\
+
+\f0 \cf4 "sounds/
+\f1\fs26 251Beats/
+\fs24 Jerry.wav
+\fs26 "\cf0 ,\
+
+\f0\fs24 \cf4 "sounds/
+\f1\fs26 251Beats/
+\fs24 wurliLatin1.aif
+\fs26 "\cf0 ,
+\fs24 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0 \cf0 \
+],\
+[4,16,32,32,60,2,12,8,4,8]);		\
+\
+s.sync;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //PLAYBACK\cf0 \
+cutsynth1 = \cf3 CutBuf3\cf0 (\
+				\cf3 BufSelector\cf0 (bufs,\{\cf3 |block,lastindex|\cf0 if(block.cuts.size<1,\{0\},\{lastval.at(26)\})\})\
+			,0.5, \
+			pbsfunc:\cf3 CutPBS2\cf0 .new(pbm:0.2,pbchance:\{lastval.at(33)\}));\
+			\
+cutsynth2 = \cf3 CutBuf2\cf0 (\
+		\cf3 BufSelector\cf0 (bufs,\{\cf3 |block,lastindex|\cf0 if(block.cuts.size<1,\{0\},\{lastval.at(27)\})\})\
+		,0.9,\
+		\cf3 CutPBS2\cf0 .new(pbm:0.2,pbchance:\{lastval.at(33)\})); \cf2 //Simple Granular\cf0 \
+\
+cutsynth3 = \cf3 CutBuf3\cf0 (\
+				\cf3 BufSelector\cf0 (bufs,\{\cf3 |block,lastindex|\cf0 if(block.cuts.size<1,\{0\},\{lastval.at(28)\})\})\
+				,0.9,\
+				pbsfunc:\cf3 CutPBS2\cf0 .new(pbm:0.2,pbchance:\{lastval.at(33)\}));\
+\
+cutsynth4 = \cf3 CutStream2\cf0 .new(offset:1); \cf2 //Input Cutter\cf0 \
+\
+\cf2 //SLICE ALGOS\cf0 \
+cutproc1=\cf3 MultiProc\cf0 .new([\
+\cf3 BBCutProc\cf0 .new(phraselength: 8), \cf2 // 0 = STRAIGHT\cf0 \
+\cf3 WarpCutProc1\cf0 .new(rollfunc: \{4\}),\cf2 // 1 = ROLLED FILLS\cf0 \
+\cf3 BBCutProc11\cf0 .new(\{ \cf2 // 2 = TIME SIG WARP\cf0 \
+	newbarl=[4.0,3.0,3.5].wrapAt(phrasecount);		phrasecount=phrasecount+1;\
+	newbarl*4\
+	\},\
+	\{newbarl\},\
+	1\
+	),\
+\cf3 SQPusher1\cf0 .new(0.25, fillfreq: 16),\cf2 // 3 = PUSH\cf0 \
+\cf3 CageCut\cf0 .new, \cf2 // 4 = Cage\cf0 \
+\cf3 BBCutProc11\cf0 .new,\cf2 // 5 = Mellowed out a bit\cf0 \
+\cf3 SQPusher2\cf0 .new, \cf2 //6 = Push more\cf0 \
+\cf3 OffsetCP1\cf0 .new( \cf2 // 7 = Hot stepper\cf0 \
+\{\cf3 arg\cf0  beatsleft, phraselength,block;\
+if(block%2==0,\
+\{[[0.5],16.rand]\}, \{[[[0.25],[0.25,0.25]].choose,[4,8,12].choose]\});\
+\}, 0.0625\
+),\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf3 ThrashCutProc1\cf0 .new, \cf2 // 8 = Thrash\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf3 ChooseBlockProc\cf0 .new, \cf2 // 9 = PURE ROLLS\cf0 \
+\
+\
+],\
+\
+\cf2 //ALGO SELECT or SEQ: Pattern or Slider\cf0 \
+\cf2 //\{pattern.next.postln\}\cf0 \
+\{lastval.at(29)\}\
+);\
+\
+cutproc2=\cf3 MultiProc\cf0 .new([\
+\cf3 BBCutProc\cf0 .new(phraselength: 4), \
+\cf3 WarpCutProc1\cf0 .new(rollfunc: \{4\}),\
+\cf3 BBCutProc11\cf0 .new(\{ \
+	newbarl=[4.0,3.0,3.5].wrapAt(phrasecount);		phrasecount=phrasecount+1;\
+	newbarl*4\
+	\},\
+	\{newbarl\},\
+	1\
+	),\
+\cf3 SQPusher1\cf0 .new(0.25, fillfreq: 16),\
+\cf3 CageCut\cf0 .new,\
+\cf3 BBCutProc11\cf0 .new,\
+\cf3 SQPusher2\cf0 .new, \
+\cf3 OffsetCP1\cf0 .new( \
+\{\cf3 arg\cf0  beatsleft, phraselength,block;\
+if(block%2==0,\
+\{[[0.5],16.rand]\}, \{[[[0.25],[0.25,0.25]].choose,[4,8,12].choose]\});\
+\}, 0.0625\
+),\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf3 ThrashCutProc1\cf0 .new, \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf3 ChooseBlockProc\cf0 .new, \
+\
+\
+],\
+\
+\{lastval.at(30)\}\
+);\
+\
+cutproc3=\cf3 MultiProc\cf0 .new([\
+\cf3 BBCutProc\cf0 .new(phraselength: 4), \
+\cf3 WarpCutProc1\cf0 .new(rollfunc: \{4\}),\
+\cf3 BBCutProc11\cf0 .new(\{ \
+	newbarl=[4.0,3.0,3.5].wrapAt(phrasecount);		phrasecount=phrasecount+1;\
+	newbarl*4\
+	\},\
+	\{newbarl\},\
+	1\
+	),\
+\cf3 SQPusher1\cf0 .new(0.25, fillfreq: 16),\
+\cf3 CageCut\cf0 .new, \
+\cf3 BBCutProc11\cf0 .new,\
+\cf3 SQPusher2\cf0 .new, \
+\cf3 OffsetCP1\cf0 .new( \
+\{\cf3 arg\cf0  beatsleft, phraselength,block;\
+if(block%2==0,\
+\{[[0.5],16.rand]\}, \{[[[0.25],[0.25,0.25]].choose,[4,8,12].choose]\});\
+\}, 0.0625\
+),\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf3 ThrashCutProc1\cf0 .new, \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf3 ChooseBlockProc\cf0 .new, \
+\
+\
+],\
+\
+\{lastval.at(31)\}\
+);\
+\
+cutproc4=\cf3 MultiProc\cf0 .new([\
+\cf3 BBCutProc\cf0 .new(phraselength: 4),\
+\cf3 WarpCutProc1\cf0 .new(rollfunc: \{4\}),\
+\cf3 BBCutProc11\cf0 .new(\{ \
+	newbarl=[4.0,3.0,3.5].wrapAt(phrasecount);		phrasecount=phrasecount+1;\
+	newbarl*4\
+	\},\
+	\{newbarl\},\
+	1\
+	),\
+\cf3 SQPusher1\cf0 .new(0.25, fillfreq: 16),\
+\cf3 CageCut\cf0 .new, \
+\cf3 BBCutProc11\cf0 .new,\
+\cf3 SQPusher2\cf0 .new, \
+\cf3 OffsetCP1\cf0 .new( \
+\{\cf3 arg\cf0  beatsleft, phraselength,block;\
+if(block%2==0,\
+\{[[0.8],16.rand]\}, \{[[[0.75],[0.85,0.85]].choose,[4,8,12].choose]\});\
+\}, 0.25\
+),\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf3 ThrashCutProc1\cf0 .new, \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs24 \cf3 ChooseBlockProc\cf0 .new, \
+\
+\
+],\
+\
+\{lastval.at(32)\}\
+);\
+\
+\
+\cf2 //RENDERING\cf0 \
+g=\cf3 BBCut2\cf0 (\
+	\cf3 CutGroup\cf0 ([cutsynth1,\
+		\cf3 CutMod1\cf0 .new(\{lastval.at(8)\},\{lastval.at(11)\},1.3,1.3),\
+		\cf3 CutComb1\cf0 .new(\{lastval.at(20)\},\{lastval.at(23)\}),\
+		\cf3 CutRev1\cf0 .new(\{lastval.at(5)\},0.2),\
+		\cf3 CutBit1\cf0 .new(\{lastval.at(17)\},\{lastval.at(14)\}),\
+			\cf3 CutMixer\cf0 .new(0,\{lastval.at(1)\},\cf3 RollAmplitude\cf0 .new,0.5,0.5)],numChannels:2)\
+				,cutproc1, \cf3 nil\cf0 ).play(clock);\
+	\
+h=\cf3 BBCut2\cf0 (\
+	\cf3 CutGroup\cf0 ([cutsynth2,\
+		\cf3 CutMod1\cf0 .new(\{lastval.at(9)\},\{lastval.at(12)\},1.3,1.3),\
+		\cf3 CutComb1\cf0 .new(\{lastval.at(21)\},\{lastval.at(24)\}),\
+		\cf3 CutRev1\cf0 .new(\{lastval.at(6)\},0.2),\
+		\cf3 CutBit1\cf0 .new(\{lastval.at(18)\},\{lastval.at(15)\}),\
+			\cf3 CutMixer\cf0 .new(0,\{lastval.at(2)\},\cf3 RollAmplitude\cf0 .new,0.5,0.5)],numChannels:2)\
+				,cutproc2, \cf3 nil\cf0 ).play(clock2);\
+\
+i=\cf3 BBCut2\cf0 (\
+	\cf3 CutGroup\cf0 ([cutsynth3,\
+		\cf3 CutMod1\cf0 .new(\{lastval.at(10)\},\{lastval.at(13)\},1.3,1.3),\
+		\cf3 CutComb1\cf0 .new(\{lastval.at(22)\},\{lastval.at(25)\}),\
+		\cf3 CutRev1\cf0 .new(\{lastval.at(7)\},0.2),\
+		\cf3 CutBit1\cf0 .new(\{lastval.at(19)\},\{lastval.at(16)\}),\
+			\cf3 CutMixer\cf0 .new(0,\{lastval.at(3)\},\cf3 RollAmplitude\cf0 .new,0.5,0.5)],numChannels:2)\
+				,cutproc3, \cf3 nil\cf0 ).play(clock3);\
+\
+j=\cf3 BBCut2\cf0 (\
+	\cf3 CutGroup\cf0 ([cutsynth4,\
+		\cf3 CutMod1\cf0 .new(\{lastval.at(37)\},\{lastval.at(38)\},1.3,1.3),\
+		\cf3 CutComb1\cf0 .new(\{lastval.at(40)\},\{lastval.at(41)\}),\
+		\cf3 CutRev1\cf0 .new(\{lastval.at(36)\},0.2),\
+		\cf3 CutBit1\cf0 .new(16,\{lastval.at(39)\}),\
+		\cf3 CutMixer\cf0 (0,\{lastval.at(4)\},\cf3 RollAmplitude\cf0 .new,\{1.0.rand2\})])\
+	,cutproc4, \cf3 nil\cf0 ).play;\
+\
+\
+\});\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs40 \cf0 )
+\fs24 \
+\
+ }

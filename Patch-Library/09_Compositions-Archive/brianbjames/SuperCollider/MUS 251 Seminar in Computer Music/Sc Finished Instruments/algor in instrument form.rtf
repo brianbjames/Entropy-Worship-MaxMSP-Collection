@@ -1,0 +1,605 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // algor in instrument form, by brian b. james\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 s.boot\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs50 \cf0 (
+\fs18 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 var\cf0  s, w, f, d, values, server, id, isOn = \cf3 false\cf0 , b1, b2, f2, d2, values2, id2, isOn2 = \cf3 false\cf0 , b3, b4, f3, d3, values3, id3, isOn3 = \cf3 false\cf0 , b5, b6, f4, d4, values4, id4, isOn4 = \cf3 false\cf0 , b7, b8, f5, d5, values5, id5, isOn5 = \cf3 false\cf0 , b9, b10,
+\fs28  
+\fs18 f6, d6, values6, id6, isOn6 = \cf3 false\cf0 , b11, b12, f7, d7, values7, id7, isOn7 = \cf3 false\cf0 , b13, b14, 
+\fs20 ff, dd, valuess, idd, isOnn = \cf3 false\cf0 , b17, b18
+\fs18 ;\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 windmetals\cf4 "\cf0 , \{			\cf2 // windmetals\cf0 \
+			\cf3 var\cf0  trig, so, p, n, exc, x, base, range;\
+			n = 6;\
+			base = exprand(60,70);\
+			range = rrand(500.0,8000.0);\
+			exc = \cf3 BrownNoise\cf0 .ar([0.007,0.007]) * max(0, \cf3 LFNoise1\cf0 .kr(exprand(0.03,0.04), 0.05, 				0.05));\
+			so = (\cf3 Klank\cf0 .ar(`[\cf3 Array\cf0 .fill(n, \{linrand(range)+base\}),\cf3 nil\cf0 ,\cf3 Array\cf0 .fill(n, \{rrand				(0.1,2.0)\})], exc) * 0.3).softclip;\
+			\cf3 Out\cf0 .ar(0, so) \
+\}).writeDefFile;\
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals\cf4 .scsyndef"\cf0 );\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 cymbalism\cf4 "\cf0 , \{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // cymbalism\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 var\cf0  p, a, c, d, s, b, y, i, j, k;\
+		\cf3 var\cf0  z, f1, f2;\
+		p = 15;	\cf2 // number of partials per channel per 'cymbal'.\cf0 \
+		f1 = 250;\
+		f2 = 500;\
+		z = \cf3 Array\cf0 .fill(2, \{\
+			`[	\cf2 // sine oscil bank specification:\cf0 \
+				y = \cf3 Array\cf0 .fill(p, \{ f1 + f2.rand\} ), \cf2 // frequencies\cf0 \
+				\cf3 nil\cf0 , 						\
+				\cf3 Array\cf0 .fill(p, \{ 1.0 + 4.0 \})	\cf2 // ring times\cf0 \
+			]\
+		\});\
+		a = \cf3 Klank\cf0 .ar(z, \cf3 Decay\cf0 .ar(\cf3 Impulse\cf0 .ar(0.00009 + 0.1), 0.004, \cf3 WhiteNoise\cf0 .ar(0.0003, 0.0005)));\
+		\cf3 Out\cf0 .ar(1, a) \
+\}).writeDefFile;\
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 cymbalism\cf4 .scsyndef"\cf0 );\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 analogbubbles\cf4 "\cf0 , \{	\
+	\cf3 var \cf0 sinecomb;\
+	f = \cf3 LFSaw\cf0 .kr(0.004, 0, 24, \cf3 LFSaw\cf0 .kr([1,3.23], 0, 3, 60)).midicps; \cf2 // glissando function\cf0 \
+	sinecomb = \cf3 CombN\cf0 .ar(\cf3 SinOsc\cf0 .ar(f, 0, 0.0025), 2.2, 2.2, 0.2);\cf2 // echoing sine wave\
+	\cf3 Out\cf0 .ar(0, sinecomb);\
+\}).writeDefFile;\
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 analogbubbles\cf4 .scsyndef"\cf0 );\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 reverberatedsinepercussion\cf4 "\cf0 , \cf2 // reverberatedsinepercussion\cf0 \
+\
+\{\
+	d = 1; \cf2 // number of percolators\cf0 \
+	c = 5; \cf2 // number of comb delays\cf0 \
+	a = 4; \cf2 // number of allpass delays\cf0 \
+		\cf2 // sine percolation sound:\cf0 \
+	s = \cf3 Mix\cf0 .ar(\cf3 Array\cf0 .fill(d, \{ \cf3 Resonz\cf0 .ar(\cf3 Dust\cf0 .ar(2/d, 10), 2000 + 3000.0.rand, 0.003)\}) );\
+	\
+		\cf2 // reverb predelay time:\cf0 \
+	b = \cf3 DelayN\cf0 .ar(s, 0.048);\
+	\
+		\cf2 // length modulated comb delays in parallel:\cf0 \
+	y = \cf3 Mix\cf0 .ar(\cf3 CombL\cf0 .ar(b, 0.1, \cf3 LFNoise1\cf0 .kr(\cf3 Array\cf0 .fill(c,\{0.1.rand\}), 0.04, 0.05), 15)); \
+	\
+		\cf2 // chain of allpass delays on each of two channels:\cf0 \
+	a.do(\{ y = \cf3 AllpassN\cf0 .ar(y, 0.050, [0.050.rand,0.050.rand], 1) \});\
+	\
+		\cf2 // add original sound to reverb and play it:\cf0 \
+	s+(0.1*y);\cf2 \
+	\cf3 Out\cf0 .ar(0, y);\
+\}).writeDefFile;\
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 reverberatedsinepercussion\cf4 .scsyndef"\cf0 );\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 windmetals2\cf4 "\cf0 , \cf2 // windmetals2\cf0 \
+\
+\{			\cf2 // windmetals2\cf0 \
+			\cf3 var\cf0  trig, s, p, n, exc, x, base, range;\
+			n = 6;\
+			base = exprand(60,70);\
+			range = rrand(500.0,8000.0);\
+			exc = \cf3 BrownNoise\cf0 .ar([0.007,0.007]) * max(0, \cf3 LFNoise1\cf0 .kr(exprand(0.03,0.04), 0.05, 0.05));\
+			s = (\cf3 Klank\cf0 .ar(`[\cf3 Array\cf0 .fill(n, \{linrand(range)+base\}),\cf3 nil\cf0 ,\cf3 Array\cf0 .fill(n, \{rrand(0.1,2.0)\})], exc) * 0.3).softclip;\cf2 \
+	\cf3 Out\cf0 .ar(0, s);\
+\}).writeDefFile;\
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals2\cf4 .scsyndef"\cf0 );
+\fs28 \
+\
+
+\fs18 \cf3 SynthDef\cf0 (\cf4 "\cf2 pinknoisepercussionsound\cf4 "\cf0 , \cf2 // pinknoisepercussionsound\cf0 \
+
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 \{\
+		\cf2 // pinknoisepercussionsound :\cf0 \
+	i = \cf3 Decay\cf0 .ar(\cf3 Dust\cf0 .ar(0.2, 0.1), 0.05, \cf3 PinkNoise\cf0 .ar);\
+	\
+		\cf2 // reverb predelay time :\cf0 \
+	j = \cf3 DelayN\cf0 .ar(i, 0.048);\
+	\
+		\cf2 // modulated comb delays in parallel :\cf0 \
+	k = \cf3 Mix\cf0 .ar(\cf3 CombL\cf0 .ar(j, 0.1, \cf3 LFNoise1\cf0 .kr(\cf3 Array\cf0 .fill(6,\{0.001.rand\}), 0.0004, 0.05), 5)); \
+	\
+		\cf2 // chain of allpass delays on each of two channels:\cf0 \
+	4.do(\{ k = \cf3 AllpassN\cf0 .ar(k, 0.050, [0.050.rand,0.050.rand], 1) \});\
+	\
+		\cf2 // add original sound to reverb and play it:\cf0 \
+	i+k;
+\fs8 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf2 	\cf3 Out\cf0 .ar(0, i+k);\
+\}).writeDefFile;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 pinknoisepercussionsound\cf4 .scsyndef"\cf0 );\
+\
+\cf3 SynthDef\cf0 (\cf4 "\cf2 windmetals3\cf4 "\cf0 , \cf2 // windmetals3\cf0 \
+\
+\{			\cf2 // windmetals3\cf0 \
+			\cf3 var\cf0  trig, s, p, n, exc, x, base, range;\
+			n = 6;\
+			base = exprand(180,200);\
+			range = rrand(500.0,8000.0);\
+			exc = \cf3 BrownNoise\cf0 .ar([0.007,0.007]) * max(0, \cf3 LFNoise1\cf0 .kr(exprand(0.03,0.04), 0.05, 0.05));\
+			s = (\cf3 Klank\cf0 .ar(`[\cf3 Array\cf0 .fill(n, \{linrand(range)+base\}),\cf3 nil\cf0 ,\cf3 Array\cf0 .fill(n, \{rrand(0.1,2.0)\})], exc) * 0.3).softclip;
+\fs8 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf2 	\cf3 Out\cf0 .ar(0, s);\
+\}).writeDefFile;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals3\cf4 .scsyndef"\cf0 );\
+\
+
+\fs20 \cf3 SynthDef\cf0 (\cf4 "\cf2 Panski\cf4 "\cf0 , \cf2 // Panski\cf0 \
+\
+\{\
+\cf3 var\cf0  a;\
+\
+		a = \cf3 Pan2\cf0 .ar(\
+	\cf3 Resonz\cf0 .ar(\cf3 LFPulse\cf0 .ar(exprand(30,50), 2pi.rand, 0.05,\
+		\cf3 Mix\cf0 .ar(\cf3 SinOsc\cf0 .ar(exprand(0.3,8) * [rrand(0.07,0.09),1], [2pi.rand,2pi.rand], 0.1)).max(0)\
+		* \cf3 Mix\cf0 .ar(\cf3 SinOsc\cf0 .ar(exprand(6,24) * [rrand(0.7,1.3),1], [2pi.rand,2pi.rand])).abs\
+	), exprand(100,110), 0.2), 1.0.rand2);
+\fs10 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf2 	\cf3 Out\cf0 .ar(0, a);\
+\}).writeDefFile;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Server\cf0 .local.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 Panski\cf4 .scsyndef"\cf0 );
+\fs18 \
+\
+values = \cf3 IdentityDictionary\cf0 .new;\
+values2 = \cf3 IdentityDictionary\cf0 .new;\
+values3 = \cf3 IdentityDictionary\cf0 .new;\
+values4 = \cf3 IdentityDictionary\cf0 .new;\
+values5 = \cf3 IdentityDictionary\cf0 .new;
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 values6 = \cf3 IdentityDictionary\cf0 .new;\
+values7 = \cf3 IdentityDictionary\cf0 .new;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 valuess = \cf3 IdentityDictionary\cf0 .new;\
+
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 server = \cf3 Server\cf0 .local;\
+\
+id = 2000;\
+id2 = 2001;\
+id3 = 2002;\
+id4 = 2003;\
+id5 = 2004;
+\fs28 \
+
+\fs18 id6 = 2005;\
+id7 = 2006;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 idd = 2007;
+\fs8 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs34 \cf0 w = \cf3 SCWindow\cf0 (\cf4 "\cf2 algor instrument\cf4 "\cf0 , \cf3 Rect\cf0 (1162, 864, 263, 450));
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 w.view.decorator = d = \cf3 FlowLayout\cf0 (w.view.bounds);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 w.view.background = \cf3 Gradient\cf0 (\cf3 Color\cf0 .new255(173, 216, 230),\cf3 Color\cf0 .new255(248, 248, 255),\cf5 \\v\cf0 );\
+w.drawHook = \{\
+	\cf2 // set the Color\cf0 \
+	\cf3 Pen\cf0 .translate(200, 200);\
+	10.do\{\
+		Pen.width = 0.02.rand;\
+		\cf3 Color\cf0 .grey(rrand(0.8, 1), rrand(0.0, 0.5)).setStroke;\
+		\cf3 Color\cf0 .grey(rrand(0.85, 1), rrand(0.0, 0.5)).setFill;\
+		\cf3 Pen\cf0 .addAnnularWedge(\
+			0@0,\
+			rrand(10, 500), \
+			rrand(51, 1000), 	\
+			2pi.rand, \
+			2pi.rand\
+		);\
+		\cf3 Pen\cf0 .perform([\cf5 \\stroke\cf0 , \cf5 \\fill\cf0 ].choose);\
+	\}\
+\};\
+w.refresh;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //windmetals\cf0 \
+b1 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (0,0, 50, 50));\
+b1.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b1.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals\cf4 .scsyndef"\cf0 );\
+\};\
+b1.enabled = server.serverRunning;\
+\
+b2 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (0,0, 200, 50));\
+b2.states = [\
+	[\cf4 "windmetals"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "windmetals stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b2.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 windmetals\cf4 "\cf0 , 2000, 1, 0];\
+		values.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2000); \
+	\});\
+\};\
+b2.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b1.enabled = server.serverRunning;\
+	b2.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b2.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2000) \});\
+ 	a.remove;\
+\};\
+\
+\cf2 //cymbalism\cf0 \
+b3 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (105,0, 50, 50));\
+b3.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b3.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 cymbalism\cf4 .scsyndef"\cf0 );\
+\};\
+b3.enabled = server.serverRunning;\
+\
+b4 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (105,0, 200, 50));\
+b4.states = [\
+	[\cf4 "\cf2 cymbalism\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 cymbalism\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b4.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn2 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 cymbalism\cf4 "\cf0 , 2001, 1, 0];\
+		values2.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn2 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2001); \
+	\});\
+\};\
+b4.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b3.enabled = server.serverRunning;\
+	b4.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b4.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn2, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2001) \});\
+ 	a.remove;\
+\};\
+\
+\cf2 //analogbubbles\cf0 \
+b5 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b5.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b5.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 analogbubbles\cf4 .scsyndef"\cf0 );\
+\};\
+b5.enabled = server.serverRunning;\
+\
+b6 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b6.states = [\
+	[\cf4 "\cf2 analogbubbles\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 analogbubbles\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b6.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn3 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 analogbubbles\cf4 "\cf0 , 2002, 1, 0];\
+		values3.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn3 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2002); \
+	\});\
+\};\
+b6.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b5.enabled = server.serverRunning;\
+	b6.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b6.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn3, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2002) \});\
+ 	a.remove;\
+\};\
+\
+\cf2 //reverberatedsinepercussion\cf0 \
+b7 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b7.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b7.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 reverberatedsinepercussion\cf4 .scsyndef"\cf0 );\
+\};\
+b7.enabled = server.serverRunning;\
+\
+b8 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b8.states = [\
+	[\cf4 "\cf2 reverberatedsinepercussion\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 reverberatedsinepercussion\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b8.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn4 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 reverberatedsinepercussion\cf4 "\cf0 , 2003, 1, 0];\
+		values4.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn4 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2003); \
+	\});\
+\};\
+b8.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b7.enabled = server.serverRunning;\
+	b8.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b8.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn4, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2003) \});\
+ 	a.remove;\
+\};\
+\
+\cf2 //windmetals2\cf0 \
+b9 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b9.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b9.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals2\cf4 .scsyndef"\cf0 );\
+\};\
+b9.enabled = server.serverRunning;\
+\
+b10 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b10.states = [\
+	[\cf4 "\cf2 windmetals2\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 windmetals2\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b10.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn5 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 windmetals2\cf4 "\cf0 , 2004, 1, 0];\
+		values5.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn5 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2004); \
+	\});\
+\};\
+b10.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b9.enabled = server.serverRunning;\
+	b10.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b10.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn5, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2004) \});\
+ 	a.remove;\
+\};\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf2 //pinknoisepercussionsound
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 b11 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b11.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b11.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 pinknoisepercussionsound\cf4 .scsyndef"\cf0 );\
+\};\
+b11.enabled = server.serverRunning;\
+w.onClose = \{ \
+	if (isOn6, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2005) \});\
+ 	a.remove;\
+\};
+\fs8 \
+
+\fs18 \
+b12 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b12.states = [\
+	[\cf4 "\cf2 pinknoisepercussionsound\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 pinknoisepercussionsound\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b12.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn6 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 pinknoisepercussionsound\cf4 "\cf0 , 2005, 1, 0];\
+		values6.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn6 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2005); \
+	\});\
+\};\
+b12.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b11.enabled = server.serverRunning;\
+	b12.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b12.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn6, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2005) \});\
+ 	a.remove;\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //windmetals3\cf0 \
+b13 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b13.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b13.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 windmetals3\cf4 .scsyndef"\cf0 );\
+\};\
+b13.enabled = server.serverRunning;\
+\
+b14 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b14.states = [\
+	[\cf4 "\cf2 windmetals3\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 windmetals3\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b14.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOn7 = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 windmetals3\cf4 "\cf0 , 2006, 1, 0];\
+		values7.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOn7 = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2006); \
+	\});\
+\};\
+b14.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b13.enabled = server.serverRunning;\
+	b14.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b14.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOn7, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2006) \});\
+ 	a.remove;\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf2 //Panski
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 b17 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 50, 50));\
+b17.states = [[\cf4 "Load"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green]];\
+b17.action = \{ \cf3 arg\cf0  view; \
+	server.sendMsg(\cf4 "/d_load"\cf0 , \cf4 "synthdefs/\cf2 Panski\cf4 .scsyndef"\cf0 );\
+\};\
+b17.enabled = server.serverRunning;\
+\
+b18 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (210,0, 200, 50));\
+b18.states = [\
+	[\cf4 "\cf2 Panski\cf4 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf4 "\cf2 Panski\cf4  stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red],\
+];\
+b18.action = \{ \cf3 arg\cf0  view; \
+	\cf3 var\cf0  msg;\
+	if (view.value == 1, \{\
+		isOnn = \cf3 true\cf0 ;\
+		msg = [\cf4 "/s_new"\cf0 , \cf4 "\cf2 Panski\cf4 "\cf0 , 2007, 1, 0];\
+		valuess.keysValuesDo(\{ \cf3 arg\cf0  key, value; \
+			msg = msg.addAll([key, value]); \
+		\});\
+		server.performList(\cf5 \\sendMsg\cf0 , msg); \
+	\},\{\
+		isOnn = \cf3 false\cf0 ;\
+		server.sendMsg(\cf4 "/n_free"\cf0 , 2001); \
+	\});\
+\};\
+b18.enabled = server.serverRunning;\
+d.nextLine;\
+\
+a = \cf3 SimpleController\cf0 (server);\
+f = \{ \cf3 arg\cf0  server; \
+	b17.enabled = server.serverRunning;\
+	b18.enabled = server.serverRunning;\
+	if (server.serverRunning.not, \{ b18.value = 0 \});\
+\};\
+a.put(\cf5 \\serverRunning\cf0 , f);\
+w.onClose = \{ \
+	if (isOnn, \{ server.sendMsg(\cf4 "/n_free"\cf0 , 2007) \});\
+ 	a.remove;\
+\};
+\fs30 \
+
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 \
+w.front;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs50 \cf0 )\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f1\fs26 \cf0 s.recSampleFormat = \cf4 "int16"\cf0 ;\
+\
+\
+
+\f0\fs18 \
+}

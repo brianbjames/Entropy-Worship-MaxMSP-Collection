@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "testsave">
+	<slot number = "1">
+		<pattr name = "one" value = "42." />
+		<pattr name = "two" value = "60." />
+	</slot>
+	<slot number = "2">
+		<pattr name = "one" value = "" />
+		<pattr name = "two" value = "" />
+	</slot>
+	<slot number = "3">
+		<pattr name = "one" value = "" />
+		<pattr name = "two" value = "" />
+	</slot>
+	<slot number = "4">
+		<pattr name = "one" value = "" />
+		<pattr name = "two" value = "" />
+	</slot>
+	<slot number = "5">
+		<pattr name = "one" value = "" />
+		<pattr name = "two" value = "" />
+	</slot>
+</pattrstorage>
+

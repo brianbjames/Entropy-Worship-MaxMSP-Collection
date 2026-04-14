@@ -1,0 +1,148 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fnil\fcharset77 LucidaGrande;\f2\fswiss\fcharset77 Helvetica-Bold;
+}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs22 \cf0 s.boot\
+\
+\cf2 //1st part is basic loop sampler with start, end, play direction.  I was unable to get the panner to work...\cf0 \
+\
+\cf2 //2nd Part is grain sampler.  Im a bit confused as to how the buffer is loaded for this one, as it seems to work after I run the routines from the origional assignment 2 document.  But I had assumed that the buffer was loaded in the first part (buffer 0) and then the same file should play, but when I changed the file name in the first part, I was unable to get it to play anything except for the appollo landing.\cf0 \
+\
+\
+( 	\cf2 //Basic Loop Sampler\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0,loop=1; \cf2 //set arguments\cf0 \
+	\
+	\cf3 var\cf0  thisRate, thisDur, loopFrq, panPos=0.0;\cf2 //define variables\cf0 \
+	\
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate;\cf2 //Match Sampling Rate to Sample\cf0 \
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf)); \cf2 //Sets Buffer size (duration) positive\cf0 \
+	loopFrq = (thisDur.reciprocal).min(100); \cf2 //loop frequency is reciprocal of sample rate \cf0 \
+	\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(\
+			\cf3 PlayBuf\cf0 .ar(1,			\cf2 // numChannels\cf0 \
+			sampbuf,				\cf2 // which bufnum to play\cf0 \
+			thisRate,   			\cf2 // rate\cf0 \
+			\cf3 Impulse\cf0 .kr(loopFrq),	\cf2 // Impulse Ugen retriggers sample\cf0 \
+			\cf2 // BufFrames gets number of sample frames of current sample\cf0 \
+			startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+			loop)))\
+\}).load(s);\
+)\
+\
+\cf2 //  play the loopSampler - standard, no grains...\cf0 \
+( \
+	\cf3 var\cf0  buf, filename, ctr=0, myWind, rate, startPos=0, endPos=1, panPos=0.0;\
+	\
+	myWind = \cf3 SCWindow\cf0 .new(\cf4 "slide"\cf0 );\
+	myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);\
+	myWind.front;\
+	\
+	\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "rate"\cf0 ,[-2.0,4.0,\cf5 \\lin\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; rate = slider.value \},1.0,numberWidth:40);\
+	myWind.view.decorator.nextLine;\
+	\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "startPos"\cf0 ,[0.1,1.0,\cf5 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; startPos = slider.value \},0,numberWidth:40);\
+	myWind.view.decorator.nextLine;\
+	\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "endPos"\cf0 ,[0.1,1.0,\cf5 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; endPos = slider.value \},1.0,numberWidth:40);\
+	myWind.view.decorator.nextLine;\
+	\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "panPos"\cf0 ,[-1.0,1.0,\cf5 \\lin\cf0 ,0.1,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; panPos = slider.value \},0.0,numberWidth:40);\
+	myWind.view.decorator.nextLine;\
+\
+	filename = \cf4 "sounds/
+\f1\fs24 a11wlk01.wav
+\f0\fs22 "\cf0 ;\
+	buf = \cf3 Buffer\cf0 .read(s,filename);	\cf2 // read the file into a Buffer\cf0 \
+	x = \cf3 Synth\cf0 (\cf4 "loopSampler"\cf0 ,\
+		[\cf4 "sampbuf"\cf0 ,buf.bufnum,\cf4 "startPos"\cf0 ,0.3,\cf4 "endPos"\cf0 ,0.5]).play;\
+\
+\cf3 Routine\cf0 (\{\
+	loop(\{ \cf2 //routine to set rate, start pos and end pos\cf0 \
+		ctr.postln;\cf2 //counter to see loop is working\cf0 \
+		x.set(\cf4 "rate"\cf0 ,rate); \cf2 // use slider to choose a rate (forward/backward and speed)\cf0 \
+		x.set(\cf4 "startPos"\cf0 ,startPos); \cf2 //use a slider to choose start position 0-1.0\cf0 \
+		x.set(\cf4 "endPos"\cf0 ,endPos);\
+		ctr=ctr+1;\cf2 //increment counter to see loop progress (piece of mind only...) \cf0 \
+		rrand(1.0,0.1).wait;\cf2 // at random time intervals\cf0 \
+				\
+	\})\
+\}).play;\
+)\
+\
+\cf2 // 
+\f2\b EZSlider(window, dimensions, label, controlSpec, action, initVal, initAction, labelWidth, numberWidth)\cf0 \
+\cf2 //	ControlSpec.new( minval, maxval, warp, step, default,units);
+\f0\b0 \cf0 \
+\
+\
+\cf2 //Grain Sampler Fun...\cf0 \
+\
+(\
+\cf3 SynthDef\cf0 (\cf4 "grain"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, bufnum=0, rate=1.0, startPos=0, size=1, panPos=0;\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(\
+			\cf3 PlayBuf\cf0 .ar(1, bufnum,\
+				rate*\cf3 BufRateScale\cf0 .kr(bufnum),\
+				1,			\cf2 // trigger\cf0 \
+				startPos*\cf3 BufSamples\cf0 .kr(bufnum),\
+				1), 		\cf2 // loop\cf0 \
+			panPos,	\cf2 // pan position\cf0 \
+			\cf3 EnvGen\cf0 .kr(\cf3 Env\cf0 ([0,0.2,0],[0.05,0.05],\cf5 \\sine\cf0 ), 1, \cf2 // a sinusoidal envelope\cf0 \
+			\cf2 // timeScale will lengthen durations proportionally\cf0 \
+			timeScale: size, doneAction: 2)\
+		)\
+	);\
+\}).load(s); \
+)\
+\
+(\
+\cf3 var\cf0  myWind,rate=1.0,startPos=0,endPos=1,size=1, waitTime=0.02, stop=0, filename, buf, panPos=0;\
+myWind = \cf3 SCWindow\cf0 .new(\cf4 "granSamp"\cf0 );\
+myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);\
+myWind.front;\
+\
+filename = \cf4 "sounds/
+\f1\fs24 a11wlk01.wav
+\f0\fs22 "\cf0 ;\
+buf = \cf3 Buffer\cf0 .read(s,filename);\
+\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "rate"\cf0 ,[-2.0,4.0,\cf5 \\lin\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; rate = slider.value \},1.0,numberWidth:40); \cf2 //Change SampleRate - play - revPlay\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "start"\cf0 ,[0.0,1.0,\cf5 \\lin\cf0 ,0,0.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; startPos = slider.value \},0.0,numberWidth:40);\cf2 //change start position\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "end"\cf0 ,[0.1,1.0,\cf5 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; endPos = slider.value \},1.0,numberWidth:40);\cf2 //change end position\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "size"\cf0 ,[1.0,50.0,\cf5 \\lin\cf0 ,0,1].asSpec,\
+	\{ \cf3 arg\cf0  slider; size = slider.value \},1.0,numberWidth:40);\cf2 //change the size of the grain\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "wait"\cf0 ,[0.02,0.5,\cf5 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; waitTime = slider.value \},0.02,numberWidth:40);\cf2 //change the wait time till next sample\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "stop"\cf0 ,[0,1,\cf5 \\lin\cf0 ,0,1].asSpec,\
+	\{ \cf3 arg\cf0  slider; stop = slider.value \},0,numberWidth:40);\cf2 //When slider is 1, end loop\cf0 \
+myWind.view.decorator.nextLine;\
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "panner"\cf0 ,[-1,1,\cf5 \\lin\cf0 ,0.1,1].asSpec,\
+	\{ \cf3 arg\cf0  slider; panPos = slider.value \},0,numberWidth:40);\cf2 //can I get the panning to work?\cf0 \
+\
+\cf3 Routine\cf0 (\{ \
+	while(\{stop!=1\},\{\
+		\cf3 Synth\cf0 (\cf4 "grain"\cf0 ,[\cf4 "sampbuf"\cf0 ,0,\
+			\cf4 "rate"\cf0 ,rate,\cf4 "startPos"\cf0 ,startPos,\cf4 "endPos"\cf0 , endPos,\cf4 "size"\cf0 ,size, \cf4 "panner"\cf0 , panPos]);\
+			(waitTime*size).wait\}); \
+		\}).play;\
+\
+ )\
+ \
+ s.recSampleFormat = \cf4 "int16"\cf0 ; \
+\
+\
+}

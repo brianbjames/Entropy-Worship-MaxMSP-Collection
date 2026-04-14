@@ -1,0 +1,1005 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red96\green96\blue96;}
+\deftab720
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f0\fs38 \cf0 \
+\cf2 \
+
+\fs52 //20 cloudFunc's, by brian b. james
+\fs38 \cf0 \
+s.boot\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs68 \cf0 (
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs58 \cf3 var
+\fs18 \cf0  w, cloudFunc1,cloudBtn1,freqSlider1,freqSldText1,cloudFunc2,cloudBtn2,freqSlider2,freqSldText2,cloudFunc3,cloudBtn3,freqSlider3,freqSldText3,cloudFunc4,cloudBtn4,freqSlider4,freqSldText4,cloudFunc5,cloudBtn5,freqSlider5,freqSldText5,cloudFunc6,cloudBtn6,freqSlider6,freqSldText6,cloudFunc7,cloudBtn7,freqSlider7,freqSldText7,cloudFunc8,cloudBtn8,freqSlider8,freqSldText8,cloudFunc9,cloudBtn9,freqSlider9,freqSldText9,cloudFunc10,cloudBtn10,freqSlider10,freqSldText10,cloudFunc1b,cloudBtn1b,freqSlider1b,freqSldText1b,cloudFunc2b,cloudBtn2b,freqSlider2b,freqSldText2b,cloudFunc3b,cloudBtn3b,freqSlider3b,freqSldText3b,cloudFunc4b,cloudBtn4b,freqSlider4b,freqSldText4b,cloudFunc5b,cloudBtn5b,freqSlider5b,freqSldText5b,cloudFunc6b,cloudBtn6b,freqSlider6b,freqSldText6b,cloudFunc7b,cloudBtn7b,freqSlider7b,freqSldText7b,cloudFunc8b,cloudBtn8b,freqSlider8b,freqSldText8b,cloudFunc9b,cloudBtn9b,freqSlider9b,freqSldText9b,cloudFunc10b,cloudBtn10b,freqSlider10b,freqSldText10b
+\fs40 ;
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs50 \cf2 //cloudFunc's
+\fs20 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc1 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc2 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc3 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc4 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc5 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc6 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs30 \
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc7 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc8 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc9 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc10 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc1b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc2b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc3b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc4b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc5b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10,
+\fs18  startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc6b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs30 \
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc7b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc8b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc9b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc10b = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10b.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\cf5 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs40 \cf0 w = \cf3 SCWindow\cf0 (\cf5 "lots of cloudGen's", \cf3 Rect\cf0 (100, 100, 480, 440)); 
+\fs26 w.front;
+\fs22 \
+
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs100 \cf2 //GUI
+\fs20 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn1 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,10, 80, 20));
+\fs20 \
+	cloudBtn1.states = [\
+		[\cf5 "startCloud1"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn1.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc1).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+freqSlider1= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,10, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText1 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,10, 90,20));
+\fs20 \
+	freqSldText1.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText1.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText1.align = \cf4 \\left\cf0 ;\
+	freqSldText1.string = \cf5 "grain freq"\cf0 ;	\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn2 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,30, 80, 20));
+\fs20 \
+	cloudBtn2.states = [\
+		[\cf5 "startCloud2"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn2.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc2).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};\
+
+\fs30 freqSlider2 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,30, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText2 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,30, 90,20));
+\fs20 \
+	freqSldText2.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText2.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText2.align = \cf4 \\left\cf0 ;\
+	freqSldText2.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn3 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,50, 80, 20));
+\fs20 \
+	cloudBtn3.states = [\
+		[\cf5 "startCloud3"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn3.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc3).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider3= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,50, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText3 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,50, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText3.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText3.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText3.align = \cf4 \\left\cf0 ;\
+	freqSldText3.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn4 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,70, 80, 20));
+\fs20 \
+	cloudBtn4.states = [\
+		[\cf5 "startCloud4"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn4.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc4).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider4= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,70, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText4 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,70, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText4.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText4.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText4.align = \cf4 \\left\cf0 ;\
+	freqSldText4.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn5 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,90, 80, 20));
+\fs20 \
+	cloudBtn5.states = [\
+		[\cf5 "startCloud5"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn5.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc5).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider5= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,90, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText5 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,90, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText5.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText5.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText5.align = \cf4 \\left\cf0 ;\
+	freqSldText5.string = \cf5 "grain freq"\cf0 ;\
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn6 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,110, 80, 20));
+\fs20 \
+	cloudBtn6.states = [\
+		[\cf5 "startCloud6"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn6.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc6).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+freqSlider6= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (
+\fs28 100,110, 280,20
+\fs30 )).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText6 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,110, 90,20));
+\fs20 \
+	freqSldText6.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText6.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText6.align = \cf4 \\left\cf0 ;\
+	freqSldText6.string = \cf5 "grain freq"\cf0 ;	\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn7 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,130, 80, 20));
+\fs20 \
+	cloudBtn7.states = [\
+		[\cf5 "startCloud7"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn7.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc7).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};\
+
+\fs30 freqSlider7 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,130, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText7 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,130, 90,20));
+\fs20 \
+	freqSldText7.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText7.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText7.align = \cf4 \\left\cf0 ;\
+	freqSldText7.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn8 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,150, 80, 20));
+\fs20 \
+	cloudBtn8.states = [\
+		[\cf5 "startCloud8"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn8.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc8).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider8= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,150, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText8 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,150, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText8.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText8.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText8.align = \cf4 \\left\cf0 ;\
+	freqSldText8.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn9 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,170, 80, 20));
+\fs20 \
+	cloudBtn9.states = [\
+		[\cf5 "startCloud9"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn9.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc9).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider9= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,170, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText9 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,170, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText9.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText9.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText9.align = \cf4 \\left\cf0 ;\
+	freqSldText9.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn10 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,190, 80, 20));
+\fs20 \
+	cloudBtn10.states = [\
+		[\cf5 "startCloud10"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn10.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc10).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider10= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,190, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText10 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,190, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText10.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText10.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText10.align = \cf4 \\left\cf0 ;\
+	freqSldText10.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn1b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,210, 80, 20));
+\fs20 \
+	cloudBtn1b.states = [\
+		[\cf5 "startCloud1b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn1b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc1b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+freqSlider1b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,210, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText1b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,210, 90,20));
+\fs20 \
+	freqSldText1b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText1b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText1b.align = \cf4 \\left\cf0 ;\
+	freqSldText1b.string = \cf5 "grain freq"\cf0 ;
+\fs4 	
+\fs20 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn2b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,230, 80, 20));
+\fs20 \
+	cloudBtn2b.states = [\
+		[\cf5 "startCloud2b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn2b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc2b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};\
+
+\fs30 freqSlider2b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,230, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText2b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,230, 90,20));
+\fs20 \
+	freqSldText2b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText2b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText2b.align = \cf4 \\left\cf0 ;\
+	freqSldText2b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn3b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,250, 80, 20));
+\fs20 \
+	cloudBtn3b.states = [\
+		[\cf5 "startCloud3b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn3b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc3b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider3b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,250, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText3b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,250, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText3b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText3b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText3b.align = \cf4 \\left\cf0 ;\
+	freqSldText3b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn4b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,270, 80, 20));
+\fs20 \
+	cloudBtn4b.states = [\
+		[\cf5 "startCloud4b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn4b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc4b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider4b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,270, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText4b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,270, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText4b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText4b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText4b.align = \cf4 \\left\cf0 ;\
+	freqSldText4b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn5b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,290, 80, 20));
+\fs20 \
+	cloudBtn5b.states = [\
+		[\cf5 "startCloud5b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn5b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc5b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider5b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,290, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText5b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,290, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText5b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText5b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText5b.align = \cf4 \\left\cf0 ;\
+	freqSldText5b.string = \cf5 "grain freq"\cf0 ;\
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn6b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,310, 80, 20));
+\fs20 \
+	cloudBtn6b.states = [\
+		[\cf5 "startCloud6b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn6b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc6b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+freqSlider6b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (
+\fs28 100,310, 280,20
+\fs30 )).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText6b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,310, 90,20));
+\fs20 \
+	freqSldText6b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText6b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText6b.align = \cf4 \\left\cf0 ;\
+	freqSldText6b.string = \cf5 "grain freq"\cf0 ;	\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn7b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,330, 80, 20));
+\fs20 \
+	cloudBtn7b.states = [\
+		[\cf5 "startCloud7b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn7b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc7b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};\
+
+\fs30 freqSlider7b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,330, 280,20)).lo_(0.1).hi_(0.2);
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSldText7b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,330, 90,20));
+\fs20 \
+	freqSldText7b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText7b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText7b.align = \cf4 \\left\cf0 ;\
+	freqSldText7b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn8b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,350, 80, 20));
+\fs20 \
+	cloudBtn8b.states = [\
+		[\cf5 "startCloud8b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn8b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc8b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider8b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,350, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText8b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,350, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText8b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText8b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText8b.align = \cf4 \\left\cf0 ;\
+	freqSldText8b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn9b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,370, 80, 20));
+\fs20 \
+	cloudBtn9b.states = [\
+		[\cf5 "startCloud9b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn9b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc9b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider9b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,370, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText9b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,370, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText9b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText9b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText9b.align = \cf4 \\left\cf0 ;\
+	freqSldText9b.string = \cf5 "grain freq"\cf0 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 cloudBtn10b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,390, 80, 20));
+\fs20 \
+	cloudBtn10b.states = [\
+		[\cf5 "startCld10b"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn10b.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc10b).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 freqSlider10b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,390, 280,20)).lo_(0.1).hi_(0.2);\
+freqSldText10b = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (390,390, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	freqSldText10b.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText10b.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText10b.align = \cf4 \\left\cf0 ;\
+	freqSldText10b.string = \cf5 "grain freq"\cf0 ;
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs64 \cf0 )
+\fs38 \
+\
+\
+\
+\
+\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs38 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs24 \cf0 \
+\
+\
+\
+}

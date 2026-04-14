@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "storage">
+	<slot number = "1">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.09" />
+			<pattr name = "flangeLDelayTime" value = "513." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "749." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "57" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.5" />
+			<pattr name = "chrate" value = "3.05" />
+			<pattr name = "dwm" value = "41" />
+			<pattr name = "ldlytime" value = "500." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "718." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "2.28" />
+			<pattr name = "hg2" value = "12.1" />
+			<pattr name = "hg3" value = "417" />
+			<pattr name = "hg4" value = "297" />
+			<pattr name = "hg5" value = "80" />
+			<pattr name = "hg6" value = "2" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.06" />
+			<pattr name = "flangeLDelayTime" value = "417." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "709." />
+			<pattr name = "flangeRate" value = "0.16" />
+			<pattr name = "flangeSlider" value = "85" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.57" />
+			<pattr name = "chrate" value = "3.41" />
+			<pattr name = "dwm" value = "62" />
+			<pattr name = "ldlytime" value = "458." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "733." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "2.31" />
+			<pattr name = "hg2" value = "0.77" />
+			<pattr name = "hg3" value = "421" />
+			<pattr name = "hg4" value = "291" />
+			<pattr name = "hg5" value = "80" />
+			<pattr name = "hg6" value = "73" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.14" />
+			<pattr name = "flangeLDelayTime" value = "378." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "677." />
+			<pattr name = "flangeRate" value = "0.06" />
+			<pattr name = "flangeSlider" value = "61" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.79" />
+			<pattr name = "chrate" value = "4.06" />
+			<pattr name = "dwm" value = "20" />
+			<pattr name = "ldlytime" value = "256." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "549." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "2.31" />
+			<pattr name = "hg2" value = "0.77" />
+			<pattr name = "hg3" value = "421" />
+			<pattr name = "hg4" value = "291" />
+			<pattr name = "hg5" value = "80" />
+			<pattr name = "hg6" value = "73" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "7">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.25" />
+			<pattr name = "flangeLDelayTime" value = "378." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "702." />
+			<pattr name = "flangeRate" value = "0.16" />
+			<pattr name = "flangeSlider" value = "60" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.79" />
+			<pattr name = "chrate" value = "4.06" />
+			<pattr name = "dwm" value = "33" />
+			<pattr name = "ldlytime" value = "256." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "549." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.58" />
+			<pattr name = "hg2" value = "0.84" />
+			<pattr name = "hg3" value = "467" />
+			<pattr name = "hg4" value = "270" />
+			<pattr name = "hg5" value = "80" />
+			<pattr name = "hg6" value = "129" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "8">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.25" />
+			<pattr name = "flangeLDelayTime" value = "378." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "702." />
+			<pattr name = "flangeRate" value = "0.16" />
+			<pattr name = "flangeSlider" value = "60" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.7" />
+			<pattr name = "chrate" value = "7.18" />
+			<pattr name = "dwm" value = "53" />
+			<pattr name = "ldlytime" value = "161." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "237." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.58" />
+			<pattr name = "hg2" value = "0.84" />
+			<pattr name = "hg3" value = "467" />
+			<pattr name = "hg4" value = "270" />
+			<pattr name = "hg5" value = "80" />
+			<pattr name = "hg6" value = "129" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "9">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "321." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "640." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "81" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.7" />
+			<pattr name = "chrate" value = "7.18" />
+			<pattr name = "dwm" value = "53" />
+			<pattr name = "ldlytime" value = "161." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "237." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "2.99" />
+			<pattr name = "hg2" value = "2.54" />
+			<pattr name = "hg3" value = "449" />
+			<pattr name = "hg4" value = "253" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "139" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "10">
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "81" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+</pattrstorage>
+

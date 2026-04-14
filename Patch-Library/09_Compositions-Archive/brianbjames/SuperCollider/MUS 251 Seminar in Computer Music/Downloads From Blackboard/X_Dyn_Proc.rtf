@@ -1,0 +1,331 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red191\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf2 \
+\cf3 // a simple Synth to sound a trigger\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "ping"\cf2 ,\{ \cf4 arg\cf2  sfreq=800, efreq=700, dur=0.5;\
+	\cf4 Out\cf2 .ar(0,\
+		\cf4 EnvGen\cf2 .ar(\cf4 Env\cf2 .perc(0.01,0.5),doneAction: 2)*\
+			\cf4 FSinOsc\cf2 .ar(\cf4 XLine\cf2 .kr(sfreq,efreq,dur),0,0.1)\
+	);\
+\}).store;\
+\
+\cf3 //	Amplitude trigger\cf2 \
+\cf3 // Amplitude.kr(input,attackTime,releaseTime,mul,add)\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "ampTrig"\cf2 ,\{ \cf4 arg\cf2  speed=20;\
+	\cf4 var\cf2  trig;\
+	trig = \cf4 Impulse\cf2 .kr(speed);\
+	\cf4 SendTrig\cf2 .kr(trig, \cf3 // send a trigger to SC-lang\cf2 \
+			1,	\cf3 // a trigger ID, so multiple trigs can be\cf2 \
+				\cf3 // distinguished\cf2 \
+			\cf3 // next arg is a value to be polled and sent\cf2 \
+			\cf3 // with the trigger message\cf2 \
+			\cf4 Peak\cf2 .kr( \cf3 // tracks maximum value rec'vd\cf2 \
+				\cf4 Amplitude\cf2 .kr( \cf3 //input of Peak is amp follower\cf2 \
+					\cf4 AudioIn\cf2 .ar(1), 0.01, 0.01),\
+			trig) \cf3 // resets output of Peak to current value\cf2 \
+	);\
+\}).store;\
+\
+\cf3 /* an OSCresponder is a function in SC-lang that executes\
+when an OSC message is received from a Server (or,\
+from any NetAddr) -- its second argument is a symbol that matches to a particular response function, so there can be many different OSCresponders for different purposes. Look at the generic responder to SendTrig in its helpfile, which is useful in debugging Synths that compile but don't behave as expected:  just send values from the Synth as it runs to see if it is outputing what's expected.\
+\
+ Below, we use another OSCresponder to make a sound that tells us that an amplitude peak has been received\
+*/\cf2 \
+(\
+\cf4 OSCresponder\cf2 (s.addr,\cf6 '/tr'\cf2 ,\{ \cf4 arg\cf2  time,responder,msg;\
+	\cf4 var\cf2  thresh;\
+\cf3 //	time.postln; responder.postln;\cf2 \
+\cf3 //	msg.postln; "".postln;\cf2 \
+\cf3 // if this trigger message has ID == 1\cf2 \
+\cf3 // AND ('&&') if the value arg in the message is greater \cf2 \
+\cf3 //			than some threshold, then, play a sound\cf2 \
+	if( (msg.at(2) == 1) && (msg.at(3) > 0.1),						\{ msg.at(3).postln; \cf4 Synth\cf2 (\cf5 "ping"\cf2 ) \})\
+\}).add;\
+)\
+\cf3 // start the trigger running\cf2 \
+a = \cf4 Synth\cf2 (\cf5 "ampTrig"\cf2 );\
+\
+\cf3 /* let's make some other simple percussive generators, good as inputs for testing dynamics processors.    \
+*/\cf2 \
+\
+play(\{ \cf4 FSinOsc\cf2 .ar(400,0,\cf4 LFPulse\cf2 .kr(5,0,0.2)) \});\
+\
+\cf3 /* in the above, a pulse is used to gate a sinewave -- but it creates a click, so a better method is to use and Impulse input to Decay2, which creates a simple decaying Envelope that will round off the attack and provide a variable-length decay -- \
+Decay2.ar(in, attackTime, decayTime, mul, add)\
+Decay2 is essentially a 2nd order filter (2 sample delay), with the filter co-efficients calculated for you to produce the attack/decay characteristics you specify. \
+In the next example, an Impulse is input to the Decay2 filter, which is multiplied (enveloped) by the sinewave to create a decaying 'ping' -- play around with the arguments here, and you can create some very effective percussion instruments\
+*/\cf2 \
+\{ \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.25), \
+			0.01, 0.2, \cf4 FSinOsc\cf2 .ar(600)) \}.play;\
+\
+\{ \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.25), \
+			0.01, 0.2, \cf4 WhiteNoise\cf2 .ar(0.1)) \}.play;\
+\
+\cf3 // here's a more complex one\cf2 \
+(\
+\cf4 Server\cf2 .default = \cf4 Server\cf2 .internal;\
+s = \cf4 Server\cf2 .default; s.boot;\
+)\
+(\
+(\{ \
+	\cf4 Decay2\cf2 .ar(\
+		\cf3 // input to filter is a decaying envelope, made with a saw-tooth wave\cf2 \
+		\cf4 Impulse\cf2 .ar(8, 0, \cf4 LFSaw\cf2 .kr(0.25).range(0,0.3)), \
+		0.001, 0.3, 	\cf3 //  attack-time, decay-time\cf2 \
+		\cf4 Mix\cf2 (\cf4 Pulse\cf2 .ar([80,81], 0.3)))  \cf3 // mul\cf2 \
+\}).scope\
+)\
+\cf3 /*\
+Compander	=	A general purpose dynamics processor, which can be configured as a compressor, expander, limiter, gate, ducker, etc.\
+it's args are:\
+Compander.ar(input, control, threshold, slopeBelow, 		slopeAbove, clampTime, relaxTime, mul, add)\
+*/\cf2 \
+\
+(\
+\cf3 // compressor\cf2 \
+\cf4 SynthDef\cf2 (\cf6 \\compress\cf2 ,\{\
+	\cf4 var\cf2  z;\
+	\cf3 //	z = AudioIn.ar(1);\cf2 \
+	z = \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.5), \
+					0.01, 0.4, \cf4 FSinOsc\cf2 .ar(200));\
+	\cf4 Out\cf2 .ar(0,\cf4 Compander\cf2 .ar(z, z, \
+		\cf4 MouseX\cf2 .kr(0.01, 1), 	\cf3 // threshold\cf2 \
+		1, 						\cf3 // slope below is linear\cf2 \
+		\cf4 MouseY\cf2 .kr(0.01,1), 	\cf3 // slope above\cf2 \
+		0.001, 0.01);		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).store;\
+x = \cf4 Synth\cf2 (\cf6 \\compress\cf2 ); s.scope(1);\
+)\
+\
+\cf3 // TRY USING THESE TO CONTROL AUDIO FEEDBACK\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "compand"\cf2 ,\{ \cf4 arg\cf2  freq=2000,\
+	thresh=0.1,below=1.0,above=1.0,\
+	att=0.01,rls=0.01,amp=0.1;\
+	\cf4 var\cf2  z;\
+	z = \cf4 LPF\cf2 .ar(\cf4 AudioIn\cf2 .ar(1),freq);\
+	\cf4 Out\cf2 .ar(0,\cf4 Compander\cf2 .ar(z,z,  \
+		thresh, 	\cf3 // threshold\cf2 \
+		below,above, \
+		att,rls)*amp;		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).store;\
+\cf4 Spec\cf2 .specs.addAll([\
+	\cf6 \\thresh\cf2 ->\cf4 ControlSpec\cf2 (0.001,1.0,\cf6 \\lin\cf2 ,0.0,0.1),\
+	\cf6 \\below\cf2 ->\cf4 ControlSpec\cf2 (0.01,20,\cf6 \\exp\cf2 ,0.0,1.0),\
+	\cf6 \\above\cf2 ->\cf4 ControlSpec\cf2 (0.01,20,\cf6 \\exp\cf2 ,0.0,1.0),\
+	\cf6 \\att\cf2 ->\cf4 ControlSpec\cf2 (0.001,1.0,\cf6 \\lin\cf2 ,0.0,0.01),\
+	\cf6 \\rls\cf2 ->\cf4 ControlSpec\cf2 (0.001,1.0,\cf6 \\lin\cf2 ,0.0,0.01)])\
+)\
+\cf3 // run this on local Server because AutoGui doesn't work on Synths running on internal Server\cf2 \
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf6 \\compand\cf2 , target: \cf4 Server\cf2 .local));\
+\
+(\
+\cf4 SynthDef\cf2 (\cf5 "compandFS"\cf2 ,\{ \cf4 arg\cf2  fsFreq=5, freq=2000,\
+	thresh=0.1,below=1.0,above=1.0,\
+	att=0.01,rls=0.01,amp=0.1;\
+	\cf4 var\cf2  z;\
+	z = \cf4 LPF\cf2 .ar(\cf4 AudioIn\cf2 .ar(1),freq);\
+	\cf3 // Single-sideband amplitude modulation\cf2 \
+	z = \cf4 FreqShift\cf2 .ar(z,fsFreq); \
+	\cf4 Out\cf2 .ar(0,\cf4 Compander\cf2 .ar(z,z,  \
+		thresh, 	\cf3 // threshold\cf2 \
+		below,above, \
+		att,rls)*amp;		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).store;\
+\cf4 Spec\cf2 .specs.addAll([\
+	\cf6 \\fsFreq\cf2 ->\cf4 ControlSpec\cf2 (0.01,1000,\cf6 \\exp\cf2 ,0.0,5)])\
+)\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf6 \\compandFS\cf2 , target: \cf4 Server\cf2 .local));\
+\
+\cf3 /* CompanderD passes the signal directly to the control input(dispensing with control arg), but adds a delay to the process input so that the lag in the gain clamping will not lag the attacks in the input sound.  In order to never overshoot, a limiter must have such characteristics.\
+*/\cf2 \
+(\
+\cf3 // input limiter\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "limit"\cf2 ,\{\
+	\cf4 var\cf2  z;\
+	\cf3 //	z = AudioIn.ar(1);\cf2 \
+	z = \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.5), 0.01, 0.4, \cf4 FSinOsc\cf2 .ar(200));\
+	\cf4 Out\cf2 .ar(0,\cf4 CompanderD\cf2 .ar(z, \
+		\cf4 MouseX\cf2 .kr(0.01, 1), 	\cf3 // threshold\cf2 \
+		1, 			\cf3 // slope below\cf2 \
+		0.1, 		\cf3 // above threshold slope, = 10:1 compress\cf2 \
+		0.01, 0.01);		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).play;\
+s.scope(1);\
+)\
+(\
+\cf3 // input noise gate\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "noisegate"\cf2 ,\{\
+	\cf4 var\cf2  z;\
+	\cf3 //	z = AudioIn.ar(1);\cf2 \
+	z = \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.5), 0.01, 0.4, \cf4 FSinOsc\cf2 .ar(200));\
+	\cf4 Out\cf2 .ar(0,\cf4 CompanderD\cf2 .ar(z,\
+		\cf4 MouseX\cf2 .kr(0.01, 1.0), 	\cf3 // threshold\cf2 \
+		20, 						\cf3 // slope below, input*20 makes output=1\cf2 \
+		1, 					\cf3 // slope above = unity\cf2 \
+		0.01, 0.01);		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).play;\
+)\
+\
+(\
+\cf3 // input expander\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "expand"\cf2 ,\{\
+	\cf4 var\cf2  z;\
+	\cf3 //	z = AudioIn.ar(1);\cf2 \
+	z = \cf4 Decay2\cf2 .ar(\cf4 Impulse\cf2 .ar(4,0,0.5), 0.01, 0.4, \cf4 FSinOsc\cf2 .ar(200));\
+	\cf4 Out\cf2 .ar(0,\cf4 CompanderD\cf2 .ar(z,  \
+		\cf4 MouseX\cf2 .kr(0.01, 0.5), 	\cf3 // threshold\cf2 \
+		0.1, 			\cf3 // slope below, input of 0.1 makes output=1\cf2 \
+		1, 			\cf3 // slope above = unity\cf2 \
+		0.01, 0.01);		\cf3 // clamp and relax times\cf2 \
+	);\
+\}).play\
+)\
+\
+\cf3 // also see help-file for Compander for these same functions using a different input sound\cf2 \
+\
+\cf3 /*\
+Normalizer				flattens dynamics\
+Normalizer.ar(input, level, lookAheadTime)\
+\
+Normalizes the input amplitude to the given level. Normalize will not overshoot like Compander will, but it needs to look ahead in the audio. Thus there is a delay equal to twice the lookAheadTime.\
+\
+input - the signal to be processed.\
+level - the peak output amplitude level to which to normalize the input.\
+lookAheadTime - the buffer delay time. Shorter times will produce smaller delays and quicker transient response times, but may introduce amplitude modulation artifacts.\
+*/\cf2 \
+(\
+\cf4 Synth\cf2 .play(\{\
+	\cf4 var\cf2  z;\
+\cf3 //	z = AudioIn.ar(1);\cf2 \
+	z = \cf4 Decay2\cf2 .ar(\
+		\cf4 Impulse\cf2 .ar(4, 0, \cf4 LFSaw\cf2 .kr(0.25).range(0,0.5)), \
+		0.001, 0.01, \cf4 FSinOsc\cf2 .ar(500));\
+\cf3 //	 normal input on left, normalized on right\cf2 \
+	[z, \cf4 Normalizer\cf2 .ar(z, \cf4 MouseX\cf2 .kr(0.1,1.0), 0.01)];\
+\}, 0.5)\
+)\
+s.scope(2)\
+\cf3 /*\
+Limiter				peak limiter\
+Limiter.ar(input, level, lookAheadTime)\
+Limits the input amplitude to the given level. lookAheadTime similar to Normalizer.\
+*/\cf2 \
+(\
+\cf4 Synth\cf2 .play(\{\
+	\cf4 var\cf2  z;\
+	z = \cf4 Decay2\cf2 .ar(\
+		\cf4 Impulse\cf2 .ar(8, 0, \cf4 LFSaw\cf2 .kr(0.25).range(0,0.5)), \
+		0.001, 0.01, \cf4 FSinOsc\cf2 .ar(500));\
+\cf3 //		z = AudioIn.ar(1);\cf2 \
+\cf3 // normal signal on left, limited signal on right\cf2 \
+	[z, \cf4 Limiter\cf2 .ar(z, \cf4 MouseX\cf2 .kr(0.01,1.0), 0.1)];\
+\}, 0.5)\
+)\
+s.scope\
+\
+\cf3 /* WAVESHAPING\
+A signal is modified by a transfer function.  If we use "Chebyshev" functions, then we can control the spectrum\
+of the transformation, such that each sinewave component in the input spectrum will produce a particular harmonic of its frequency in the output spectrum.  The code below passes a sinewave through Chebyshev Wavetables, using the Shaper ugen.\
+\
+You can also use this process on audio inputs or soundfiles -- they make incredibly rich and controllable distortion devices !!\
+*/\cf2 \
+\
+(\
+~tablelist = \cf4 List\cf2 [ ];	\cf3 // a list of Wavetables\cf2 \
+\cf3 // each of these Wavetables transforms a sinewave input into a wave whose spectrum contains harmonics at the given strengths -- thus each of these tables produces one harmonic of the input frequency\cf2 \
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]));\
+~tablelist.add(\cf4 Wavetable\cf2 .chebyFill(512,[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]));\
+)\
+\
+\cf3 // allocate a buffer for the transform\cf2 \
+b= \cf4 Buffer\cf2 .alloc(s,512,1);\
+(\
+\{\
+	\cf3 // set the values of the buffer to one of the transform functions chosen at random from the tablelist\cf2 \
+	b.setn(0,~tablelist.at(~tablelist.size.rand.postln));\
+\cf3 // notice how the timbre changes with increasing amplitude\cf2 \
+	\cf4 Shaper\cf2 .ar(b.bufnum, 							\cf4 SinOsc\cf2 .ar(100,0,\cf4 LFSaw\cf2 .kr(0.25).range(0,1)));\
+\}.play;\
+)\
+\
+\cf3 // now, put the sound function into an SynthDef and play it with a Routine\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "waveShaper"\cf2 ,\{ \cf4 arg\cf2  freq=100,envDur=1,bufnum=0;\
+	\cf4 var\cf2  sig, env;\
+	env = \cf4 EnvGen\cf2 .kr(\cf4 Env\cf2 .new([0,1,1,0],[0.25,0.5,0.25]),\
+				timeScale: envDur, doneAction: 2);\
+	sig = \cf4 Shaper\cf2 .ar(bufnum, \cf4 SinOsc\cf2 .ar(freq,0,env));\
+	\cf3 // Normalizer makes the Amplitude equal for each Wavetable, and LeakDC is supposed to remove the DC component that waveshaping often introduces !!\cf2 \
+	\cf4 Out\cf2 .ar(0,\
+		\cf4 LeakDC\cf2 .ar(\cf4 Normalizer\cf2 .ar(sig*env, 0.5, 0.01), 0.995))\
+\}).store;\
+)\
+(\
+\cf4 Routine\cf2 (\{ \
+	\cf4 var\cf2  time;\
+	loop(\{ \
+		time = rrand(1.0,4.0);	\cf3 // random wait and duration\cf2 \
+		b.setn(0,~tablelist.at(~tablelist.size.rand.postln));\
+		\cf4 Synth\cf2 (\cf5 "waveShaper"\cf2 ,\
+			[\cf6 \\freq\cf2 , rrand(50,400), \cf6 \\envDur\cf2 , time,\cf6 \\bufnum\cf2 , b.bufnum]\
+		).play;\
+		time.wait\
+	\})\
+\}).play;\
+)\
+\cf3 \
+// Let's try the same thing playing a sampler\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "waveShaperSamp"\cf2 ,\{ \cf4 arg\cf2  envDur=1,\
+	bufnum=0,sampBufNum=1;\
+	\cf4 var\cf2  sig, env;\
+	env = \cf4 EnvGen\cf2 .kr(\cf4 Env\cf2 .new([0,1,1,0],[0.25,0.5,0.25]),\
+				timeScale: envDur, doneAction: 2);\
+	sig = \cf4 Shaper\cf2 .ar(bufnum, \
+		\cf4 PlayBuf\cf2 .ar(1,sampBufNum,\
+			BufRateScale.kr(sampBufNum),loop:1));\
+	\cf4 Out\cf2 .ar(0,\
+		\cf4 LeakDC\cf2 .ar(\cf4 Normalizer\cf2 .ar(sig*env, 0.5, 0.01), 0.995))\
+\}).store;\
+)\
+c = \cf4 Buffer\cf2 .read(s,\cf5 "sounds/a11wlk01.wav"\cf2 );\
+(\
+\cf4 Routine\cf2 (\{ \
+	\cf4 var\cf2  time;\
+	loop(\{ \
+		time = rrand(1.0,4.0);	\cf3 // random wait and duration\cf2 \
+		b.setn(0,~tablelist[~tablelist.size.rand.postln]);\
+		\cf4 Synth\cf2 (\cf5 "waveShaperSamp"\cf2 ,\
+			[\cf6 \\envDur\cf2 , time,\cf6 \\bufnum\cf2 , b.bufnum,\cf6 \\sampBufNum\cf2 ,c.bufnum]\
+		).play;\
+		time.wait\
+	\})\
+\}).play;\
+)\
+\
+}

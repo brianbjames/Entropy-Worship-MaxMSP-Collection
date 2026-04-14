@@ -1,0 +1,372 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;\f1\fswiss\fcharset77 Arial-BoldMT;\f2\fswiss\fcharset77 Helvetica-Bold;
+\f3\fswiss\fcharset77 Helvetica;\f4\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red191\green0\blue0;\red0\green0\blue191;
+\red0\green115\blue0;\red96\green96\blue96;\red0\green0\blue191;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf2 \
+(	\cf3 // two sine oscillators are mixed\cf2 \
+\cf4 SynthDef\cf2 (\cf5 \\addSynth\cf2 ,\{ \cf4 arg\cf2  out=0; \cf3 // note that backslash+string is the same as "string"\cf2 \
+	\cf4 Out\cf2 .ar(out,\
+		\cf4 SinOsc\cf2 .ar(440,0,0.5)		\cf3 // args are freq, phase, and mul (amp)\cf2 \
+		+				\cf3 //	Adding is Mixing !!\cf2 \
+		\cf4 SinOsc\cf2 .ar(660,0,0.5));\
+\}).play;	 \cf3 // 'play' method of SynthDef sends and starts a Synth in a single step\cf2 \
+)\
+\
+\cf3 /* STEREO VERSION:  When an 
+\f1\b Array
+\f0\b0  is given as an input to a unit generator it causes an array of multiple copies of that unit generator to be made, each with a different value from the input array. This is called multichannel expansion.  Below, we get one SinOsc with freq=440 on the left (audio Bus = 0) and another SinOsc with freq=660 on the right (audio Bus = 1) */\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 \\stereoSines\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 Out\cf2 .ar(0,\cf4 SinOsc\cf2 .ar([440,660],0,0.5))\}).play;\
+)\
+\
+\cf3 // Mix.fill(n,function) creates an array of n sound functions, then adds them -- try executing this one several times before stopping the sound with cmd-period\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 \\sin4Mix\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 Out\cf2 .ar(out,\
+		\cf4 Mix\cf2 .fill(4,\{ \cf4 SinOsc\cf2 .ar(rrand(440,660),0,0.1) \})\
+	)\
+\}).play;\
+)\
+\
+\cf3 // using Line and XLine to control the 'freq' arg of oscillators\cf2 \
+\cf3 // Line's args are:  start, end, dur\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 \\lineTest\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 Out\cf2 .ar(0,\cf4 SinOsc\cf2 .ar(\cf4 Line\cf2 .kr(100,8000,4),0,0.1))\
+\}).play;\
+)\
+\
+\cf3 // compare XLine, exponential control of frequency sounds linear\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 \\xLineTest\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 Out\cf2 .ar(0,\cf4 SinOsc\cf2 .ar(\cf4 XLine\cf2 .kr(100,8000,4),0,0.1))\
+\}).play;\
+)\
+\
+\cf3 // other oscillators in SC3\cf2 \
+\cf3 // Osc is a wavetable oscillator\cf2 \
+(\
+\cf4 Server\cf2 .default = \cf4 Server\cf2 .internal;	\cf3 // use the internal Server, so we can view the waveform\cf2 \
+s = \cf4 Server\cf2 .default;\
+s.waitForBoot(\{	\cf3 // this method boots the Server, and waits until it is ready to execute the Function\cf2 \
+	b = \cf4 Buffer\cf2 .alloc(s, 512, 1);	\cf3 // creates a Buffer of 512 samples and 1 channel on s\cf2 \
+	b.bufnum;			\cf3 // the 'bufnum' method returns the Buffer's index\cf2 \
+\});\
+)\
+\cf3 /* sine1 ( arg amplitudes,normalize=false,asWavetable=false,clearFirst=false); \
+the sine1 method of Buffer creates a waveform that is the sum of a series of sinewave harmonics with amplitudes given by an Array of values passed to the arg "amplitudes"\
+*/\cf2 \
+b.sine1((1.0/[1,2,3,4,5,6]).postln);  \
+\cf3 /* 1.0 is divided by each member of the Array, creating a new Array - try other math functions, but remember that 1.0 is the maximum\
+*/\cf2 \
+\
+\cf3 // 	create a SynthDef called "help-Osc",  with arguments 'out' (an Audio Bus.index), and 'bufnum', a Buffer.index.\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf6 "help-Osc"\cf2 ,\{ \cf4 arg\cf2  out=0, bufnum=0, freq=200, amp=0.1;\
+	\cf4 Out\cf2 .ar(out,\
+	\cf3 //   Osc.ar(table, freq, phase, mul, add) -- an oscillator in which you provide the wavetable\cf2 \
+		\cf4 Osc\cf2 .ar(bufnum, freq, 0, amp)	\cf3 // freq=200, phase=0, amp = 0.1\cf2 \
+	)\
+\}).load(s);		\cf3 // load the SynthDef to the 's' Server, which makes it ready to play.\cf2 \
+)\
+\cf3 //	now start the Synth by it's name, using arguments in the Array that follows the name and store the Synth instance in the environment variable 'x'\cf2 \
+x = \cf4 Synth\cf2 (\cf6 "help-Osc"\cf2 ,[\cf5 \\out\cf2 , 0, \cf5 \\bufnum\cf2 , b.bufnum]);\
+s.scope(2);	\cf3 // view the first two ouput channels\cf2 \
+\cf3 // send messages to change the output chan assignment and freq\cf2 \
+x.set(\cf6 "out"\cf2 ,1,\cf6 "freq"\cf2 ,800);\
+x.set(\cf6 "out"\cf2 ,0,\cf6 "freq"\cf2 ,600);\
+x.set(\cf6 "out"\cf2 ,1,\cf6 "freq"\cf2 ,400);\
+\cf3 //	the 'free' message stops the Synth from playing, and erases it's object from the Server\cf2 \
+x.free;\
+\
+\cf3 // Use the Ugens MouseX and MouseY to have parameters of a synth track the mouse position.  The arguments for these Ugens set low and high bounds corresponding to extreme edges of the screen.  This also introduces other SC Oscillators:  Saw, SyncSaw, Pulse, Blip\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf6 "test-Saw"\cf2 ,\{ \cf4 arg\cf2  freq=200, amp=0.1;\
+	\cf4 Out\cf2 .ar(0, \
+		\cf4 Saw\cf2 .ar([freq+\cf4 MouseX\cf2 .kr(-5,5), freq-\cf4 MouseX\cf2 .kr(-5,5)], \
+			amp))\
+\}).play;\
+s.scope(2);	\cf3 // 'scope' message plays and displays the Synth\cf2 \
+)\
+\
+(	\cf3 // SyncSaw (hard sync sawtooth wave) demonstrates aliasing\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "test-SyncSaw"\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 Out\cf2 .ar(out,\
+	\cf3 //	
+\f2\b\fs30 SyncSaw.ar(ksyncFreq, ksawFreq, mul, add)
+\f0\b0\fs36 \cf2 \
+		 \cf4 SyncSaw\cf2 .ar(100, \cf4 Line\cf2 .kr(100, 8000, 12), 0.2) \
+	)\
+\}).play;\
+s.scope(2)\
+)\
+\
+(	\cf3 // control pulse-width ratio (duty-cycle) of pulse waves, creating phase-cancellation effects\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "test-Pulse"\cf2 ,\{ \cf4 arg\cf2  freq=200, amp=0.1;\
+	\cf4 Out\cf2 .ar(0, \
+		\cf3 // Pulse.ar(freq, width, mul, add)\cf2 \
+		\cf4 Pulse\cf2 .ar(freq, [\cf4 MouseX\cf2 .kr(0,1),\cf4 MouseY\cf2 .kr(0,1)], amp))\
+\}).play;\
+s.scope(2);	\
+)\
+\
+( \cf3 // Blip.ar(kfreq, knumharmonics, mul, add) -- Band Limited ImPulse generator. All harmonics have equal amplitude.\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "test-Blip"\cf2 ,\{ \cf4 arg\cf2  freq=200, amp=0.1;\
+	\cf4 Out\cf2 .ar(0, \
+		\cf4 Blip\cf2 .ar(freq, [\cf4 MouseX\cf2 .kr(1,100),\cf4 MouseY\cf2 .kr(1,100)], amp))\
+\}).play;\
+s.scope(2);\
+)\
+\
+\cf3 //	ENVELOPES\cf2 \
+\cf3 /*	Env.new(levels, times, curves, releaseNode, loopNode)\
+
+\f1\b 	levels
+\f0\b0  - an array of levels. The first level is the initial value of the envelope.\
+	
+\f1\b times
+\f0\b0  - an array of durations of segments in seconds. There should be\
+	one fewer duration than there are levels.\
+	
+\f1\b curve
+\f0\b0  - this parameter determines the shape of the envelope segments.\
+	
+\f1\b releaseNode
+\f0\b0  - an Integer or nil. If not nil, the envelope will sustain at the releaseNode until released.\
+	
+\f1\b loopNode
+\f0\b0  - an Integer or nil. If not nil the sustain portion will loop from the releaseNode to the loop node.\
+*/\cf2 \
+\cf4 Env\cf2 .new([0.25,0.5,0.0],[1.0,0.5],\cf5 'linear'\cf2 ,\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;  \cf3 // plot in a GUI window\cf2 \
+\cf3 // levels of an 'exponential' Env must all be non-zero!!\cf2 \
+\cf4 Env\cf2 .new([0.25,0.5,0.1],[1.0,0.5],\cf5 'exponential'\cf2 ,\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;\
+\cf3 // sinusoidal curve\cf2 \
+\cf4 Env\cf2 .new([0.25,0.5,0.0],[1.0,0.5],\cf5 'sine'\cf2 ,\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;\
+\cf3 // the slope of curves can be specified by numbers\cf2 \
+\cf4 Env\cf2 .new([0.25,0.5,0.0],[1.0,0.5],[4,1],\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;\
+\cf4 Env\cf2 .new([0.25,0.5,0.0],[1.0,0.5],[4,-1],\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;\
+\cf4 Env\cf2 .new([0.25,0.5,0.0],[1.0,0.5],[-4,1],\cf4 nil\cf2 ,\cf4 nil\cf2 ).plot;\
+\
+\cf3 /* ENVELOPE GENERATOR: EnvGen\
+EnvGen.ar(envelope, gate, levelScale, levelBias, timeScale, doneAction)\
+
+\f1\b doneAction
+\f0\b0  -\
+	 the doneAction arg allows you to make the EnvGen end the \
+	 Synth it is part of.  The most common doneActions are:\
+	doneAction = 0   do nothing when the envelope has ended.\
+ 	doneAction = 1   pause the synth running, it is still resident.\
+ 	doneAction = 2   remove the synth and deallocate it.\
+*/\cf2 \
+\
+\cf3 // make an envelope and use it in an EnvGen that multiplies the output of a SinOsc,  controlling its amplitude\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 \\envTest\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env; \
+	env = \cf4 Env\cf2 .new([0.0,0.5,0.0],[1.0,0.5],\cf5 'linear'\cf2 ,\cf4 nil\cf2 ,\cf4 nil\cf2 );\
+	\cf4 Out\cf2 .ar(out,\
+		\cf4 SinOsc\cf2 .ar(800,0,\
+		\cf3 // note "keyword" style of supplying the doneAction arg --  args can be specified in any order, identified by 'name:'\cf2 \
+			\cf4 EnvGen\cf2 .kr(env, doneAction: 2)))   \cf3 // env controls amplitude\cf2 \
+\}).play;\
+)\
+\
+\
+(\cf3 // two envelopes, one for amplitude, one for frequency\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "twoEnvs"\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  ampEnv, freqEnv, sig;\
+	ampEnv = \cf4 Env\cf2 .new([0.0,0.5,0.0],[1.0,0.5],\cf5 'linear'\cf2 );\
+	\cf3 // try changing the curves of freqEnv\cf2 \
+	freqEnv = \cf4 Env\cf2 .new([200,600,400],[1.0,0.5],[4,1]);\
+	sig = \cf4 SinOsc\cf2 .ar(\cf4 EnvGen\cf2 .kr(freqEnv),\
+						0,\cf4 EnvGen\cf2 .kr(ampEnv, doneAction: 2));\
+	\cf4 Out\cf2 .ar(out,sig)\
+\}).play\
+)\
+\
+\cf3 // two voices, each with both amplitude and frequency\cf2 \
+\cf3 //		 envelopes - the envelopes are stored in arrays\cf2 \
+\cf3 // this is a model for the instrument in the assignment\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf6 "duet"\cf2 ,\{ \cf4 arg\cf2  out;\
+	\cf4 var\cf2  ampEnvelopes, freqEnvelopes;\
+	ampEnvelopes = \
+		[\
+			\cf4 Env\cf2 .new([0.0,0.5,0.0],[1.0,0.5],\cf5 'linear'\cf2 ),\
+			\cf4 Env\cf2 .new([0.0,0.5,0.0],[0.5,1.0],\cf5 'linear'\cf2 )\
+		];\
+	freqEnvelopes = \
+		[\
+			\cf4 Env\cf2 .new([200,600,400],[1.0,0.5],[4,1]),\
+			\cf4 Env\cf2 .new([300,602,200],[1.0,0.5],[4,1])\
+		];\
+	\cf4 Out\cf2 .ar(out,\
+		\cf4 SinOsc\cf2 .ar(\cf4 EnvGen\cf2 .kr(freqEnvelopes.at(0)),\
+				0,\cf4 EnvGen\cf2 .kr(ampEnvelopes.at(0),doneAction: 2))\
+		+				\cf3 // mixing the two oscillators\cf2 \
+  		\cf4 SinOsc\cf2 .ar(\cf4 EnvGen\cf2 .kr(freqEnvelopes.at(1)),\
+  				0,\cf4 EnvGen\cf2 .kr(ampEnvelopes.at(1),doneAction: 2)))\
+ \}).play\
+)\
+\
+( \cf3 // same, but stereo, instead of mixed  -- \cf2 \
+\cf4 SynthDef\cf2 (\cf6 "duet"\cf2 ,\{ \cf4 arg\cf2  out;\
+	\cf4 var\cf2  ampEnvelopes, freqEnvelopes;\
+	ampEnvelopes = \
+		[\
+			\cf4 Env\cf2 .new([0.0,0.5,0.0],[1.0,0.5],\cf5 'linear'\cf2 ),\
+			\cf4 Env\cf2 .new([0.0,0.5,0.0],[0.5,1.0],\cf5 'linear'\cf2 )\
+		];\
+	freqEnvelopes = \
+		[\
+			\cf4 Env\cf2 .new([200,600,400],[1.0,0.5],[4,1]),\
+			\cf4 Env\cf2 .new([300,602,200],[1.0,0.5],[4,1])\
+		];\
+	\cf4 Out\cf2 .ar(out,\
+		\cf3 // two oscillators in an Array\cf2 \
+		[ \cf4 SinOsc\cf2 .ar(\cf4 EnvGen\cf2 .kr(freqEnvelopes.at(0)),0,\
+			\cf4 EnvGen\cf2 .kr(ampEnvelopes.at(0), doneAction: 2)),\
+		 \cf4 SinOsc\cf2 .ar(\cf4 EnvGen\cf2 .kr(freqEnvelopes.at(1)),0,\
+			\cf4 EnvGen\cf2 .kr(ampEnvelopes.at(1), doneAction: 2))]\
+  		)\
+ \}).play\
+)\
+\
+(\cf3 // other convenient envelope creation methods \cf2 \
+\cf4 SynthDef\cf2 (\cf6 "envTests"\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env;\
+	\cf3 //	*perc(attackTime, releaseTime, peakLevel, curve)\cf2 \
+	\cf3 //	env = Env.perc(0.0,0.35,0.5,-1);\cf2 \
+	\cf3 //	*triangle(duration, level)\cf2 \
+	\cf3 //	env = Env.triangle(1.0,0.8);\cf2 \
+	\cf3 //	*linen(attackTime, sustainTime, releaseTime, sustainLevel)\cf2 \
+		env = \cf4 Env\cf2 .linen(0.1,2.5,0.5,0.8);\
+	\cf4 Out\cf2 .ar(out,\
+		\cf4 SinOsc\cf2 .ar(500,0,\cf4 EnvGen\cf2 .kr(env,doneAction: 2)))\
+\}).play\
+)\
+\
+\cf3 /* the Env methods 'adsr' and 'asr' create envelopes with\
+ sustain segments,which stay at the sustain level \
+	until explicitly released by the Synth that plays it:\
+	\
+	*adsr(attackTime, decayTime, sustainLevel,  \
+							releaseTime, peakLevel, curve)\
+	*asr(attackTime, sustainLevel,  releaseTime, peakLevel, curve)\
+	\
+	to control the release, the Synth must have an arg called 'gate'\
+	which is open (value=1) when the Synth starts */\cf2 \
+(	\
+a = \cf4 SynthDef\cf2 (\cf6 "susEnvTests"\cf2 ,\{ \cf4 arg\cf2  out=0, gate=1;\
+	\cf4 var\cf2  env;\
+	env = \cf4 Env\cf2 .adsr(0.1, 0.2, 0.25, 0.8, 1, -4);\
+	\cf4 Out\cf2 .ar(out,\
+		\cf3 // the 'gate' arg controls the EnvGen release \cf2 \
+		\cf4 SinOsc\cf2 .ar(500,0,\cf4 EnvGen\cf2 .kr(env,gate,doneAction: 2)))\
+\}).play;\
+)\
+\cf3 // the method 'release' will set the 'gate' arg to 0, initiating the\cf2 \
+\cf3 // release time segment\cf2 \
+a.release;\
+\
+\cf3 //	EnvGen's 'gate' can be modulated to retrigger an Env\cf2 \
+(	\cf3 // create a repeating note, \cf2 \
+\cf3 //	using a pulse wave to gate and release EnvGen\cf2 \
+a = \cf4 SynthDef\cf2 (\cf6 "repTest"\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env, sig, speed, gate;  \cf3 // this 'gate' is a variable, so it can't be used to free the Synth\cf2 \
+	\cf3 // 
+\f3\fs24 *
+\f2\b adsr(attackTime, decayTime, sustainLevel,  releaseTime, peakLevel, curve)
+\f0\b0\fs36 \cf2 \
+	env = \cf4 Env\cf2 .adsr(0.05, 0.2, 0.25, 0.25, 1, -4);\
+	\cf3 // MouseX-position controls gate speed\cf2 \
+	\cf3 // 
+\f2\b\fs24 LFPulse.ar(freq, iphase,width, mul, add)
+\f0\b0\fs36 \cf2 \
+	gate = \cf4 LFPulse\cf2 .ar(\cf4 MouseX\cf2 .kr(0.2, 10, \cf5 'exponential'\cf2 ),0, \
+	\cf3 // MouseY controls pulse-width of gate\cf2 \
+		\cf4 MouseY\cf2 .kr(0.01,0.99));	\cf3 //  \cf2 \
+	sig = \cf4 SinOsc\cf2 .ar(300, 0, \cf4 EnvGen\cf2 .kr(env,gate));\
+	\cf4 Out\cf2 .ar(out,sig)\
+\}).play;\
+)\
+a.free;\
+\cf3 // now, add use of levelScale and timeScale args to change the \cf2 \
+\cf3 // loudness and time of the same envelope as it plays\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf6 "repTest"\cf2 ,\{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env, gate, sig, speed;\
+	env = \cf4 Env\cf2 .adsr(0.05, 0.2, 0.25, 0.25, 1, -4);\
+	\cf3 // MouseX-position controls gate speed\cf2 \
+	speed = \cf4 MouseX\cf2 .kr(0.2, 20, \cf5 'exponential'\cf2 );\
+	gate = \cf4 LFPulse\cf2 .kr(speed,0,0.5);\
+	sig = \cf4 SinOsc\cf2 .ar(300, 0, \
+		\cf4 EnvGen\cf2 .kr(env,gate, \
+				levelScale: \cf4 MouseY\cf2 .kr(0,1),\
+				timeScale: speed.reciprocal));\
+	\cf4 Out\cf2 .ar(out,sig)\
+\}).play;\
+)\
+\
+\cf3 // SC Noise Generators: WhiteNoise, PinkNoise, BrownNoise, Dust, Crackle\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f4\fs18 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf2 ( \cf3 // WhiteNoise = equal power noise at all frequencies; PinkNoise  = noise spectrum drops 3 dB per octave; BrownNoise = 6 dB per octave drop; try substituting these in the instrument below\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "help-WhiteNoise"\cf2 , \{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env, gate, speed;\
+	\cf4 Out\cf2 .ar(out, \
+		env = \cf4 Env\cf2 .adsr(0.05, 0.2, 0.25, 0.25, 1, -4);\
+		speed = \cf4 MouseX\cf2 .kr(0.1,20,\cf5 'exponential'\cf2 );\
+		gate = \cf4 LFPulse\cf2 .kr(speed,0,\cf4 MouseY\cf2 .kr(0,1),0.25);\
+		\cf4 WhiteNoise\cf2 .ar(\cf4 EnvGen\cf2 .kr(env,gate, \
+				timeScale: speed.reciprocal))\
+	)\
+\}).play;\
+s.scope(2)\
+)\
+\
+( \cf3 // Impulse is good for triggering things -- it generates a single positive sample per freq cycle \cf2 \
+\cf4 SynthDef\cf2 (\cf6 "help-WhiteNoise"\cf2 , \{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env, gate, speed;\
+	\cf4 Out\cf2 .ar(out, \
+		env = \cf4 Env\cf2 .adsr(0.05, 0.2, 0.25, 0.25, 1, -4);\
+		speed = \cf4 MouseX\cf2 .kr(0.1,20,\cf5 'exponential'\cf2 );\
+		\cf3 // 
+\f2\b\fs24 Impulse.ar(freq, phase, mul, add)
+\f0\b0\fs36 \cf2 \
+		gate = \cf4 Impulse\cf2 .kr(speed);\
+		\cf4 WhiteNoise\cf2 .ar(\cf4 EnvGen\cf2 .kr(env,gate, \
+				levelScale: \cf4 MouseY\cf2 .kr(0,1),	\cf3 // controls amplitude of output level\cf2 \
+				timeScale: speed.reciprocal))\
+	)\
+\}).play;\
+s.scope(2)\
+)\
+\
+( \cf3 // Dust is a random impulse generator, MouseX controls density of impulses\cf2 \
+\cf4 SynthDef\cf2 (\cf6 "geigerCtr"\cf2 , \{ \cf4 arg\cf2  out=0;\
+	\cf4 var\cf2  env, gate, density;\
+	\cf4 Out\cf2 .ar(out, \
+		env = \cf4 Env\cf2 .adsr(0.05, 0.1, 0.5, 0.5, 1, -4);\
+		density = \cf4 MouseX\cf2 .kr(0.1,20,\cf5 'exponential'\cf2 );\
+		\cf3 // 
+\f2\b\fs24 Dust.ar(density, mul, add)\cf2 \
+		
+\f0\b0\fs36 gate = \cf4 Dust\cf2 .kr(density);\
+		\cf4 WhiteNoise\cf2 .ar(\cf4 EnvGen\cf2 .kr(env,gate,\
+		 		\cf0 levelScale: \cf7 MouseY\cf0 .kr(0,1),	\cf2 \
+				timeScale: density.reciprocal))\
+	)\
+\}).play;\
+s.scope(2)\
+)\
+\
+( \cf3 // Crackle -- look at its helpfile yourself!! )\cf2 \
+}

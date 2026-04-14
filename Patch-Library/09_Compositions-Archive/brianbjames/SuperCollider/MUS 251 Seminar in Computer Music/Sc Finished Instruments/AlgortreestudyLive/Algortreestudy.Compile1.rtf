@@ -1,0 +1,1313 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fnil\fcharset77 Monaco;\f2\fswiss\fcharset77 ArialMT;
+\f3\fswiss\fcharset77 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red96\green96\blue96;\red0\green0\blue191;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs56 \cf2 //SC Final Project, by brian b. james
+\f1\fs72 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 \
+//compile first\
+\cf0 s.boot\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f2\fs26 \cf0 s.recSampleFormat = \cf3 "int16"\cf0 ;
+\f1\fs18 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs32 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs96 \cf0 (
+\f2\fs18 \cf2 //from garton's program hi there!\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 var\cf0  s, w, ww, www, b, c, nchans, nframes, buf, \
+	buftext, bufenter, soundbutt, soundtext, \
+	gotext, gobutt, samplertext, \
+	rateslide, ratetext, ratelo, ratehi,	\
+	durslide, durtext, durlo, durhi,		\
+	pchslide, pchtext, pchlo, pchhi,	\
+	posslide, postext, poslo, poshi,		\
+	locslide, loctext, loclo, lochi, locspread,\
+	speedslide, speedtext, speed,\
+	cloudFunc11, cloudBtn11, freqSlider11, \
+	freqSldText11, raintext, cloudFunc11b, \
+	cloudBtn11b, freqSlider11b, freqSldText11b, \
+	raintext11, bb, cb, nchansb, nframesb, bufb, \
+	buftextb, bufenterb, soundbuttb, 	soundtextb, \
+	gotextb, gobuttb, rateslideb, ratetextb, ratelob, \
+	ratehib, durslideb, durtextb, durlob, durhib, \
+	pchslideb, pchtextb, pchlob, pchhib, posslideb, \
+	postextb, poslob, poshib, locslideb, loctextb, \
+	loclob, lochib, locspreadb, speedslideb, \
+	speedtextb, speedb, samplertextb, seldontext, \
+	
+\f0 startButton, carFreqControl, carAmpControl, \
+	index1Control,index2Control, cmRatio1Control, \
+	cmRatio2Control, keyTrgFunc, cmdPeriodFunc,\
+	synth, startButtonb, noteControl, cutoffControl, \
+	resonControl, balanceControl, ampControl, id, cmdPeriodFuncb
+\fs20 , \
+	
+\fs18 run = true, h = 800, v = 600, seed = Date.seed, phase = 0, zoom = 0.7, zoomf = 1
+\fs20 ;
+\f2\fs18 \
+\
+s = \cf4 Server\cf0 .local;\
+if (s.serverRunning == \cf4 false\cf0 , \{ s.boot; \});\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs22 \cf0 id = s.nextNodeID; \cf2 // generate a note id.
+\f2\fs18 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //from garton's program hi there!\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 SynthDef\cf0 (\cf3 "plbuf1"\cf0 , \{ \cf4 arg\cf0  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0;\
+	\cf4 var\cf0  out, e, amp, c1, c2;\
+	e = \cf4 Env\cf0 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf4 EnvGen\cf0 .ar(e, doneAction: 2);\
+	out = \cf4 PlayBuf\cf0 .ar(1, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out*amp*pos;\
+	c2 = out*amp*(1.0-pos);\
+	\cf4 Out\cf0 .ar(0, [c1, c2]);\
+	\}).load(s);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //from garton's program hi there!\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 SynthDef\cf0 (\cf3 "plbuf2"\cf0 , \{ \cf4 arg\cf0  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0;\
+	\cf4 var\cf0  out, e, amp, c1, c2;\
+	e = \cf4 Env\cf0 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf4 EnvGen\cf0 .ar(e, doneAction: 2);\
+	out = \cf4 PlayBuf\cf0 .ar(2, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out.at(0)*amp*pos;\
+	c2 = out.at(1)*amp*(1.0-pos);\
+	\cf4 Out\cf0 .ar(0, [c1, c2]);\
+	\}).load(s);\
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf2 //SynthDef for mmfmCascade
+\fs8 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs18 \cf4 SynthDef\cf0 (\cf5 \\mmfmCascade\cf0 ,\{ \cf4 arg\cf0  carFreq=440, carAmp=0.2, cmRatio1=1, cmRatio2=1,index1=0.5, index2=0.1;\
+	\cf4 var\cf0  mod1Freq, mod2Freq;\
+	mod1Freq = cmRatio1*carFreq;  \
+	mod2Freq = cmRatio2*mod1Freq;\
+	\cf4 Out\cf0 .ar([0,1],\cf4 SinOsc\cf0 .ar(\
+		\cf4 SinOsc\cf0 .ar(\
+			\cf4 SinOsc\cf0 .ar(\
+				mod2Freq,0,\
+				mod2Freq*index2,		\cf2 // mul\cf0 \
+				mod1Freq				\cf2 // add\cf0 \
+			),\
+			0, \
+			mod1Freq*index1, 			\cf2 // mul\cf0 \
+			carFreq),				\cf2 // add\cf0 \
+		0, carAmp\
+	))\
+\}).store;
+\fs28 \
+\
+
+\fs18 \cf2 //SynthDef for window-test\cf0 \
+\cf4 SynthDef\cf0 (\cf3 "window-test"\cf0 , \{ \cf4 arg\cf0  note = 36, fc = 1000, rq = 0.25, bal=0, amp=0.2, gate = 1;\
+		\cf4 var\cf0  x;\
+		x = \cf4 Mix\cf0 .fill(4, \{ \
+			\cf4 LFSaw\cf0 .ar((note + \{0.1.rand2\}.dup).midicps, 0, 0.02) \
+		\});\
+		x = \cf4 RLPF\cf0 .ar(x, fc, rq).softclip;\
+		x = \cf4 RLPF\cf0 .ar(x, fc, rq, amp).softclip;\
+		x = \cf4 Balance2\cf0 .ar(x[0], x[1], bal);\
+		x = x * \cf4 EnvGen\cf0 .kr(\cf4 Env\cf0 .cutoff, gate, doneAction: 2);\
+		\cf4 Out\cf0 .ar(0, x);\
+	\}, [0.1, 0.1, 0.1, 0.1, 0.1, 0]\
+).load(s);
+\f2 \
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs22 \cf2 //seldon code
+\fs2 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f1\fs20 \cf4 SynthDef\cf0 (\cf3 "seldonmeter"\cf0 , \{ \cf4 arg\cf0  out=0, in=1, gain=1.0, t_reset;\
+	\cf4 var\cf0  inSig, ampSig, peak, max, min, ceil, floor, rms;\
+	\cf2 //inSig = AudioIn.ar(in);\cf0 \
+	inSig = \cf4 In\cf0 .ar(in, 1);\
+	rms = \cf4 A2K\cf0 .kr(\cf4 RunningSum\cf0 .rms(inSig*gain));\
+	ampSig = \cf4 Amplitude\cf0 .kr(inSig);\
+	peak = \cf4 PeakFollower\cf0 .kr(ampSig, 0.99);\
+	ceil = \cf4 RunningMax\cf0 .kr(ampSig, t_reset);\
+	floor = \cf4 RunningMin\cf0 .kr(peak, t_reset);\
+	\cf4 Out\cf0 .kr(out, [ampSig, peak, rms, ceil]);\
+\}).store;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs22 \cf2 //seldon code 2
+\f1\fs20 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf2 /* BandPass -- This is a simple effect modeled after GRM's BandPass VST\
+	The cool treat about the GUI is that there's 4 memory slots at the bottom; once you\
+	set the slider on the memory location click the button next to it and the bandpass will\
+	glide to the new settings according to your lagTime.\
+	Just be sure to run the function ~lsBandPass AFTER whatever it is you want to process.\
+	\
+	Hope you like it! ~luke\
+	\
+	Synthdef -\
+ 	takes an input and does a high and lo cut of the signal.\
+	rq = resonance, lagTime = speed of change of controls\
+*/\cf0 \
+\cf4 SynthDef\cf0 (\cf3 "BandPass"\cf0 , \{ \cf4 arg\cf0  out=0, in=0, lo=20, hi=20000, rq=0.707, lagTime=5.0;\
+	\cf2 // replace out...you could probably change this to XOut to do a wet/dry signal\cf0 \
+	\cf4 ReplaceOut\cf0 .ar(out,\
+		\cf4 RLPF\cf0 .ar(\cf4 RHPF\cf0 .ar( \cf4 In\cf0 .ar(in, 2), \cf4 Lag\cf0 .kr(lo, lagTime), rq), \cf4 Lag\cf0 .kr(hi, lagTime), rq)\
+		);\
+	\}).send(s);
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f2\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 	\
+\cf2 //from garton's program hi there! b\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 SynthDef\cf0 (\cf3 "plbuf1b"\cf0 , \{ \cf4 arg\cf0  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0;\
+	\cf4 var\cf0  out, e, amp, c1, c2;\
+	e = \cf4 Env\cf0 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf4 EnvGen\cf0 .ar(e, doneAction: 2);\
+	out = \cf4 PlayBuf\cf0 .ar(1, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out*amp*pos;\
+	c2 = out*amp*(1.0-pos);\
+	\cf4 Out\cf0 .ar(0, [c1, c2]);\
+	\}).load(s);
+\fs32 \
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf2 //from garton's program hi there! b
+\fs32 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf4 SynthDef\cf0 (\cf3 "plbuf2b"\cf0 , \{ \cf4 arg\cf0  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0;\
+	\cf4 var\cf0  out, e, amp, c1, c2;\
+	e = \cf4 Env\cf0 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf4 EnvGen\cf0 .ar(e, doneAction: 2);\
+	out = \cf4 PlayBuf\cf0 .ar(2, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out.at(0)*amp*pos;\
+	c2 = out.at(1)*amp*(1.0-pos);\
+	\cf4 Out\cf0 .ar(0, [c1, c2]);\
+	\}).load(s);\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //from garton's program hi there!\cf0 \
+\cf2 //	preset the hi and lo limits on random generation of parameters\cf0 \
+ratelo = 0.2;\
+ratehi = 0.21;\
+durlo = 0.04;\
+durhi = 0.06;\
+pchlo = 1.0;\
+pchhi = 1.0;\
+poslo = 0.5;\
+poshi = 0.5;\
+loclo = 0.1;\
+lochi = 0.2;\
+locspread = 0.1;\
+speed = 0.005;\
+buf = 0;\
+\cf2 //from garton's program hi there! b
+\fs32 \cf0 \
+
+\fs18 ratelob = 0.2;\
+ratehib = 0.21;\
+durlob = 0.04;\
+durhib = 0.06;\
+pchlob = 1.0;\
+pchhib = 1.0;\
+poslob = 0.5;\
+poshib = 0.5;\
+loclob = 0.1;\
+lochib = 0.2;\
+locspreadb = 0.1;\
+speedb = 0.005;\
+bufb = 0;
+\fs32 \
+
+\fs18 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf2 //raincloud instrument
+\fs28 \cf0 \
+
+\fs20 cloudFunc11 = \{ \
+	\cf4 var\cf0  cloudDuration=
+\fs42 10
+\fs20 , startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.00005,hidur=0.03,loamp=0.001,hiamp=0.1;\
+	startTime = \cf4 thisThread\cf0 .seconds;	\
+	density = rrand(0.0001,16);\
+	lofreq = [40,20000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider11.lo);\
+	hifreq =  [40,20000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider11.hi); \
+	while(\{ \cf4 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = 0.02;\
+		\cf4 Synth\cf0 (\cf3 "granSin"\cf0 ,[		\
+			\cf3 "freq"\cf0 ,freq,\
+			\cf3 "dur"\cf0 , dur,\cf3 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs18 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //dronecloud instrument\cf0 \
+cloudFunc11b = \{ \
+	\cf4 var\cf0  cloudDuration=
+\fs40 10
+\fs18 , startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=5.0,loamp=0.001,hiamp=0.01;\
+	startTime = \cf4 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);\
+	lofreq = [40,20000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider11b.lo);\
+	hifreq =  [40,20000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider11b.hi); \
+	while(\{ \cf4 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf4 Synth\cf0 (\cf3 "granSin"\cf0 ,[		\
+			\cf3 "freq"\cf0 ,freq,\
+			\cf3 "dur"\cf0 , dur,\cf3 "amp"\cf0 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs32 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs100 \cf2 //wGUI
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f3\b\fs22 \cf2 //new(inLeft, inTop, inWidth, inHeight)
+\f2\b0\fs30 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs40 \cf0 w = \cf4 SCWindow\cf0 (\cf3 "instrument"\cf0 , \cf4 Rect\cf0 (100, 1000, 590, 550));
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs22 \cf0 w.front;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f1\fs18 \cf0 w.view.background = \cf4 Gradient\cf0 (\cf4 Color\cf0 .new255(173, 216, 230),\cf4 Color\cf0 .new255(248, 248, 255),\cf5 \\v\cf0 );\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 w.drawHook = \{\
+	\cf2 // set the Color\cf0 \
+	\cf4 Pen\cf0 .translate(200, 200);\
+	10.do\{\
+		Pen.width = 0.02.rand;\
+		\cf4 Color\cf0 .grey(rrand(0.8, 1), rrand(0.0, 0.5)).setStroke;\
+		\cf4 Color\cf0 .grey(rrand(0.85, 1), rrand(0.0, 0.5)).setFill;\
+		\cf4 Pen\cf0 .addAnnularWedge(\
+			0@0,\
+			rrand(10, 500), \
+			rrand(51, 1000), 	\
+			2pi.rand, \
+			2pi.rand\
+		);\
+		\cf4 Pen\cf0 .perform([\cf5 \\stroke\cf0 , \cf5 \\fill\cf0 ].choose);\
+	\}\
+\};\
+w.refresh;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs26 \cf2 //seldon code
+\f1\fs36 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs20 \cf2 /* This is a helper function, it creates the individual channel strips' \
+	GUI, analysis node on the server, and update routine.\
+	chanNumber: this strip's number.\
+	meterWind: parent window to draw to\
+	inBus: input bus index.\
+	meterGroup: group on which to put the analysis synth node */\cf0 \
+~makeMeter = \{ \cf4 arg\cf0  chanNumber=0, meterWind, inBus, meterGroup;\
+	\cf4 var\cf0  stripView, peakBox, rmsBox, rSlider, sSlider, pSlider, clipWarn,\
+				stripBus, stripBtn, inst, proc, refreshRate=0.1,\
+				hx=10, hw=40, mx=40, mw=170, nx=330, nw=70, yOffset, chanHeight=40;\
+		\cf2 // how far down to begin drawing this on the window\cf0 \
+	yOffset = (chanNumber*chanHeight)+460;\
+		\cf2 // Control bus for analysis data (on default server)\cf0 \
+	stripBus = \cf4 Bus\cf0 .control(numChannels: 4);\
+		\cf2 // analysis synth node.  writes to control bus. \cf0 \
+	inst = \cf4 Synth\cf0 (\cf3 "seldonmeter"\cf0 , [\cf5 \\out\cf0 , stripBus.index, \cf5 \\in\cf0 , inBus, \cf5 \\gain\cf0 , 1], meterGroup);
+\fs22 \
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf0 		\cf2 // this channel strip's background\cf0 \
+	stripView = \cf4 SCCompositeView\cf0 (meterWind, \cf4 Rect\cf0 (hx, yOffset, hw+mw+nw, chanHeight))\
+			.background_(\cf4 Color\cf0 .grey(0.0, 0.0, 0.0, 1.0));\
+		\cf2 // Button that shows channel number.  If you click on it it pauses the synth node\cf0 \
+	stripBtn = \cf4 SCButton\cf0 (stripView, \cf4 Rect\cf0 (10, 5+yOffset, 30, 30))\
+		.font_(\cf4 Font\cf0 (\cf3 "Arial"\cf0 , 12))\
+		.states_([ [(chanNumber+1).asString, \cf4 Color\cf0 .black, \cf4 Color\cf0 .gray(0.8)],\
+					[\cf3 "||"\cf0 , \cf4 Color\cf0 .gray(0.8), \cf4 Color\cf0 .gray(0.2)] ])\
+		.action_(\{ \cf4 |me|\cf0  inst.run(me.value==0);\});\
+	\
+	pSlider = \cf4 SCMultiSliderView\cf0 (stripView, \cf4 Rect\cf0 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf5 \\false\cf0 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf5 \\true\cf0 )\
+		.isFilled_(\cf4 false\cf0 )\
+		.thumbSize_(30).index_(0)\
+		.strokeColor_(\cf4 Color\cf0 .blue)\
+		.fillColor_(\cf4 Color\cf0 .clear)\
+		.background_(\cf4 Color\cf0 .clear);\
+		\cf2 // Signal monitor.  This shows the current signal.  Change the color if you want\cf0 \
+	sSlider = \cf4 SCMultiSliderView\cf0 (stripView, \cf4 Rect\cf0 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf5 \\false\cf0 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf5 \\true\cf0 )\
+		.isFilled_(\cf4 true\cf0 )\
+		.index_(0)\
+		.fillColor_(\cf4 Color\cf0 .new(1.0, 0.0, 0.0, 0.75))\
+		.strokeColor_(\cf4 Color\cf0 .red)\
+		.background_(\cf4 Color\cf0 .clear)\
+		.thumbSize_(30);\
+		\cf2 // Peak Range.  This shows the max peak amount\cf0 \
+	rSlider = \cf4 SCRangeSlider\cf0 (stripView, \cf4 Rect\cf0 (mx, 5+yOffset, mw-5, 30))\
+		.knobColor_(\cf4 Color\cf0 .new(0.4, 0.2, 0.0, 0.7)).canFocus_(\cf5 \\false\cf0 );\
+	\
+	\cf4 SCStaticText\cf0 (stripView, \cf4 Rect\cf0 (nx-110, 3+yOffset, 25, 15))\
+		.string_(\cf3 "peak"\cf0 ).font_(\cf4 Font\cf0 (\cf3 "Arial"\cf0 , 10)).stringColor_(\cf4 Color\cf0 .blue);	\
+		\cf2 // This box displays the peak value.  If you click it it resets.\cf0 \
+	peakBox = \cf4 SCNumberBox\cf0 (stripView, \cf4 Rect\cf0 (nx+25-110, 3+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf5 \\t_reset\cf0 , 1);  \});\
+	\
+	\cf4 SCStaticText\cf0 (stripView, \cf4 Rect\cf0 (nx-110, 21+yOffset, 25, 15))\
+		.string_(\cf3 "rms"\cf0 ).font_(\cf4 Font\cf0 (\cf3 "Arial"\cf0 , 10)).stringColor_(\cf4 Color\cf0 .blue);	\
+		\cf2 // This box displays the running RMS value.\cf0 \
+	rmsBox = \cf4 SCNumberBox\cf0 (stripView, \cf4 Rect\cf0 (nx+25-110, 21+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf5 \\t_reset\cf0 , 1);  \});\
+		\
+		\cf2 // This is the client-side update process.  it loops at the speed specified by\cf0 \
+		\cf2 // refreshRate (default 0.1) and polls the strip's control bus for the analysis info, then\cf0 \
+		\cf2 // sets the gui values.  note that it uses .defer because it's all gui stuff\cf0 \
+	proc = \cf4 Routine\cf0 (\{\
+		\cf4 var\cf0  sig=0, peak=0, ceil=0, min=0;\
+		loop(\{\
+			stripBus.getn(4, \{\cf4 |vals|\cf0  sig=vals[0]; peak=vals[1]; min=vals[2]; ceil=vals[3];\});\
+			\{\
+			peakBox.value_(\cf5 \\db\cf0 .asSpec.map(ceil).round);\
+			rmsBox.value_(\cf5 \\db\cf0 .asSpec.map(min).round(0.1));\
+			pSlider.currentvalue_(\cf5 \\amp\cf0 .asSpec.unmap(peak));\
+			sSlider.currentvalue_(\cf5 \\amp\cf0 .asSpec.unmap(sig));\
+			rSlider.hi_(\cf5 \\amp\cf0 .asSpec.unmap(0));\
+			rSlider.lo_(\cf5 \\amp\cf0 .asSpec.unmap(ceil));\
+			\}.defer;\
+			refreshRate.wait;\
+		\});\
+	\});\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 /* this is the main function - it creates a window and makes each channel strip\
+	numChannels: number of channels to monitor, starting at...\
+	inBus: bus to start reading from.  Audio In bus defaults to 8 for me.\
+	target: the Synth Nodes are inserted after this object in the server order.  \
+	        if not supplied, this defaults to adding on the last node of the server */\cf0 \
+~lsMeters = \{ \cf4 arg\cf0  numChannels=1, inBus=8, target=\cf4 Server\cf0 .default;\
+	\cf4 var\cf0  meterWind, stripBus, channels, meterGroup, stripHeight=40;\
+		\cf2 // make the window, height determined by number of channels, non-resizeable\cf0 \
+	meterWind = \cf4 w\cf0 ;\
+		\cf2 // when closed stop all processes and free all nodes\cf0 \
+	meterWind.onClose_(\{channels.do(\{\cf4 |item|\cf0  item.stop\}); meterGroup.free;\});\
+	meterWind.front;\
+		\cf2 // put all Synth nodes in here\cf0 \
+	meterGroup = \cf4 Group\cf0 .new(\cf4 Server\cf0 .default, \cf5 \\addAfter\cf0 );\
+		\cf2 // create the individual channel strips,  ~makeMeter returns the update process\cf0 \
+	channels = \cf4 Array\cf0 .fill(numChannels, \{\cf4 |i|\cf0  ~makeMeter.value(i, meterWind, inBus+i, meterGroup);\});\
+		\cf2 // start updating the displays\cf0 \
+	channels.do(\{\cf4 |i|\cf0  i.play;\});\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs54 \cf2 //wwGUI
+\fs18 \cf0 \
+ww = \cf4 SCWindow\cf0 (\cf3 "cascadeFM"\cf0 , \cf4 Rect\cf0 (700, 670, 440, 205));\
+\
+		ww.view.background_(\cf4 Color\cf0 .grey);\
+		ww.drawHook = \{\
+			\cf2 // set the Color\cf0 \
+			\cf4 Pen\cf0 .translate(100, 100);\
+			10.do\{\
+				\cf4 Color\cf0 .red(rrand(0.08, 0.1), rrand(0.07, 0.2)).set;\
+				\cf4 Pen\cf0 .addArc((10.rand)@(100.rand), rrand(10, 40), 2pi.rand, pi);\
+				\cf4 Pen\cf0 .perform([\cf5 \\stroke\cf0 , \cf5 \\fill\cf0 ].choose);\
+			\}\
+		\};\
+		ww.refresh;\
+\
+ww.view.decorator = \cf4 FlowLayout\cf0 (w.view.bounds); \
+ww.front; 
+\fs34 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs22 \cf2 //GUI 
+\f2\fs26 for mmfmCascade
+\f1\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // add a button to start and stop the sound.\cf0 \
+startButton = \cf4 SCButton\cf0 (ww, 75 @ 24);	\cf2 // creates a Button in window 'ww' with width=75, height=24\cf0 \
+startButton.states = [			\cf2 // button changes state each time pressed\cf0 \
+	[\cf3 "Start"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .green],\
+	[\cf3 "Stop"\cf0 , \cf4 Color\cf0 .white, \cf4 Color\cf0 .red]\
+];\
+startButton.action = \{\cf4 |view|\cf0 		\cf2 // this is what pressing the button does\cf0 \
+		if (view.value == 1) \{		\cf2 // the value is equal to the state\cf0 \
+			\cf2 // start sound\cf0 \
+			synth = \cf4 Synth\cf0 (\cf5 \\mmfmCascade\cf0 ,[\cf3 "carFreq"\cf0 ,carFreqControl.value,\
+				\cf3 "carAmp"\cf0 ,carAmpControl.value,\cf3 "cmRatio1"\cf0 ,cmRatio1Control.value,\
+				\cf3 "cmRatio2"\cf0 ,cmRatio2Control.value,\cf3 "index1"\cf0 ,\
+				index1Control.value, \cf3 "index2"\cf0 ,index2Control.value]);\
+\
+		\};\
+		if (view.value == 0) \{\
+			synth.free\
+		\};\
+\};\
+\cf2 // create controls for all parameters\cf0 \
+ww.view.decorator.nextLine;	\cf2 // start sliders below the button\cf0 \
+\cf2 //	 EZSlider(window, dimensions, label, controlSpec, action, initVal, initAction, labelWidth, numberWidth)\cf0 \
+\
+carFreqControl = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "CarFreq"\cf0 , \cf4 Spec\cf0 .specs[\cf5 \\freq\cf0 ], \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "carFreq"\cf0 , ez.value) \}, 20);\
+ww.view.decorator.nextLine;\
+carAmpControl = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "CarAmp"\cf0 , \cf4 Spec\cf0 .specs[\cf5 \\amp\cf0 ], \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "carAmp"\cf0 , ez.value) \}, 0.0);\
+ww.view.decorator.nextLine;\
+cmRatio1Control = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "cmRatio1"\cf0 , \cf4 ControlSpec\cf0 (0.1,20,\cf5 \\lin\cf0 ,0.1,2), \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "cmRatio1"\cf0 , ez.value) \}, 2);\
+ww.view.decorator.nextLine;\
+cmRatio2Control = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "cmRatio2"\cf0 , \cf4 ControlSpec\cf0 (0.1,20,\cf5 \\lin\cf0 ,0.1,4), \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "cmRatio2"\cf0 , ez.value) \}, 4);\
+ww.view.decorator.nextLine;	\
+index1Control = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "index1"\cf0 , \cf4 ControlSpec\cf0 (0,20),  \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "index1"\cf0 , ez.value) \}, 2);\
+ww.view.decorator.nextLine;	\
+index2Control = \cf4 EZSlider\cf0 (ww, 400 @ 24, \cf3 "index2"\cf0 , \cf4 ControlSpec\cf0 (0,20),  \
+	\{\cf4 |ez|\cf0  synth.set(\cf3 "index2"\cf0 , ez.value) \}, 4);\
+ww.view.decorator.nextLine;\
+\
+\cf2 // set start button to zero upon a cmd-period\cf0 \
+cmdPeriodFunc = \{ startButton.value = 0; \
+	\cf4 Server\cf0 .freeAll;\
+	\cf4 MIDIIn\cf0 .disconnect\
+\};\
+\cf4 CmdPeriod\cf0 .add(cmdPeriodFunc); \cf2 // this function is executed in response to command-period.\cf0 \
+\
+\cf2 // stop the sound when window closes and remove cmdPeriodFunc.\cf0 \
+ww.onClose = \{\
+	synth.free;\
+	\cf4 CmdPeriod\cf0 .remove(cmdPeriodFunc);\
+\};\
+\
+\cf2 // now make a function that handles computer keyboard events\cf0 \
+keyTrgFunc = \{  \cf4 arg\cf0  view, key, modifiers, unicode;  	\cf2 //	" key = ".post; key.post; " mod = ".post; modifiers.post; \cf0 \
+	\cf2 //	" uni = ".post; unicode.postln;\cf0 \
+	if( startButton.value == 0,\{ startButton.valueAction_(1) \
+	\},\{ startButton.valueAction_(0) \});\
+\};\
+ww.view.keyDownAction_(keyTrgFunc);   \cf2 // this sets the keyDownAction vector\cf0 \
+\
+\cf2 // now program the MIDI system to turn on/off notes, and control faders with MIDI controllers\cf0 \
+\cf4 MIDIIn\cf0 .connect;	\cf2 //  initializes the MIDI vector system - see MIDIIn helpfile for explanations\cf0 \
+\
+ \cf2 // the function equated with MIDIIn.noteOn will be executed whenever a midinote is received -- the 'src' arg refers to which of multiple MIDI input ports the event occurred on\cf0 \
+\cf4 MIDIIn\cf0 .noteOn = \{\cf4 arg\cf0  src, chan, num, vel;\
+	\{ if(startButton.value == 0,\{ startButton.valueAction_(1) \}) \}.defer;	\cf2 // in response to a MIDI event you must 'defer' any function executed that changes graphics, which schedules it to be executed by the AppClock\cf0 \
+\};\
+\
+\cf4 MIDIIn\cf0 .noteOff = \{ \cf4 arg\cf0  src, chan, num, vel;  \cf2 // executes with every noteOff received\cf0 \
+	\{ if(startButton.value == 1,\{ startButton.valueAction_(0) \}) \}.defer;\
+\};\
+\
+\cf4 MIDIIn\cf0 .control = \{ \cf4 arg\cf0  src, chan, num, val;  \cf2 // this is the vector for controller events\cf0 \
+	switch(num,	\cf2 // 'switch' matches a value with an appropriate response\cf0 \
+		10,\{ \{carFreqControl.value_(carFreqControl.controlSpec.map(val/127))\}.defer \},\
+		11,\{ \{carAmpControl.value_(carAmpControl.controlSpec.map(val/127))\}.defer \},\
+		12,\{ \{cmRatio1Control.value_(cmRatio1Control.controlSpec.map(val/127))\}.defer \},\
+		13,\{ \{cmRatio2Control.value_(cmRatio2Control.controlSpec.map(val/127))\}.defer \},\
+		14,\{ \{index1Control.value_(index1Control.controlSpec.map(val/127))\}.defer \},\
+		15,\{ \{index2Control.value_(index2Control.controlSpec.map(val/127))\}.defer \}\
+	)\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs52 \cf2 //wwwGUI
+\fs6 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf0 www = \cf4 SCWindow\cf0 (\cf3 "12 tone"\cf0 , \cf4 Rect\cf0 (700, 440, 440, 180));\
+www.front; \cf2 // make window visible and front window.\cf0 \
+www.view.decorator = \cf4 FlowLayout\cf0 (www.view.bounds);\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 www.view.background = \cf4 Color\cf0 .grey(0.5);\
+\
+www.onClose = \{ run = \cf4 false\cf0 ; \};\
+www.front;\
+www.drawHook = \{\
+	\cf4 Pen\cf0 .use \{\
+		\cf4 Pen\cf0 .width = 0.2;\
+		400.do \{\
+			\cf4 Color\cf0 .red(rrand(0.1, 0.999), rrand(0.2, 0.3)).set;\
+			\cf4 Color\cf0 .grey(rrand(0.0, 1), rrand(0.0, 0.5)).setStroke;\
+			\cf4 Color\cf0 .new255(245, 245, 245);\
+			\cf4 Color\cf0 .new255(142, 229, 238);\
+			\cf4 Pen\cf0 .beginPath;\
+			\cf4 Pen\cf0 .moveTo(\cf4 Point\cf0 (10.rand * 4 + 4, 0.30.rand * 88 + 100));\
+			\cf4 Pen\cf0 .stroke;\
+			\cf4 Pen\cf0 .beginPath;\
+			\cf4 Pen\cf0 .moveTo(\cf4 Point\cf0 (10.rand * 4 + 4, 0.30.rand * 89 + 10));\
+			\cf4 Pen\cf0 .lineTo(\cf4 Point\cf0 (70.rand * 4 + 4, 10.rand * 76 + 40));\
+			\cf4 Pen\cf0 .stroke;\
+		\};\
+	\};\
+	\cf4 Pen\cf0 .translate(4, 4);\
+		5.do\{\
+			\cf4 Color\cf0 .grey(rrand(0.1, 0.999), rrand(0.2, 0.3)).set;\
+			\cf4 Pen\cf0 .addArc((10.rand)@(19.rand), rrand(7, 0.40), 2pi.rand, pi);\
+			\cf4 Pen\cf0 .addArc((15.rand)@(2.rand), rrand(7, 0.40), 2pi.rand, pi);\
+			\cf4 Pen\cf0 .perform([\cf5 \\stroke\cf0 ].choose);\
+		\};\
+	\};\
+	\cf4 Pen\cf0 .use \{\
+		\
+		\cf4 var\cf0  p1 = \cf4 Point\cf0 (20.rand2 + (h/2), 20.rand2 + (v/2));\
+		\cf4 var\cf0  p2 = \cf4 Point\cf0 (20.rand2 + (h/2), 20.rand2 + (v/2));\
+		\cf4 var\cf0  xscales = \{ exprand(2** -0.1, 2**0.1) \} ! 2;\
+		\cf4 var\cf0  yscales = \{ exprand(2** -0.1, 2**0.1) \} ! 2;\
+		\cf4 var\cf0  xlates = \{ 8.rand2 \} ! 2;\
+		\cf4 var\cf0  ylates = \{ 8.rand2 \} ! 2;\
+		\cf4 var\cf0  rots = \{ 2pi.rand + phase \} ! 2;\
+		\cf4 var\cf0  xform;\
+		xscales = (xscales ++ (1/xscales)) * 1;\
+		yscales = (yscales ++ (1/yscales)) * 1;\
+		xlates = xlates ++ xlates.neg;\
+		ylates = ylates ++ xlates.neg;\
+		rots = rots ++ rots.neg;\
+		xform = \{\cf4 |i|\cf0  [xlates[i], ylates[i], rots[i], xscales[i], yscales[i]] \} ! 4;\
+		xform = \{\cf4 |i|\cf0  [xlates[i], ylates[i], rots[i], xscales[i], yscales[i]] \} ! 4;\
+		\cf4 Color\cf0 .grey(0.88,0.99).set;\
+		\cf4 Pen\cf0 .width = 8 + 1;\
+		\cf4 Pen\cf0 .width = 3.linrand + 2;\
+		\cf4 Pen\cf0 .translate(400, 400);\
+		\cf4 Pen\cf0 .scale(zoom, zoom);\
+		\cf4 Pen\cf0 .translate(-400, -400);\
+		1200.do \{\
+			\cf4 var\cf0  p, rot, xlate, ylate, xscale, yscale;\
+			\cf4 Pen\cf0 .width = 1.linrand + 1;\
+			\cf4 Pen\cf0 .beginPath;\
+			#rot, xlate, ylate, xscale, yscale = xform.choose;\
+			\cf4 Pen\cf0 .translate(xlate, ylate);\
+			\cf4 Pen\cf0 .rotate(rot, h/2, v/2);\
+			\cf4 Pen\cf0 .scale(xscale, yscale);\
+				\cf4 Pen\cf0 .moveTo(p1);\
+				\cf4 Pen\cf0 .lineTo(p2);\
+			\cf4 Pen\cf0 .stroke;\
+		\};\
+	\};\
+\
+\{ while \{ run \} \{ www.refresh; 0.3.wait \} \}.fork(\cf4 AppClock\cf0 );
+\fs20 \
+					\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // add a button to start and stop the sound.\cf0 \
+startButtonb = \cf4 SCButton\cf0 (www, 75 @ 24);\
+startButtonb.states = [\
+	[\cf3 "Start"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .green],\
+	[\cf3 "Stop"\cf0 , \cf4 Color\cf0 .white, \cf4 Color\cf0 .red]\
+];\
+startButtonb.action = \{\cf4 |view|\cf0 \
+		if (view.value == 1) \{\
+			\cf2 // start sound\cf0 \
+			s.sendMsg(\cf3 "/s_new"\cf0 , \cf3 "window-test"\cf0 , id, 0, 0, \
+				\cf3 "note"\cf0 , noteControl.value,\
+				\cf3 "fc"\cf0 , cutoffControl.value,\
+				\cf3 "rq"\cf0 , resonControl.value,\
+				\cf3 "bal"\cf0 , balanceControl.value,\
+				\cf3 "amp"\cf0 , ampControl.value.dbamp);\
+		\};\
+		if (view.value == 0) \{\
+			\cf2 // set gate to zero to cause envelope to release\cf0 \
+			s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "gate"\cf0 , 0);\
+		\};\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs22 \cf2 // create controls for all parameters
+\fs14 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 www.view.decorator.nextLine;\
+noteControl = \cf4 EZSlider\cf0 (www, 400 @ 24, \cf3 "Note"\cf0 , \cf4 ControlSpec\cf0 (24, 60, \cf5 \\lin\cf0 , 1), \
+	\{\cf4 |ez|\cf0  s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "note"\cf0 , ez.value); \}, 24);\
+	\
+www.view.decorator.nextLine;\
+cutoffControl = \cf4 EZSlider\cf0 (www, 400 @ 24, \cf3 "Cutoff"\cf0 , \cf4 ControlSpec\cf0 (200, 5000, \cf5 \\exp\cf0 ), \
+	\{\cf4 |ez|\cf0  s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "fc"\cf0 , ez.value); \}, 1000);\
+	\
+www.view.decorator.nextLine;\
+resonControl = \cf4 EZSlider\cf0 (www, 400 @ 24, \cf3 "Resonance"\cf0 , \cf4 ControlSpec\cf0 (0.1, 0.7), \
+	\{\cf4 |ez|\cf0  s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "rq"\cf0 , ez.value); \}, 0.2);\
+	\
+www.view.decorator.nextLine;\
+balanceControl = \cf4 EZSlider\cf0 (www, 400 @ 24, \cf3 "Balance"\cf0 , \cf5 \\bipolar\cf0 , \
+	\{\cf4 |ez|\cf0  s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "bal"\cf0 , ez.value); \}, 0);\
+	\
+www.view.decorator.nextLine;\
+ampControl = \cf4 EZSlider\cf0 (www, 400 @ 24, \cf3 "Amp"\cf0 , \cf5 \\db\cf0 , \
+	\{\cf4 |ez|\cf0  s.sendMsg(\cf3 "/n_set"\cf0 , id, \cf3 "amp"\cf0 , ez.value.dbamp); \}, -inf);
+\fs20 \
+	\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // set start button to zero upon a cmd-period\cf0 \
+cmdPeriodFuncb = \{ startButtonb.value = 0; \};\
+\cf4 CmdPeriod\cf0 .add(cmdPeriodFuncb);\
+\
+\cf2 // stop the sound when window closes and remove cmdPeriodFuncb.\cf0 \
+www.onClose = \{\
+	s.sendMsg(\cf3 "/n_free"\cf0 , id);\
+	\cf4 CmdPeriod\cf0 .remove(cmdPeriodFuncb);\
+\};
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs32 \cf2 // wGUI to load your soundFile, samplerb
+\fs38 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 soundtextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (320,25, 60,20));\
+	soundtextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	soundtextb.stringColor = \cf4 Color\cf0 .blue;\
+	soundtextb.align = \cf5 \\center\cf0 ;\
+	soundtextb.string = \cf3 "soundfile"\cf0 ;
+\fs4 \
+	\
+
+\fs18 soundbuttb = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (320,40, 60, 20));\
+	soundbuttb.states = [\
+		[\cf3 "load"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)],\
+		];\
+	soundbuttb.action = \{ \cf4 arg\cf0  view;\
+		bufb = bufenterb.value; \
+		\cf4 File\cf0 .openDialog(\cf3 "hey hey hey"\cf0 , \{ \cf4 arg\cf0  path; \cf4 var\cf0  sf;\
+			sf = \cf4 SoundFile\cf0 .new;\
+			sf.openRead(path);\
+			nchansb = sf.numChannels;\
+			nframesb = sf.numFrames;\
+			sf.close;\
+			s.sendMsg(\cf3 "/b_allocRead"\cf0 , bufb, path, 0, nframesb);\
+			gobuttb.enabled = \cf4 true\cf0 ;\
+			\});	\
+		\};\
+buftextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (410,25, 60,20));\
+	buftextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	buftextb.stringColor = \cf4 Color\cf0 .blue;\
+	buftextb.align = \cf5 \\center\cf0 ;\
+	buftextb.string = \cf3 "buffer #"\cf0 ;\
+\
+bufenterb = \cf4 SCNumberBox\cf0 (w, \cf4 Rect\cf0 (430,40, 20,20));\
+	bufenterb.align = \cf5 \\center\cf0 ;\
+	bufenterb.setProperty(\cf5 \\boxColor\cf0 , \cf4 Color\cf0 .new(0.8, 0.5, 0.9));\
+	bufenterb.value = 0;\
+\
+\cf2 //	GUI to set start and stop the granulator\cf0 \
+gotextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (500,25, 70,20));\
+	gotextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	gotextb.stringColor = \cf4 Color\cf0 .blue;\
+	gotextb.align = \cf5 \\center\cf0 ;\
+	gotextb.string = \cf3 "granulatarize..."\cf0 ;\
+	\
+	gobuttb = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (500,40, 60, 20));\
+	gobuttb.states = [\
+		[\cf3 "GO!"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)],\
+		[\cf3 "stop!"\cf0 , \cf4 Color\cf0 .white, \cf4 Color\cf0 .new(0.8, 0.5, 0.9)],\
+		];\
+		\
+\cf2 // the button action triggers the two play Routines\cf0 \
+	gobuttb.action = \{ \cf4 arg\cf0  view;\
+		if (gobuttb.value == 1, \{\
+\cf2 //  Routine 'bb' generates  Synths\cf0 \
+			bb = \cf4 Routine\cf0 (\{\
+			loop (\{\
+				if (nchansb == 1, \{\
+					\cf4 Synth\cf0 (\cf3 "plbuf1b"\cf0 , [\cf3 "start"\cf0 , rrand(loclob, lochib)*(nframesb-												(durhib*(44100*pchhib))),\
+						\cf3 "gdurb"\cf0 , rrand(durlob, durhib),\
+						\cf3 "prateb"\cf0 , rrand(pchlob, pchhib),\
+						\cf3 "posb"\cf0 , rrand(poslob, poshib),\
+						\cf3 "bnob"\cf0 , bufb]);\
+				\},\{\
+					\cf4 Synth\cf0 (\cf3 "plbuf2b"\cf0 , [\cf3 "start"\cf0 , rrand(loclob, lochib)*(nframesb-												(durhib*(44100*pchhib))),\
+					\cf3 "gdurb"\cf0 , rrand(durlob, durhib),\
+					\cf3 "prateb"\cf0 , rrand(pchlob, pchhib),\
+					\cf3 "posb"\cf0 , rrand(poslob, poshib),\
+					\cf3 "bnob"\cf0 , bufb]);\
+				\});\
+				rrand(ratelob, ratehib).wait;\
+				\})\
+			\}).play;\
+			\
+\cf2 // Routine 'cb' automatically changes the location of playback in the file\cf0 \
+\cf2 // by moving the lochib and loclob variables\cf0 \
+			cb = \cf4 Routine\cf0 (\{\
+			loop (\{\
+				0.01.wait;\
+				loclob = loclob + speedb;\
+				lochib = lochib + speedb;\
+				if (lochib > 1.0, \{\
+					loclob = 0.0;\
+					lochib = loclob+locspreadb;\
+					\});\
+				if (loclob < 0.0, \{\
+					lochib = 1.0;\
+					loclob = lochib-locspreadb;\
+					\});\
+				locslideb.setProperty(\cf5 \\lo\cf0 , loclob);\
+				locslideb.setProperty(\cf5 \\hi\cf0 , lochib);\
+				\});\
+			\});\
+			\cf4 AppClock\cf0 .play(cb);		\
+	\cf2 /* this Routine is played by the AppClock which must be used when controlling 	things with Cocoa primitives (such as MacOS graphics) .  ' .play' defaults to SystemClock.play, 	which is more accurate, but cannot call Cocoa */\cf0 \
+		\},\{\
+			bb.stop;\
+			cb.stop;\
+		\});\
+	\};\
+	gobuttb.enabled = \cf4 false\cf0 ;\
+\
+\cf2 // the rest is just GUI, which set the parameters for scanning and grain generation
+\fs28 \cf0 \
+\
+
+\fs18 ratetextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,70, 90,20));\
+	ratetextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	ratetextb.stringColor = \cf4 Color\cf0 .blue;\
+	ratetextb.align = \cf5 \\left\cf0 ;\
+	ratetextb.string = \cf3 "grain rate"\cf0 ;
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs6 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 rateslideb = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (300,70, 280,20));\
+	rateslideb.lo = ratelob+0.01;\
+	rateslideb.hi = ratehib+0.01;\
+	rateslideb.action = \{ \cf4 arg\cf0  slider;\
+		ratelob = rateslideb.lo+0.0025;\
+		ratehib = rateslideb.hi+0.0025;\
+		\cf2 //the "ratelob" multiplier protects a bit against CPU overload\cf0 \
+		durlob = (durslideb.lo+0.0025)*(ratelob*10.0);\
+		durhib = (durslideb.hi+0.0025)*(ratelob*10.0);
+\fs6 \
+		
+\fs14 \};
+\fs28 \
+
+\fs18 durtextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,100, 90,20));\
+	durtextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	durtextb.stringColor = \cf4 Color\cf0 .blue;\
+	durtextb.align = \cf5 \\left\cf0 ;\
+	durtextb.string = \cf3 "grain duration"\cf0 ;\
+	\
+durslideb = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (300,100, 280,20));\
+	durslideb.lo = durlob+0.01;\
+	durslideb.hi = durhib+0.01;\
+	durslideb.action = \{ \cf4 arg\cf0  slider;\
+		\cf2 //the "ratelo" multiplier protects a bit against CPU overload\cf0 \
+		durlob = (durslideb.lo+0.0025)*(ratelob*10.0);\
+		durhib = (durslideb.hi+0.0025)*(ratelob*10.0);\
+		\};
+\fs28 \
+
+\fs18 pchtextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,130, 90,20));\
+	pchtextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	pchtextb.stringColor = \cf4 Color\cf0 .blue;\
+	pchtextb.align = \cf5 \\left\cf0 ;\
+	pchtextb.string = \cf3 "pitch variance"\cf0 ;\
+pchslideb = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (300,130, 280,20));\
+	pchslideb.lo = pchlob/2.0;\
+	pchslideb.hi = pchhib/2.0;\
+	pchslideb.action = \{ \cf4 arg\cf0  slider;\
+		pchlob = (pchslideb.lo*2.0);\
+		pchhib = (pchslideb.hi*2.0);\
+		\};
+\fs28 \
+
+\fs18 postextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,160, 90,20));\
+	postextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	postextb.stringColor = \cf4 Color\cf0 .blue;\
+	postextb.align = \cf5 \\left\cf0 ;\
+	postextb.string = \cf3 "stereo variance"\cf0 ;\
+	\
+posslideb = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (300,160, 280,20));\
+	posslideb.lo = poslob;\
+	posslideb.hi = poshib;\
+	posslideb.action = \{ \cf4 arg\cf0  slider;\
+		poslob = posslideb.lo;\
+		poshib = posslideb.hi;\
+		\};
+\fs28 \
+
+\fs18 loctextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,190, 90,20));\
+	loctextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	loctextb.stringColor = \cf4 Color\cf0 .blue;\
+	loctextb.align = \cf5 \\left\cf0 ;\
+	loctextb.string = \cf3 "playback location"\cf0 ;\
+	\
+locslideb = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (300,190, 280,20));\
+	locslideb.lo = loclob;\
+	locslideb.hi = lochib;\
+	locslideb.action = \{ \cf4 arg\cf0  slider;\
+		loclob = locslideb.lo;\
+		lochib = locslideb.hi;\
+		locspreadb = lochib-loclob;\
+		\};
+\fs28 \
+
+\fs18 speedtextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (310,220, 90,20));\
+	speedtextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	speedtextb.stringColor = \cf4 Color\cf0 .blue;\
+	speedtextb.align = \cf5 \\left\cf0 ;\
+	speedtextb.string = \cf3 "playback speed"\cf0 ;\
+	\
+speedslideb = \cf4 SCSlider\cf0 (w, \cf4 Rect\cf0 (300,220, 280,20));\
+	speedslideb.value = (speedb/0.05)+0.5;\
+	speedslideb.action = \{ \cf4 arg\cf0  slider;\
+		speedb = (speedslideb.value-0.5)*0.05;\
+		\};\
+		\
+samplertextb = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (300,0, 90,20));\
+	samplertextb.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 15);\
+	samplertextb.stringColor = \cf4 Color\cf0 .red;\
+	samplertextb.align = \cf5 \\left\cf0 ;\
+	samplertextb.string = \cf3 "sampler2"\cf0 ;
+\f1\fs12 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f2\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf2 //from garton's program hi there!
+\fs28 \cf0 \
+
+\fs18 \cf2 // GUI to load your soundFile\cf0 \
+soundtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (30,25, 60,20));\
+	soundtext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	soundtext.stringColor = \cf4 Color\cf0 .blue;\
+	soundtext.align = \cf5 \\center\cf0 ;\
+	soundtext.string = \cf3 "soundfile"\cf0 ;
+\fs4 \
+	\
+
+\fs18 soundbutt = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (30,40, 60, 20));\
+	soundbutt.states = [\
+		[\cf3 "load"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)],\
+		];\
+	soundbutt.action = \{ \cf4 arg\cf0  view;\
+		buf = bufenter.value; \
+		\cf4 File\cf0 .openDialog(\cf3 "hey hey hey"\cf0 , \{ \cf4 arg\cf0  path; \cf4 var\cf0  sf;\
+			sf = \cf4 SoundFile\cf0 .new;\
+			sf.openRead(path);\
+			nchans = sf.numChannels;\
+			nframes = sf.numFrames;\
+			sf.close;\
+			s.sendMsg(\cf3 "/b_allocRead"\cf0 , buf, path, 0, nframes);\
+			gobutt.enabled = \cf4 true\cf0 ;\
+			\});	\
+		\};\
+buftext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (120,25, 60,20));\
+	buftext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	buftext.stringColor = \cf4 Color\cf0 .blue;\
+	buftext.align = \cf5 \\center\cf0 ;\
+	buftext.string = \cf3 "buffer #"\cf0 ;\
+\
+bufenter = \cf4 SCNumberBox\cf0 (w, \cf4 Rect\cf0 (140,40, 20,20));\
+	bufenter.align = \cf5 \\center\cf0 ;\
+	bufenter.setProperty(\cf5 \\boxColor\cf0 , \cf4 Color\cf0 .new(0.8, 0.5, 0.9));\
+	bufenter.value = 0;\
+\
+\cf2 //	GUI to set start and stop the granulator\cf0 \
+gotext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (210,25, 70,20));\
+	gotext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	gotext.stringColor = \cf4 Color\cf0 .blue;\
+	gotext.align = \cf5 \\center\cf0 ;\
+	gotext.string = \cf3 "granulatarize..."\cf0 ;\
+	\
+	gobutt = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (210,40, 60, 20));\
+	gobutt.states = [\
+		[\cf3 "GO!"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)],\
+		[\cf3 "stop!"\cf0 , \cf4 Color\cf0 .white, \cf4 Color\cf0 .new(0.8, 0.5, 0.9)],\
+		];\
+		\
+\cf2 // the button action triggers the two play Routines\cf0 \
+	gobutt.action = \{ \cf4 arg\cf0  view;\
+		if (gobutt.value == 1, \{\
+\cf2 //  Routine 'b' generates  Synths\cf0 \
+			b = \cf4 Routine\cf0 (\{\
+			loop (\{\
+				if (nchans == 1, \{\
+					\cf4 Synth\cf0 (\cf3 "plbuf1"\cf0 , [\cf3 "start"\cf0 , rrand(loclo, lochi)*(nframes-												(durhi*(44100*pchhi))),\
+						\cf3 "gdur"\cf0 , rrand(durlo, durhi),\
+						\cf3 "prate"\cf0 , rrand(pchlo, pchhi),\
+						\cf3 "pos"\cf0 , rrand(poslo, poshi),\
+						\cf3 "bno"\cf0 , buf]);\
+				\},\{\
+					\cf4 Synth\cf0 (\cf3 "plbuf2"\cf0 , [\cf3 "start"\cf0 , rrand(loclo, lochi)*(nframes-												(durhi*(44100*pchhi))),\
+					\cf3 "gdur"\cf0 , rrand(durlo, durhi),\
+					\cf3 "prate"\cf0 , rrand(pchlo, pchhi),\
+					\cf3 "pos"\cf0 , rrand(poslo, poshi),\
+					\cf3 "bno"\cf0 , buf]);\
+				\});\
+				rrand(ratelo, ratehi).wait;\
+				\})\
+			\}).play;\
+			\
+\cf2 // Routine 'c' automatically changes the location of playback in the file\cf0 \
+\cf2 // by moving the lochi and loclo variables\cf0 \
+			c = \cf4 Routine\cf0 (\{\
+			loop (\{\
+				0.01.wait;\
+				loclo = loclo + speed;\
+				lochi = lochi + speed;\
+				if (lochi > 1.0, \{\
+					loclo = 0.0;\
+					lochi = loclo+locspread;\
+					\});\
+				if (loclo < 0.0, \{\
+					lochi = 1.0;\
+					loclo = lochi-locspread;\
+					\});\
+				locslide.setProperty(\cf5 \\lo\cf0 , loclo);\
+				locslide.setProperty(\cf5 \\hi\cf0 , lochi);\
+				\});\
+			\});\
+			\cf4 AppClock\cf0 .play(c);		\
+	\cf2 /* this Routine is played by the AppClock which must be used when controlling 	things with Cocoa primitives (such as MacOS graphics) .  ' .play' defaults to SystemClock.play, 	which is more accurate, but cannot call Cocoa */\cf0 \
+		\},\{\
+			b.stop;\
+			c.stop;\
+		\});\
+	\};\
+	gobutt.enabled = \cf4 false\cf0 ;\
+\
+\cf2 // the rest is just GUI, which set the parameters for scanning and grain generation
+\fs28 \cf0 \
+
+\fs18 \cf2 //from garton's program hi there!
+\fs28 \cf0 \
+
+\fs18 ratetext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,70, 90,20));\
+	ratetext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	ratetext.stringColor = \cf4 Color\cf0 .blue;\
+	ratetext.align = \cf5 \\left\cf0 ;\
+	ratetext.string = \cf3 "grain rate"\cf0 ;
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs6 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs18 \cf0 rateslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,70, 280,20));\
+	rateslide.lo = ratelo+0.01;\
+	rateslide.hi = ratehi+0.01;\
+	rateslide.action = \{ \cf4 arg\cf0  slider;\
+		ratelo = rateslide.lo+0.0025;\
+		ratehi = rateslide.hi+0.0025;\
+		\cf2 //the "ratelo" multiplier protects a bit against CPU overload\cf0 \
+		durlo = (durslide.lo+0.0025)*(ratelo*10.0);\
+		durhi = (durslide.hi+0.0025)*(ratelo*10.0);
+\fs6 \
+		
+\fs14 \};
+\fs28 \
+
+\fs18 durtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,100, 90,20));\
+	durtext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	durtext.stringColor = \cf4 Color\cf0 .blue;\
+	durtext.align = \cf5 \\left\cf0 ;\
+	durtext.string = \cf3 "grain duration"\cf0 ;\
+	\
+durslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,100, 280,20));\
+	durslide.lo = durlo+0.01;\
+	durslide.hi = durhi+0.01;\
+	durslide.action = \{ \cf4 arg\cf0  slider;\
+		\cf2 //the "ratelo" multiplier protects a bit against CPU overload\cf0 \
+		durlo = (durslide.lo+0.0025)*(ratelo*10.0);\
+		durhi = (durslide.hi+0.0025)*(ratelo*10.0);\
+		\};
+\fs28 \
+
+\fs18 pchtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,130, 90,20));\
+	pchtext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	pchtext.stringColor = \cf4 Color\cf0 .blue;\
+	pchtext.align = \cf5 \\left\cf0 ;\
+	pchtext.string = \cf3 "pitch variance"\cf0 ;\
+pchslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,130, 280,20));\
+	pchslide.lo = pchlo/2.0;\
+	pchslide.hi = pchhi/2.0;\
+	pchslide.action = \{ \cf4 arg\cf0  slider;\
+		pchlo = (pchslide.lo*2.0);\
+		pchhi = (pchslide.hi*2.0);\
+		\};
+\fs28 \
+
+\fs18 postext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,160, 90,20));\
+	postext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	postext.stringColor = \cf4 Color\cf0 .blue;\
+	postext.align = \cf5 \\left\cf0 ;\
+	postext.string = \cf3 "stereo variance"\cf0 ;\
+	\
+posslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,160, 280,20));\
+	posslide.lo = poslo;\
+	posslide.hi = poshi;\
+	posslide.action = \{ \cf4 arg\cf0  slider;\
+		poslo = posslide.lo;\
+		poshi = posslide.hi;\
+		\};
+\fs28 \
+
+\fs18 loctext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,190, 90,20));\
+	loctext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	loctext.stringColor = \cf4 Color\cf0 .blue;\
+	loctext.align = \cf5 \\left\cf0 ;\
+	loctext.string = \cf3 "playback location"\cf0 ;\
+	\
+locslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,190, 280,20));\
+	locslide.lo = loclo;\
+	locslide.hi = lochi;\
+	locslide.action = \{ \cf4 arg\cf0  slider;\
+		loclo = locslide.lo;\
+		lochi = locslide.hi;\
+		locspread = lochi-loclo;\
+		\};
+\fs28 \
+
+\fs18 speedtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,220, 90,20));\
+	speedtext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	speedtext.stringColor = \cf4 Color\cf0 .blue;\
+	speedtext.align = \cf5 \\left\cf0 ;\
+	speedtext.string = \cf3 "playback speed"\cf0 ;\
+	\
+speedslide = \cf4 SCSlider\cf0 (w, \cf4 Rect\cf0 (10,220, 280,20));\
+	speedslide.value = (speed/0.05)+0.5;\
+	speedslide.action = \{ \cf4 arg\cf0  slider;\
+		speed = (speedslide.value-0.5)*0.05;\
+		\};\
+		\
+samplertext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,0, 90,20));\
+	samplertext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 15);\
+	samplertext.stringColor = \cf4 Color\cf0 .red;\
+	samplertext.align = \cf5 \\left\cf0 ;\
+	samplertext.string = \cf3 "sampler1"\cf0 ;\
+		\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf2 //raincloud instrument\cf0 \
+cloudBtn11 = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (30,280, 60, 20));
+\fs10 \
+
+\fs20 	cloudBtn11.states = [\
+		[\cf3 "rain"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn11.action = \{ \cf4 arg\cf0  view;\
+		\cf4 Routine\cf0 (cloudFunc11).play(\cf4 AppClock\cf0 ); \
+	\};\
+freqSlider11 = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,310, 280,20)).lo_(0).hi_(0);\
+freqSldText11 = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,310, 100,20));\
+	freqSldText11.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	freqSldText11.stringColor = \cf4 Color\cf0 .blue;\
+	freqSldText11.align = \cf5 \\left\cf0 ;\
+	freqSldText11.string = \cf3 "frequency"\cf0 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 raintext11 = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,250, 90,20));\
+	raintext11.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 15);\
+	raintext11.stringColor = \cf4 Color\cf0 .red;\
+	raintext11.align = \cf5 \\left\cf0 ;\
+	raintext11.string = \cf3 "raincloud"\cf0 ;
+\fs28 \
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf2 //dronecloud instrument\cf0 \
+cloudBtn11b = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (30,370, 60, 20));
+\fs12 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 	cloudBtn11b.states = [\
+		[\cf3 "drone"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn11b.action = \{ \cf4 arg\cf0  view;\
+		\cf4 Routine\cf0 (cloudFunc11b).play(\cf4 AppClock\cf0 ); \
+	\};\
+freqSlider11b = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,400, 280,20)).lo_(0).hi_(0);\
+freqSldText11b = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,400, 100,20));\
+	freqSldText11b.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 10);\
+	freqSldText11b.stringColor = \cf4 Color\cf0 .blue;\
+	freqSldText11b.align = \cf5 \\left\cf0 ;\
+	freqSldText11b.string = \cf3 "frequency"\cf0 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 raintext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,340, 90,20));\
+	raintext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 15);\
+	raintext.stringColor = \cf4 Color\cf0 .red;\
+	raintext.align = \cf5 \\left\cf0 ;\
+	raintext.string = \cf3 "dronecloud"\cf0 ;\
+	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs22 \cf2 //for seldon code
+\fs20 \cf0 \
+seldontext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,430, 200,20));\
+	seldontext.font = \cf4 Font\cf0 (\cf3 "Helvetica"\cf0 , 15);\
+	seldontext.stringColor = \cf4 Color\cf0 .red;\
+	seldontext.align = \cf5 \\left\cf0 ;\
+	seldontext.string = \cf3 "\cf0 lsMeters\cf3 "\cf0 ;\
+	\
+
+\fs22 \cf2 //for seldon code 2
+\fs20 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f1\fs18 \cf2 // MAKE GUI Function -- the tilde is necessary!\cf0 \
+~lsBandPass = \{ \cf4 var\cf0  out=0, in=0;\
+	\cf4 var\cf0  myWind, \
+		loSlider, hiSlider, rqSlider, \
+		rangeSlider, lagSlider, \
+		doUpdate, memSliders, \
+		inst;\
+\cf2 // function to call when you update the rangeslider or the high and lo sliders\cf0 \
+\cf2 // -- it sets them to the same values\cf0 \
+doUpdate = \{	\cf4 arg\cf0  inLo, inHi;\
+		\cf4 var\cf0  newLo, newHi;\
+		if(inLo<inHi, \{newLo=inLo; newHi=inHi\}, \{newLo=inHi; newHi=inLo\});\
+		rangeSlider.lo_(newLo);\
+		rangeSlider.hi_(newHi);\
+		loSlider.value = round(\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newLo), 1);\
+		hiSlider.value = round(\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newHi));			\};\
+		\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs42 \cf2 //GUI for Bandpass
+\fs18 \cf0 \
+myWind = \cf4 SCWindow\cf0 .new(\cf3 "BandPass"\cf0 , \cf4 Rect\cf0 (700, 130, 480, 280));\
+myWind.view.decorator = \cf4 FlowLayout\cf0 (myWind.view.bounds);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 // on close free the synth effect\cf0 \
+myWind.onClose_(\{inst.free;\});\
+rangeSlider = \cf4 SCRangeSlider\cf0 (myWind, \cf4 Rect\cf0 (0, 0, 470, 120))\
+	.action_(\{\cf4 arg\cf0  me; doUpdate.value(me.lo.value, me.hi.value)\})\
+	.knobColor_(\cf4 Color\cf0 .black);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth low cutoff value\cf0 \
+loSlider = \cf4 EZSlider\cf0 (myWind, 400 @ 24, \cf3 "Low Cutoff"\cf0 ,\
+	\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf4 |ez|\cf0  inst.set(\cf5 \\lo\cf0 , ez.value); \
+			rangeSlider.lo_(\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth high cutoff value\cf0 \
+hiSlider = \cf4 EZSlider\cf0 (myWind, 400 @ 24, \cf3 "High Cutoff"\cf0 , \
+	\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf4 |ez|\cf0  inst.set(\cf5 \\hi\cf0 , ez.value); \
+			rangeSlider.hi_(\cf4 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20000);		\
+myWind.view.decorator.nextLine;\
+\cf2 // resonance for the filter\cf0 \
+rqSlider = \cf4 EZSlider\cf0 (myWind, 200 @ 24, \cf3 "Rez"\cf0 , \
+	\cf4 ControlSpec\cf0 (0.001, 2, \cf5 \\exp\cf0 , 0, 0.707),\
+	\{\cf4 |ez|\cf0  inst.set(\cf5 \\rq\cf0 , ez.value); \}, 0.707, labelWidth: 40, numberWidth: 40);\
+\cf2 // lag of the controls -- so it glides evenly\cf0 \
+lagSlider = \cf4 EZSlider\cf0 (myWind, 200 @ 24, \cf3 "Lag"\cf0 , \
+	\cf4 ControlSpec\cf0 (0, 20, \cf5 \\linear\cf0 , 0, 5),\
+	\{\cf4 |ez|\cf0  inst.set(\cf5 \\lagTime\cf0 , ez.value); \}, 5, labelWidth: 40, numberWidth: 40).round_(0.01);\
+myWind.view.decorator.nextLine;\
+\
+\cf2 // this is my tricky way of making an array of buttons and rangesliders.\cf0 \
+\cf2 // the if statement checks the fill counter ("i") and sees if it's even or odd, and\cf0 \
+\cf2 // puts a button or rangeslider accordingly\cf0 \
+memSliders = \cf4 Array\cf0 .fill(8, \{\cf4 |i|\cf0 \
+	if(i%2==0, \
+		\{\cf4 SCButton\cf0 (myWind, \cf4 Rect\cf0 (0, 0, 24, 24))\
+			.states_([[(i+1).asString]])\
+			.action_(\{doUpdate.value(memSliders[i+1].lo.value, memSliders[i+1].hi.value);\})\
+			\},\
+		\{\cf4 SCRangeSlider\cf0 (myWind, \cf4 Rect\cf0 (0, 0, 200, 24)).knobColor_(\cf4 Color\cf0 .black)\}\
+	\
+	)\});\
+myWind.front;\
+\
+\cf2 // start the bandpass synth\cf0 \
+inst = \cf4 Synth\cf0 .tail(s, \cf3 "BandPass"\cf0 , [\cf5 \\out\cf0 , out, \cf5 \\in\cf0 , in]);\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs22 \cf2 //seldon code 2
+\f1 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf2 // USAGE: ~lsBandPass.value(\\out, 0, \\in, 0);\cf0 \
+~lsBandPass.value(\cf5 \\out\cf0 , 0, \cf5 \\in\cf0 , 0);
+\f2\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs22 \cf2 //seldon code
+\fs20 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f1\fs22 \cf2 // Monitor output\cf0 \
+~lsMeters.value(2, 0);
+\f2\fs48 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs96 \cf0 )
+\f2\fs48 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs26 \cf0 s.recSampleFormat = \cf3 "int16"\cf0 ;\
+\
+}

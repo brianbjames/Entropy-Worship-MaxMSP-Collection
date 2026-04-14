@@ -1,0 +1,1379 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red96\green96\blue96;}
+\deftab720
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f0\fs38 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs52 \cf2 //20 cloudFunc pan amp, by brian b. james\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs38 \cf0 \
+s.boot\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs68 \cf0 (
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs58 \cf3 var
+\fs18 \cf0  
+\fs20 w,cpan1=0,panRng1=1,panslide1,pantext1,cpan2=0,panRng2=1,panslide2,cpan3=0,panRng3=1,panslide3,cpan4=0,\
+panRng4=1,panslide4,cpan5=0,panRng5=1,panslide5,cpan6=0,panRng6=1,panslide6,cpan7=0,panRng7=1,panslide7,cpan8=0,\
+panRng8=1,panslide8,cpan9=0,panRng9=1,panslide9,cpan10=0,panRng10=1,panslide10,cpan1b=0,panRng1b=1,panslide1b,\
+cpan2b=0,panRng2b=1,panslide2b,cpan3b=0,panRng3b=1,panslide3b,cpan4b=0,panRng4b=1,panslide4b,cpan5b=0,\
+panRng5b=1,panslide5b,cpan6b=0,panRng6b=1,panslide6b,cpan7b=0,panRng7b=1,panslide7b,cpan8b=0,panRng8b=1,\
+panslide8b,cpan9b=0,panRng9b=1,panslide9b,cpan10b=0,panRng10b=1,panslide10b,cloudFunc1,cloudBtn1,freqSlider1,\
+freqSldText1,cloudFunc2,cloudBtn2,freqSlider2,freqSldText2,cloudFunc3,cloudBtn3,freqSlider3,freqSldText3,cloudFunc4,\
+cloudBtn4,freqSlider4,freqSldText4,cloudFunc5,cloudBtn5,freqSlider5,freqSldText5,cloudFunc6,cloudBtn6,freqSlider6,\
+freqSldText6,cloudFunc7,cloudBtn7,freqSlider7,freqSldText7,cloudFunc8,cloudBtn8,freqSlider8,freqSldText8,cloudFunc9,\
+cloudBtn9,freqSlider9,freqSldText9,cloudFunc10,cloudBtn10,freqSlider10,freqSldText10,cloudFunc1b,cloudBtn1b,freqSlider1b,\
+freqSldText1b,cloudFunc2b,cloudBtn2b,freqSlider2b,freqSldText2b,cloudFunc3b,cloudBtn3b,freqSlider3b,freqSldText3b,\
+cloudFunc4b,cloudBtn4b,freqSlider4b,freqSldText4b,cloudFunc5b,cloudBtn5b,freqSlider5b,freqSldText5b,cloudFunc6b,\
+cloudBtn6b,freqSlider6b,freqSldText6b,cloudFunc7b,cloudBtn7b,freqSlider7b,freqSldText7b,cloudFunc8b,cloudBtn8b,\
+freqSlider8b,freqSldText8b,cloudFunc9b,cloudBtn9b,freqSlider9b,freqSldText9b,cloudFunc10b,cloudBtn10b,freqSlider10b,\
+freqSldText
+\fs18 10b,
+\fs22 ampRng1=0.1,camp1=0.1,ampslide1,amptext1,ampRng2=0.1,camp2=0.1,ampslide2,amptext2,ampRng3=0.1,\
+camp3=0.1,ampslide3,amptext3,ampRng4=0.1,camp4=0.1,ampslide4,amptext4,ampRng5=0.1,camp5=0.1,ampslide5,\
+amptext5,ampRng6=0.1,camp6=0.1,ampslide6,amptext6,ampRng7=0.1,camp7=0.1,ampslide7,amptext7,ampRng8=0.1,\
+camp8=0.1,ampslide8,amptext8,ampRng9=0.1,camp9=0.1,ampslide9,amptext9,ampRng10=0.1,camp10=0.1,ampslide10,\
+amptext10,ampRng1b=0.1,camp1b=0.1,ampslide1b,amptext1b,ampRng2b=0.1,camp2b=0.1,ampslide2b,amptext2b,\
+ampRng3b=0.1,camp3b=0.1,ampslide3b,amptext3b,ampRng4b=0.1,camp4b=0.1,ampslide4b,amptext4b,ampRng5b=0.1,\
+camp5b=0.1,ampslide5b,amptext5b,ampRng6b=0.1,camp6b=0.1,ampslide6b,amptext6b,ampRng7b=0.1,camp7b=0.1,\
+ampslide7b,amptext7b,
+\fs20 ampRng8b=0.1,camp8b=0.1,ampslide8b,amptext8b,ampRng9b=0.1,camp9b=0.1,ampslide9b,amptext9b,\
+ampRng10b=0.1,camp10b=0.1,ampslide10b,amptext10b
+\fs60 ;
+\fs40 \
+
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs60 \cf2 //cloudFunc's 1-10, 1b-10b
+\fs20 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc1 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf3 var\cf0  
+\fs30 cloudDuration=0.025, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan1+rrand(panRng1.neg,panRng1).max(-1.0),
+\fs8 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp1+rrand(ampRng1.neg,ampRng1)
+\fs22 ]);
+\fs18 \
+		(dur/density).wait;\
+	\});  \
+\};\
+\
+cloudFunc2 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=0.25, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan2+rrand(panRng2.neg,panRng2).max(-1.0),
+\fs40 \
+			
+\fs18 \cf4 \\amp\cf0 ,camp2+rrand(ampRng2.neg,ampRng2)]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc3 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=0.5, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan3+rrand(panRng3.neg,panRng3).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp3+rrand(ampRng3.neg,ampRng3)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc4 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=1, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan4+rrand(panRng4.neg,panRng4).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp4+rrand(ampRng4.neg,ampRng4)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc5 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=2, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan5+rrand(panRng5.neg,panRng5).max(-1.0),
+\fs40 \
+			
+\fs18 \cf4 \\amp\cf0 ,camp5+rrand(ampRng5.neg,ampRng5)]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf0 \
+cloudFunc6 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=4, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan6+rrand(panRng6.neg,panRng6).max(-1.0),
+\fs40 \
+			
+\fs22 \cf4 \\amp\cf0 ,camp6+rrand(ampRng6.neg,ampRng6)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs30 \
+
+\fs18 \
+cloudFunc7 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=8, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan7+rrand(panRng7.neg,panRng7).max(-1.0),
+\fs40 \
+			
+\fs22 \cf4 \\amp\cf0 ,camp7+rrand(ampRng7.neg,ampRng7)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc8 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=16, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan8+rrand(panRng8.neg,panRng8).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp8+rrand(ampRng8.neg,ampRng8)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc9 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=32, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan9+rrand(panRng9.neg,panRng9).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp9+rrand(ampRng9.neg,ampRng9)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc10 = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=64, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan10+rrand(panRng10.neg,panRng10).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp10+rrand(ampRng10.neg,ampRng10)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+\
+cloudFunc1b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=128, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider1b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan1b+rrand(panRng1b.neg,panRng1b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp1b+rrand(ampRng1b.neg,ampRng1b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc2b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=256, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider2b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan2b+rrand(panRng2b.neg,panRng2b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp2b+rrand(ampRng2b.neg,ampRng2b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc3b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=512, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider3b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan3b+rrand(panRng3b.neg,panRng3b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp3b+rrand(ampRng3b.neg,ampRng3b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc4b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=1024, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider4b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan4b+rrand(panRng4b.neg,panRng4b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp4b+rrand(ampRng4b.neg,ampRng4b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc5b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=2048,
+\fs18  startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider5b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan5b+rrand(panRng5b.neg,panRng5b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp5b+rrand(ampRng5b.neg,ampRng5b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+
+\fs18 \
+cloudFunc6b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=4096, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider6b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan6b+rrand(panRng6b.neg,panRng6b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp6b+rrand(ampRng6b.neg,ampRng6b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs30 \
+
+\fs18 \
+cloudFunc7b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=8192, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider7b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan7b+rrand(panRng7b.neg,panRng7b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp7b+rrand(ampRng7b.neg,ampRng7b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc8b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=16384, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider8b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan8b+rrand(panRng8b.neg,panRng8b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp8b+rrand(ampRng8b.neg,ampRng8b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc9b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=32768, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider9b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs2 \cf0 			
+\fs18 \cf4 \\pan\cf0 ,cpan9b+rrand(panRng9b.neg,panRng9b).max(-1.0),
+\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs40 \cf0 			
+\fs20 \cf4 \\amp\cf0 ,camp9b+rrand(ampRng9b.neg,ampRng9b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\
+cloudFunc10b = \{ \
+	\cf3 var\cf0  
+\fs30 cloudDuration=65536, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf3 thisThread\cf0 .seconds;	\
+	density = rrand(0.1,8);	\
+	\
+	lofreq = [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10b.lo);\
+	hifreq =  [40,4000,\cf4 \\exp\cf0 ].asSpec.map(freqSlider10b.hi); \
+	\
+	while(\{ \cf3 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf3 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf4 \\pan\cf0 ,cpan10b+rrand(panRng10b.neg,panRng10b).max(-1.0),
+\fs40 \
+			
+\fs20 \cf4 \\amp\cf0 ,camp10b+rrand(ampRng10b.neg,ampRng10b)
+\fs18 ]);\
+		(dur/density).wait; \
+	\});  \
+\};
+\fs22 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs100 \cf2 //GUI
+\fs22 \cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs34 \cf0 w = \cf3 SCWindow\cf0 (\cf5 "cloud pan amp", \cf3 Rect\cf0 (10, 400, 430, 440));
+\fs40 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs26 \cf0 w.front;
+\fs20 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 cloudBtn1 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,10, 80, 20)); 
+\fs28 \cf2 //Rect
+\f1\fs26 (inLeft, inTop, inWidth, inHeight)
+\f0\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs26 \cf0 	
+\fs20 cloudBtn1.states = [\
+		[\cf5 "0.025 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn1.action = \{ \cf3 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf3 Routine\cf0 (cloudFunc1).play(\cf3 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 freqSlider1= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,10, 100,20)).lo_(0.1).hi_(0.2);\
+\
+freqSldText1 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (100,410, 90,20));
+\fs18 \
+	freqSldText1.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText1.stringColor = \cf3 Color\cf0 .blue;\
+	freqSldText1.align = \cf4 \\left\cf0 ;\
+	freqSldText1.string = \cf5 "grain freq"\cf0 ;	
+\fs20 \
+	\
+pantext1 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (210,410, 90,20)); \
+	pantext1.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	pantext1.stringColor = \cf3 Color\cf0 .blue;\
+	pantext1.align = \cf4 \\left\cf0 ;\
+	pantext1.string = \cf5 "stereo variance"\cf0 ;
+\fs28 \
+	\
+
+\fs20 panslide1 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,10, 100,20));\
+	panslide1.lo = -1.0;\
+	panslide1.hi = 1.0;\
+	panslide1.action = \{ \cf3 arg\cf0  slider;\
+		cpan1 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide1.hi - panslide1.lo)*0.5)+panslide1.lo);\
+		panRng1 = cpan1-\cf4 \\pan\cf0 .asSpec.map(panslide1.lo);\
+	\};\
+	\
+
+\fs18 amptext1 = \cf3 SCStaticText\cf0 (w, \cf3 Rect\cf0 (320,410, 90,20));\
+	amptext1.font = \cf3 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	amptext1.stringColor = \cf3 Color\cf0 .blue;\
+	amptext1.align = \cf4 \\left\cf0 ;\
+	amptext1.string = \cf5 "amp variance"\cf0 ;\
+	\
+ampslide1 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,10, 100,20));\
+	ampslide1.lo = 0.1;\
+	ampslide1.hi = 0.3;\
+	ampslide1.action = \{ \cf3 arg\cf0  slider;\
+		camp1 = \cf4 \\amp\cf0 .asSpec.map(((ampslide1.hi - ampslide1.lo)*0.5)+ampslide1.lo);\
+		ampRng1 = camp1-(\cf4 \\amp\cf0 .asSpec.map(ampslide1.lo));\
+	\};
+\fs20 \
+\
+\
+cloudBtn2 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,30, 80, 20));
+\fs10 \
+
+\fs20 	cloudBtn2.states = [\
+		[\cf5 "0.25 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn2.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc2).play(\cf3 AppClock\cf0 ); \
+	\};\
+freqSlider2 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,30, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf0 panslide2 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,30, 100,20));\
+	panslide2.lo = -1.0;\
+	panslide2.hi = 1.0;\
+	panslide2.action = \{ \cf3 arg\cf0  slider;\
+		cpan2 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide2.hi - panslide2.lo)*0.5)+panslide2.lo);\
+		panRng2 = cpan2-\cf4 \\pan\cf0 .asSpec.map(panslide2.lo);\
+	\};\
+	\
+ampslide2 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,30, 100,20));\
+	ampslide2.lo = 0.1;\
+	ampslide2.hi = 0.3;\
+	ampslide2.action = \{ \cf3 arg\cf0  slider;\
+		camp2 = \cf4 \\amp\cf0 .asSpec.map(((ampslide2.hi - ampslide2.lo)*0.5)+ampslide2.lo);\
+		ampRng2 = camp2-(\cf4 \\amp\cf0 .asSpec.map(ampslide2.lo));\
+	\};
+\fs20 \
+\
+\
+cloudBtn3 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,50, 80, 20));
+\fs10 \
+
+\fs20 	cloudBtn3.states = [\
+		[\cf5 "0.5 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn3.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc3).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs18 freqSlider3= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,50, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 panslide3 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,50, 100,20));\
+	panslide3.lo = -1.0;\
+	panslide3.hi = 1.0;\
+	panslide3.action = \{ \cf3 arg\cf0  slider;\
+		cpan3 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide3.hi - panslide3.lo)*0.5)+panslide3.lo);\
+		panRng3 = cpan3-\cf4 \\pan\cf0 .asSpec.map(panslide3.lo);\
+	\};
+\fs48 \
+\
+
+\fs18 ampslide3 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,50, 100,20));\
+	ampslide3.lo = 0.1;\
+	ampslide3.hi = 0.3;\
+	ampslide3.action = \{ \cf3 arg\cf0  slider;\
+		camp3 = \cf4 \\amp\cf0 .asSpec.map(((ampslide3.hi - ampslide3.lo)*0.5)+ampslide3.lo);\
+		ampRng3 = camp3-(\cf4 \\amp\cf0 .asSpec.map(ampslide3.lo));\
+	\};
+\fs20 \
+\
+\
+
+\fs22 cloudBtn4 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,70, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn4.states = [\
+		[\cf5 "1 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn4.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc4).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider4= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,70, 100,20)).lo_(0.1).hi_(0.2);
+\fs28 \
+\
+
+\fs20 panslide4 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,70, 100,20));\
+	panslide4.lo = -1.0;\
+	panslide4.hi = 1.0;\
+	panslide4.action = \{ \cf3 arg\cf0  slider;\
+		cpan4 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide4.hi - panslide4.lo)*0.5)+panslide4.lo);\
+		panRng4 = cpan4-\cf4 \\pan\cf0 .asSpec.map(panslide4.lo);\
+	\};
+\fs28 \
+
+\fs20 \
+
+\fs18 ampslide4 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,70, 100,20));\
+	ampslide4.lo = 0.1;\
+	ampslide4.hi = 0.3;\
+	ampslide4.action = \{ \cf3 arg\cf0  slider;\
+		camp4 = \cf4 \\amp\cf0 .asSpec.map(((ampslide4.hi - ampslide4.lo)*0.5)+ampslide4.lo);\
+		ampRng4 = camp4-(\cf4 \\amp\cf0 .asSpec.map(ampslide4.lo));\
+	\};
+\fs20 \
+\
+cloudBtn5 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,90, 80, 20));\
+	cloudBtn5.states = [\
+		[\cf5 "2 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn5.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc5).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider5= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,90, 100,20)).lo_(0.1).hi_(0.2);
+\fs28 \
+\
+
+\fs20 panslide5 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,90, 100,20));\
+	panslide5.lo = -1.0;\
+	panslide5.hi = 1.0;\
+	panslide5.action = \{ \cf3 arg\cf0  slider;\
+		cpan5 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide5.hi - panslide5.lo)*0.5)+panslide5.lo);\
+		panRng5 = cpan5-\cf4 \\pan\cf0 .asSpec.map(panslide5.lo);\
+	\};\
+	\
+
+\fs18 ampslide5 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,90, 100,20));\
+	ampslide5.lo = 0.1;\
+	ampslide5.hi = 0.3;\
+	ampslide5.action = \{ \cf3 arg\cf0  slider;\
+		camp5 = \cf4 \\amp\cf0 .asSpec.map(((ampslide5.hi - ampslide5.lo)*0.5)+ampslide5.lo);\
+		ampRng5 = camp5-(\cf4 \\amp\cf0 .asSpec.map(ampslide5.lo));\
+	\};
+\fs20 \
+	\
+\
+cloudBtn6 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,110, 80, 20));
+\fs10 \
+
+\fs20 	cloudBtn6.states = [\
+		[\cf5 "4 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn6.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc6).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs22 freqSlider6= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,110, 100,20)).lo_(0.1).hi_(0.2);
+\fs30 \
+\
+
+\fs22 panslide6 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,110, 100,20));\
+	panslide6.lo = -1.0;\
+	panslide6.hi = 1.0;\
+	panslide6.action = \{ \cf3 arg\cf0  slider;\
+		cpan6 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide6.hi - panslide6.lo)*0.5)+panslide6.lo);\
+		panRng6 = cpan6-\cf4 \\pan\cf0 .asSpec.map(panslide6.lo);\
+	\};
+\fs20 \
+\
+
+\fs18 ampslide6 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,110, 100,20));\
+	ampslide6.lo = 0.1;\
+	ampslide6.hi = 0.3;\
+	ampslide6.action = \{ \cf3 arg\cf0  slider;\
+		camp6 = \cf4 \\amp\cf0 .asSpec.map(((ampslide6.hi - ampslide6.lo)*0.5)+ampslide6.lo);\
+		ampRng6 = camp6-(\cf4 \\amp\cf0 .asSpec.map(ampslide6.lo));\
+	\};
+\fs20 \
+\
+
+\fs22 cloudBtn7 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,130, 80, 20));
+\fs20 \
+	cloudBtn7.states = [\
+		[\cf5 "8 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn7.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc7).play(\cf3 AppClock\cf0 ); \
+	\};\
+freqSlider7 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,130, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide7 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,130, 100,20));\
+	panslide7.lo = -1.0;\
+	panslide7.hi = 1.0;\
+	panslide7.action = \{ \cf3 arg\cf0  slider;\
+		cpan7 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide7.hi - panslide7.lo)*0.5)+panslide7.lo);\
+		panRng7 = cpan7-\cf4 \\pan\cf0 .asSpec.map(panslide7.lo);\
+	\};
+\fs20 \
+\
+ampslide7 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,130, 100,20));\
+	ampslide7.lo = 0.1;\
+	ampslide7.hi = 0.3;\
+	ampslide7.action = \{ \cf3 arg\cf0  slider;\
+		camp7 = \cf4 \\amp\cf0 .asSpec.map(((ampslide7.hi - ampslide7.lo)*0.5)+ampslide7.lo);\
+		ampRng7 = camp7-(\cf4 \\amp\cf0 .asSpec.map(ampslide7.lo));\
+	\};\
+\
+
+\fs22 cloudBtn8 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,150, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn8.states = [\
+		[\cf5 "16 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn8.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc8).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider8= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,150, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide8 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,150, 100,20));\
+	panslide8.lo = -1.0;\
+	panslide8.hi = 1.0;\
+	panslide8.action = \{ \cf3 arg\cf0  slider;\
+		cpan8 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide8.hi - panslide8.lo)*0.5)+panslide8.lo);\
+		panRng8 = cpan8-\cf4 \\pan\cf0 .asSpec.map(panslide8.lo);\
+	\};
+\fs20 \
+\
+ampslide8 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,150, 100,20));\
+	ampslide8.lo = 0.1;\
+	ampslide8.hi = 0.3;\
+	ampslide8.action = \{ \cf3 arg\cf0  slider;\
+		camp8 = \cf4 \\amp\cf0 .asSpec.map(((ampslide8.hi - ampslide8.lo)*0.5)+ampslide8.lo);\
+		ampRng8 = camp8-(\cf4 \\amp\cf0 .asSpec.map(ampslide8.lo));\
+	\};\
+\
+
+\fs22 cloudBtn9 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,170, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn9.states = [\
+		[\cf5 "32 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn9.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc9).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider9= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,170, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide9 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,170, 100,20));\
+	panslide9.lo = -1.0;\
+	panslide9.hi = 1.0;\
+	panslide9.action = \{ \cf3 arg\cf0  slider;\
+		cpan9 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide9.hi - panslide9.lo)*0.5)+panslide9.lo);\
+		panRng9 = cpan9-\cf4 \\pan\cf0 .asSpec.map(panslide9.lo);\
+	\};
+\fs20 \
+\
+
+\fs22 ampslide9 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,170, 100,20));\
+	ampslide9.lo = 0.1;\
+	ampslide9.hi = 0.3;\
+	ampslide9.action = \{ \cf3 arg\cf0  slider;\
+		camp9 = \cf4 \\amp\cf0 .asSpec.map(((ampslide9.hi - ampslide9.lo)*0.5)+ampslide9.lo);\
+		ampRng9 = camp9-(\cf4 \\amp\cf0 .asSpec.map(ampslide9.lo));\
+	\};
+\fs20 \
+\
+
+\fs22 cloudBtn10 = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,190, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn10.states = [\
+		[\cf5 "64 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn10.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc10).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider10= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,190, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide10 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,190, 100,20));\
+	panslide10.lo = -1.0;\
+	panslide10.hi = 1.0;\
+	panslide10.action = \{ \cf3 arg\cf0  slider;\
+		cpan10 = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide10.hi - panslide10.lo)*0.5)+panslide10.lo);\
+		panRng10 = cpan10-\cf4 \\pan\cf0 .asSpec.map(panslide10.lo);\
+	\};\
+	
+\fs20 \
+ampslide10 = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,190, 100,20));\
+	ampslide10.lo = 0.1;\
+	ampslide10.hi = 0.3;\
+	ampslide10.action = \{ \cf3 arg\cf0  slider;\
+		camp10 = \cf4 \\amp\cf0 .asSpec.map(((ampslide10.hi - ampslide10.lo)*0.5)+ampslide10.lo);\
+		ampRng10 = camp10-(\cf4 \\amp\cf0 .asSpec.map(ampslide10.lo));\
+	\};\
+\
+
+\fs22 cloudBtn1b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,210, 80, 20));
+\fs20 \
+	cloudBtn1b.states = [\
+		[\cf5 "128 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn1b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc1b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider1b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,210, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide1b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,210, 100,20));\
+	panslide1b.lo = -1.0;\
+	panslide1b.hi = 1.0;\
+	panslide1b.action = \{ \cf3 arg\cf0  slider;\
+		cpan1b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide1b.hi - panslide1b.lo)*0.5)+panslide1b.lo);\
+		panRng1b = cpan1b-\cf4 \\pan\cf0 .asSpec.map(panslide1b.lo);\
+	\};
+\fs20 \
+\
+
+\fs18 ampslide1b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,210, 100,20));\
+	ampslide1b.lo = 0.1;\
+	ampslide1b.hi = 0.3;\
+	ampslide1b.action = \{ \cf3 arg\cf0  slider;\
+		camp1b = \cf4 \\amp\cf0 .asSpec.map(((ampslide1b.hi - ampslide1b.lo)*0.5)+ampslide1b.lo);\
+		ampRng1b = camp1b-(\cf4 \\amp\cf0 .asSpec.map(ampslide1b.lo));\
+	\};
+\fs20 \
+\
+
+\fs22 cloudBtn2b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,230, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn2b.states = [\
+		[\cf5 "256 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn2b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc2b).play(\cf3 AppClock\cf0 ); \
+	\};\
+freqSlider2b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,230, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs30 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 panslide2b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,230, 100,20));\
+	panslide2b.lo = -1.0;\
+	panslide2b.hi = 1.0;\
+	panslide2b.action = \{ \cf3 arg\cf0  slider;\
+		cpan2b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide2b.hi - panslide2b.lo)*0.5)+panslide2b.lo);\
+		panRng2b = cpan2b-\cf4 \\pan\cf0 .asSpec.map(panslide2b.lo);\
+	\};\
+\
+
+\fs18 ampslide2b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,230, 100,20));\
+	ampslide2b.lo = 0.1;\
+	ampslide2b.hi = 0.3;\
+	ampslide2b.action = \{ \cf3 arg\cf0  slider;\
+		camp2b = \cf4 \\amp\cf0 .asSpec.map(((ampslide2b.hi - ampslide2b.lo)*0.5)+ampslide2b.lo);\
+		ampRng2b = camp2b-(\cf4 \\amp\cf0 .asSpec.map(ampslide2b.lo));\
+	\};
+\fs20 \
+\
+
+\fs22 cloudBtn3b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,250, 80, 20));
+\fs12 \
+
+\fs20 	cloudBtn3b.states = [\
+		[\cf5 "512 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn3b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc3b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider3b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,250, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide3b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,250, 100,20));\
+	panslide3b.lo = -1.0;\
+	panslide3b.hi = 1.0;\
+	panslide3b.action = \{ \cf3 arg\cf0  slider;\
+		cpan3b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide3b.hi - panslide3b.lo)*0.5)+panslide3b.lo);\
+		panRng3b = cpan3b-\cf4 \\pan\cf0 .asSpec.map(panslide3b.lo);\
+	\};
+\fs20 \
+\
+ampslide3b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,250, 100,20));\
+	ampslide3b.lo = 0.1;\
+	ampslide3b.hi = 0.3;\
+	ampslide3b.action = \{ \cf3 arg\cf0  slider;\
+		camp3b = \cf4 \\amp\cf0 .asSpec.map(((ampslide3b.hi - ampslide3b.lo)*0.5)+ampslide3b.lo);\
+		ampRng3b = camp3b-(\cf4 \\amp\cf0 .asSpec.map(ampslide3b.lo));\
+	\};\
+\
+cloudBtn4b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,270, 80, 20));\
+	cloudBtn4b.states = [\
+		[\cf5 "1024 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn4b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc4b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs22 freqSlider4b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,270, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide4b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,270, 100,20));\
+	panslide4b.lo = -1.0;\
+	panslide4b.hi = 1.0;\
+	panslide4b.action = \{ \cf3 arg\cf0  slider;\
+		cpan4b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide4b.hi - panslide4b.lo)*0.5)+panslide4b.lo);\
+		panRng4b = cpan4b-\cf4 \\pan\cf0 .asSpec.map(panslide4b.lo);\
+	\};
+\fs20 \
+\
+ampslide4b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,270, 100,20));\
+	ampslide4b.lo = 0.1;\
+	ampslide4b.hi = 0.3;\
+	ampslide4b.action = \{ \cf3 arg\cf0  slider;\
+		camp4b = \cf4 \\amp\cf0 .asSpec.map(((ampslide4b.hi - ampslide4b.lo)*0.5)+ampslide4b.lo);\
+		ampRng4b = camp4b-(\cf4 \\amp\cf0 .asSpec.map(ampslide4b.lo));\
+	\};\
+\
+
+\fs22 cloudBtn5b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,290, 80, 20));
+\fs20 \
+	cloudBtn5b.states = [\
+		[\cf5 "2048 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn5b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc5b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs22 freqSlider5b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,290, 100,20)).lo_(0.1).hi_(0.2);
+\fs28 \
+\
+
+\fs22 panslide5b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,290, 100,20));\
+	panslide5b.lo = -1.0;\
+	panslide5b.hi = 1.0;\
+	panslide5b.action = \{ \cf3 arg\cf0  slider;\
+		cpan5b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide5b.hi - panslide5b.lo)*0.5)+panslide5b.lo);\
+		panRng5b = cpan5b-\cf4 \\pan\cf0 .asSpec.map(panslide5b.lo);\
+	\};
+\fs20 \
+	\
+ampslide5b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,290, 100,20));\
+	ampslide5b.lo = 0.1;\
+	ampslide5b.hi = 0.3;\
+	ampslide5b.action = \{ \cf3 arg\cf0  slider;\
+		camp5b = \cf4 \\amp\cf0 .asSpec.map(((ampslide5b.hi - ampslide5b.lo)*0.5)+ampslide5b.lo);\
+		ampRng5b = camp5b-(\cf4 \\amp\cf0 .asSpec.map(ampslide5b.lo));\
+	\};\
+\
+
+\fs22 cloudBtn6b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,310, 80, 20));
+\fs20 \
+	cloudBtn6b.states = [\
+		[\cf5 "4096 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn6b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc6b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider6b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,310, 100,20
+\fs22 )).lo_(0.1).hi_(0.2);
+\fs30 \
+\
+
+\fs22 panslide6b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,310, 100,20));\
+	panslide6b.lo = -1.0;\
+	panslide6b.hi = 1.0;\
+	panslide6b.action = \{ \cf3 arg\cf0  slider;\
+		cpan6b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide6b.hi - panslide6b.lo)*0.5)+panslide6b.lo);\
+		panRng6b = cpan6b-\cf4 \\pan\cf0 .asSpec.map(panslide6b.lo);\
+	\};
+\fs20 \
+\
+ampslide6b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,310, 100,20));\
+	ampslide6b.lo = 0.1;\
+	ampslide6b.hi = 0.3;\
+	ampslide6b.action = \{ \cf3 arg\cf0  slider;\
+		camp6b = \cf4 \\amp\cf0 .asSpec.map(((ampslide6b.hi - ampslide6b.lo)*0.5)+ampslide6b.lo);\
+		ampRng6b = camp6b-(\cf4 \\amp\cf0 .asSpec.map(ampslide6b.lo));\
+	\};\
+\
+cloudBtn7b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,330, 80, 20));\
+	cloudBtn7b.states = [\
+		[\cf5 "8192 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn7b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc7b).play(\cf3 AppClock\cf0 ); \
+	\};\
+
+\fs22 freqSlider7b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,330, 100,20)).lo_(0.1).hi_(0.2);
+\fs30 \
+\
+
+\fs20 panslide7b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,330, 100,20));\
+	panslide7b.lo = -1.0;\
+	panslide7b.hi = 1.0;\
+	panslide7b.action = \{ \cf3 arg\cf0  slider;\
+		cpan7b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide7b.hi - panslide7b.lo)*0.5)+panslide7b.lo);\
+		panRng7b = cpan7b-\cf4 \\pan\cf0 .asSpec.map(panslide7b.lo);\
+	\};\
+\
+ampslide7b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,330, 100,20));\
+	ampslide7b.lo = 0.1;\
+	ampslide7b.hi = 0.3;\
+	ampslide7b.action = \{ \cf3 arg\cf0  slider;\
+		camp7b = \cf4 \\amp\cf0 .asSpec.map(((ampslide7b.hi - ampslide7b.lo)*0.5)+ampslide7b.lo);\
+		ampRng7b = camp7b-(\cf4 \\amp\cf0 .asSpec.map(ampslide7b.lo));\
+	\};\
+\
+cloudBtn8b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,350, 80, 20));
+\fs10 \
+
+\fs20 	cloudBtn8b.states = [\
+		[\cf5 "16384 sec"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn8b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc8b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider8b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,350, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 panslide8b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,350, 100,20));\
+	panslide8b.lo = -1.0;\
+	panslide8b.hi = 1.0;\
+	panslide8b.action = \{ \cf3 arg\cf0  slider;\
+		cpan8b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide8b.hi - panslide8b.lo)*0.5)+panslide8b.lo);\
+		panRng8b = cpan8b-\cf4 \\pan\cf0 .asSpec.map(panslide8b.lo);\
+	\};\
+\
+ampslide8b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,350, 100,20));\
+	ampslide8b.lo = 0.1;\
+	ampslide8b.hi = 0.3;\
+	ampslide8b.action = \{ \cf3 arg\cf0  slider;\
+		camp8b = \cf4 \\amp\cf0 .asSpec.map(((ampslide8b.hi - ampslide8b.lo)*0.5)+ampslide8b.lo);\
+		ampRng8b = camp8b-(\cf4 \\amp\cf0 .asSpec.map(ampslide8b.lo));\
+	\};\
+\
+cloudBtn9b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,370, 80, 20));\
+	cloudBtn9b.states = [\
+		[\cf5 "\cf0 32768 sec\cf5 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn9b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc9b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider9b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,370, 100,20)).lo_(0.1).hi_(0.2);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 panslide9b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,370, 100,20));\
+	panslide9b.lo = -1.0;\
+	panslide9b.hi = 1.0;\
+	panslide9b.action = \{ \cf3 arg\cf0  slider;\
+		cpan9b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide9b.hi - panslide9b.lo)*0.5)+panslide9b.lo);\
+		panRng9b = cpan9b-\cf4 \\pan\cf0 .asSpec.map(panslide9b.lo);\
+	\};
+\fs20 \
+\
+ampslide9b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,370, 100,20));\
+	ampslide9b.lo = 0.1;\
+	ampslide9b.hi = 0.3;\
+	ampslide9b.action = \{ \cf3 arg\cf0  slider;\
+		camp9b = \cf4 \\amp\cf0 .asSpec.map(((ampslide9b.hi - ampslide9b.lo)*0.5)+ampslide9b.lo);\
+		ampRng9b = camp9b-(\cf4 \\amp\cf0 .asSpec.map(ampslide9b.lo));\
+	\};\
+\
+cloudBtn10b = \cf3 SCButton\cf0 (w, \cf3 Rect\cf0 (10,390, 80, 20));\
+	cloudBtn10b.states = [\
+		[\cf5 "
+\fs18 \cf0 65536 sec
+\fs20 \cf5 "\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn10b.action = \{ \cf3 arg\cf0  view;\
+		\
+		\cf3 Routine\cf0 (cloudFunc10b).play(\cf3 AppClock\cf0 ); \
+	\};
+\fs30 \
+
+\fs20 freqSlider10b= \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (100,390, 100,20)).lo_(0.1).hi_(0.2);\
+\
+panslide10b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (210,390, 100,20));\
+	panslide10b.lo = -1.0;\
+	panslide10b.hi = 1.0;\
+	panslide10b.action = \{ \cf3 arg\cf0  slider;\
+		cpan10b = \cf4 \\pan\cf0 .asSpec\
+			.map(((panslide10b.hi - panslide10b.lo)*0.5)+panslide10b.lo);\
+		panRng10b = cpan10b-\cf4 \\pan\cf0 .asSpec.map(panslide10b.lo);\
+	\};\
+	\
+ampslide10b = \cf3 SCRangeSlider\cf0 (w, \cf3 Rect\cf0 (320,390, 100,20));\
+	ampslide10b.lo = 0.1;\
+	ampslide10b.hi = 0.3;\
+	ampslide10b.action = \{ \cf3 arg\cf0  slider;\
+		camp10b = \cf4 \\amp\cf0 .asSpec.map(((ampslide10b.hi - ampslide10b.lo)*0.5)+ampslide10b.lo);\
+		ampRng10b = camp10b-(\cf4 \\amp\cf0 .asSpec.map(ampslide10b.lo));\
+	\};
+\fs38 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs64 \cf0 )
+\fs38 \
+\
+\
+\
+}

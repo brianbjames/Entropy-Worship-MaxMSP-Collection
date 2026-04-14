@@ -1,0 +1,130 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fnil\fcharset77 Monaco;\f2\fnil\fcharset77 LucidaGrande;
+}
+{\colortbl;\red255\green255\blue255;\red128\green128\blue128;\red164\green25\blue25;\red0\green26\blue178;
+}
+\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs22 \cf2 AIM IM with deerwolf@mac.com.\
+8:10 PM\
+
+\fs24 \cf0 Hows the SC coming?\
+phew\
+man i've been at it for a while\
+it's kinda comin together\
+you?\
+Well, im enjoying the sounds...but Im having trouble stacking things up\
+yeah the sounds can be very cool in the FM world... man i thought i understood FM\
+i still have problems with routines\
+ah\
+im the same\
+they are such a pain... especially the wait time... it never lets me use the values i want\
+yeah, it kind of be difficult to predict\
+this control bussing shit is pretty crazy too\
+Yeah, I get confused sometimes about where to route things.\
+
+\fs22 \cf2 8:15 PM\
+
+\fs24 \cf0 well i'll be at it all night, you can find me here\
+cool, im for sure going to put in some time\
+word up\
+
+\fs22 \cf2 8:45 PM\
+
+\fs24 \cf0 Have you built your Cascade instrument yet?\
+
+\fs22 \cf2 8:50 PM\
+
+\fs24 \cf0 yeah\
+i think so\
+i'm not positive its working right\
+hmm\
+Im not quite sure how to get one to affect the other.\
+Your working with 
+\f1\fs20 \cf3 Simple FM w/ GUI Index and C:M ratio controls right?\
+
+\f0\fs24 \cf0 yeah\
+i just tried to follow what he did in the example\
+but make it happen again\
+so your modulater gets modulated\
+yeah\
+you can use his model of the one modulating the carrier and just repeat it\
+the flow charts right?\
+only making the destination of the modulation be the first modulator\
+yeah\
+thats right\
+it's confusing how it works in SC though\
+but the flow chart images are the structure of it\
+yeah\
+I can visulize much of it in terms of other programs\
+it is basically just repeating what he did in the example and changing the target of modulation so you modulate the modulater that modulates the carrier\
+sounds crazy\
+i know\
+in max it would be easy\
+Yeah, thats what I was thinking...graphic\
+Is your carrier getting modulated more than once?\
+
+\fs22 \cf2 9:45 PM\
+
+\fs24 \cf0 it should be modulated only once\
+but the modulator that modulates the carrier should also be modulated, so in essence, you are modulating the carrier with complex waveform instead of a sine wave\
+exactly\
+sounds like crazy talk but i think that's it\
+...\
+Yeah, but how is that written?\
+
+\fs22 \cf2 9:50 PM\
+
+\fs24 \cf0 you would follow his example\
+but repeat the step\
+where the modulator takes the carrier as an add\
+the first modulator looks like this right?\
+
+\f1\fs28 modFreq1,0,modFreq1*ind1,carFreq)\
+\cf4 SinOsc\cf0 .ar(modFreq1,0,modFreq1*ind1,carFreq)\
+
+\f0\fs24 that is your modulator\
+you add the carrier freq so the modulation swings around the carrier frequency rather than aroun 0\
+so the second mod (the one that modulates the first modulator) would look the same but it targets the 1st modulator instead of the carrier\
+yeah\
+so you would substitute the carFreq add with the mod1 SinOsc\
+not so obvious\
+but i think it is correct\
+let me try that\
+does that make any sense?\
+I thik I see how it would work\
+
+\fs22 \cf2 10:05 PM\
+
+\fs24 \cf0 i think i got it\
+I used the double modulator example that he gave, then added more\
+i think that would be this:\
+
+\f2\fs22 \
+
+\f0\fs24 with the double modulator both modulate the carrier\
+your right\
+good point\
+i can show you what i did if you want\
+ok, that mat help\
+
+\f1\fs28 fm = \cf4 SinOsc\cf0 .ar(\
+\cf4 SinOsc\cf0 .ar(\
+modFreq2,0,modFreq2*ind2,\
+\cf4 SinOsc\cf0 .ar( \
+modFreq1,0,modFreq1*ind1,carFreq)\
+),\
+0,amp);\
+
+\f0\fs24 trippy\
+the 1st modulator is the add argument to the 2nd, the carrier is the add argument to the 1st modulator\
+ah i see\
+took me a while to figure that out\
+but if you look, it follows the same structure that he gave, just that you have to put a SinOsc function in as the add, not just a freq value\
+
+\fs22 \cf2 10:55 PM\
+
+\fs24 \cf0 Im gonna call it a night...this screen is killing my eyes\
+Thanks for the help.\
+}

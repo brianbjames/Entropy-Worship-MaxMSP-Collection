@@ -1,0 +1,127 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica;\f2\fnil\fcharset77 LucidaGrande;
+}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs28 \cf2 //Buffers\cf0 \
+(\
+h = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+i = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+\
+f = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+g = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+\
+b = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+c = \cf3 Buffer\cf0 .alloc(s,4096,1);\
+\
+\cf2 //put the paths of the two samples you want to morph here\
+//NOTE they must be stereo, if you want to load monos change the \
+//numChannels for each PlayBuf from 2 to 1\cf0 \
+d = \cf3 Buffer\cf0 .read(s,\cf4 "
+\f1 /Users/kevin/Music/Samps_loc/
+\f2 4FFT/Lux.wav
+\f0 "\cf0 );\
+e = \cf3 Buffer\cf0 .read(s,\cf4 "
+\f1 /Users/kevin/Music/Samps_loc/
+\f2 4FFT/Rainbow.wav
+\f0 "\cf0 );\
+)\
+\
+\cf2 //The Synth\cf0 \
+(\
+\cf3 SynthDef\cf0 (\cf4 "FFTChains_k1"\cf0 , \
+\{ \cf3 arg\cf0  bufnum1, bufnum2, bufnum3, bufnum4, bufnum5, bufnum6, sndBuf1, sndBuf2, wRan=0.0, rate=1, startPos=0, endPos=1, aRand=1.0, aBin=0.0, aMin=0.0, binTrig=0.1, 
+\fs26 wBin
+\fs28 =0.0;\
+\
+\cf3 var\cf0  in1, in2, chainRand, chain1a, chain1b, chain2a, chain2b, chain3a, chain3b, dur1, dur2, dir, trig,chainBin, chainMin, out1, out2, out3;\
+	\
+	\cf2 //playback variables\cf0 \
+	dur1 = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sndBuf1));\
+	dur2 = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sndBuf2));\
+	dir = (endPos-startPos).sign;\
+	\cf2 //sound 1\cf0 \
+	in1 = \cf3 PlayBuf\cf0 .ar(2,sndBuf1,\
+		\cf3 BufRateScale\cf0 .kr(sndBuf1)*rate*dir,\
+		\cf3 Impulse\cf0 .kr((dur1.reciprocal).min(100)),\
+		startPos*\cf3 BufFrames\cf0 .kr(sndBuf1), \
+		endPos*\cf3 BufFrames\cf0 .kr(sndBuf1),\
+	1);\
+	chain1a = \cf3 FFT\cf0 (bufnum1, in1);\
+	chain2a = \cf3 FFT\cf0 (bufnum3, in1);\
+	chain3a = \cf3 FFT\cf0 (bufnum5, in1);\
+	\cf2 //sound 2\cf0 \
+	in2 = \cf3 PlayBuf\cf0 .ar(2,sndBuf2,\
+		\cf3 BufRateScale\cf0 .kr(sndBuf2)*rate*dir,\
+		\cf3 Impulse\cf0 .kr((dur2.reciprocal).min(100)),\
+		startPos*\cf3 BufFrames\cf0 .kr(sndBuf2), \
+		endPos*\cf3 BufFrames\cf0 .kr(sndBuf2),\
+	1);	\
+	\cf2 //FFT input chains\cf0 \
+	chain1b = \cf3 FFT\cf0 (bufnum2, in2);\
+	chain2b = \cf3 FFT\cf0 (bufnum4, in2);\
+	chain3b = \cf3 FFT\cf0 (bufnum6, in2);\
+	\cf2 //FFT Processes\cf0 \
+	chainRand = \cf3 PV_RandWipe\cf0 (chain1b, chain1a, wRan, \cf3 Impulse\cf0 .kr	(binTrig));\
+	
+\fs26 chainBin = \cf3 PV_BinWipe\cf0 (
+\fs28 chain2b
+\fs26 , 
+\fs28 chain2a
+\fs26 , wBin);
+\fs28 \
+	chainMin = 
+\fs26 \cf3 PV_Min\cf0 (
+\fs28 chain3b
+\fs26 , 
+\fs28 chain3a
+\fs26 );
+\fs18  
+\fs28 \
+	\cf2 //Output\cf0 \
+	out1 = aRand * \cf3 IFFT\cf0 (chainRand);\
+	out2 = aBin * \cf3 IFFT\cf0 (chainBin);\
+	out3 = (aMin * 2) * \cf3 IFFT\cf0 (chainMin);\
+	\
+	\cf3 Out\cf0 .ar(0, out1+out2+out3)\
+\}).store;\
+)\
+\
+\cf2 //Compile Specs\cf0 \
+(\
+\cf2 //params\cf0 \
+
+\fs30 \cf3 Spec\cf0 .specs.add(\cf5 \\
+\fs28 wRan
+\fs30 \cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ));\
+\cf3 Spec\cf0 .specs.add(\cf5 \\
+\fs28 wBin
+\fs30 \cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ));\
+\cf3 Spec\cf0 .specs.add(\cf5 \\binTrig\cf0 ->\cf3 ControlSpec\cf0 (0.0,10.0));\
+\cf2 //amps\cf0 \
+\cf3 Spec\cf0 .specs.add(\cf5 \\aRand\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ));\
+\cf3 Spec\cf0 .specs.add(\cf5 \\aBin\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ));\
+\cf3 Spec\cf0 .specs.add(\cf5 \\aMin\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf5 \\amp\cf0 ));\
+
+\fs26 )
+\fs22 \
+
+\fs28 \
+\cf2 //Launch GUI\cf0 \
+(\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf4 "FFTChains_k1"\cf0 ,\
+	[\cf5 \\bufnum1\cf0 ,b.bufnum,\cf5 \\bufnum2\cf0 ,c.bufnum,\
+	\cf5 \\bufnum3\cf0 ,f.bufnum,\cf5 \\bufnum4\cf0 ,g.bufnum,\
+	\cf5 \\bufnum5\cf0 ,h.bufnum,\cf5 \\bufnum6\cf0 ,i.bufnum,\
+	\
+	\cf5 \\sndBuf1\cf0 ,d.bufnum,\cf5 \\sndBuf2\cf0 ,e.bufnum]));\
+)\
+\
+
+\fs26 s.recSampleFormat = \cf4 "int16"\cf0 ;
+\fs30 \
+
+\fs28 \
+}

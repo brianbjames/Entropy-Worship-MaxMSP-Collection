@@ -1,0 +1,149 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;\f1\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red173\green20\blue13;\red0\green0\blue191;\red96\green96\blue96;
+\red191\green0\blue0;\red0\green27\blue185;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs24 \cf2 // THIS SYNTH DEF WORKS IT IS THE BASIS OF THE NEXT VERSION:\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs28 \cf0 (	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "sampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, 	loop=1.0;\
+	\cf3 Out\cf0 .ar(0,\cf3 PlayBuf\cf0 .ar(1,			\
+		sampbuf,			\
+		\cf3 BufRateScale\cf0 .kr(sampbuf)*rate,   \
+		1.0,		\
+		startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \
+		loop))		\
+\}).load(s);	\
+)\
+\
+\
+\
+\cf5 // play the sampler, and change its rate using a Routine\cf0 \
+( \cf3 var\cf0  buf, filename;\
+filename = \cf4 "
+\f0\fs24 sounds/Dorothy wave stereo.aiff
+\f1\fs28 "\cf0 ; 	\
+buf = \cf3 Buffer\cf0 .read(s,filename);	\
+x = \cf3 Synth\cf0 (\cf4 "sampler"\cf0 ,[\cf4 "sampbuf"\cf0 , buf.bufnum]).play; \
+\cf3 Routine\cf0 (\{\
+	loop(\{ 								\
+		x.set(\cf4 "rate"\cf0 ,rrand(-2.0,2.0).postln); \cf5 // choose a random rate between +-2.0, negative rate plays it backwards\cf0 \
+		rrand(2.0,0.2).wait		\cf5 // at random time intervals\cf0 \
+	\})\
+\}).play;\
+)
+\f0\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \
+\
+\
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf6 SynthDef\cf0 (\cf4 "loopySampler"\cf0 ,\{ \cf6 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1.0, dir=1, loop=1.0;\
+\cf6 var\cf0  thisRate, thisDur, loopFrq, env;\
+thisRate = \cf6 BufRateScale\cf0 .kr(sampbuf)*rate;\
+thisDur = ((endPos-startPos).abs*\cf6 BufDur\cf0 .kr(sampbuf));\
+loopFrq = (thisDur.reciprocal).min(100);\
+env = \cf6 Env\cf0 .new([0,1,1,0],[0.0125,1.0-0.025,0.0125]); \
+\
+\cf6 Out\cf0 .ar(0,\cf6 PlayBuf\cf0 .ar(2, \
+sampbuf, \
+thisRate, \
+\cf6 Impulse\cf0 .kr(loopFrq), \
+startPos*\cf6 BufFrames\cf0 .kr(sampbuf), \
+loop)* \
+\cf6 EnvGen\cf0 .ar(env,\cf6 Impulse\cf0 .kr(loopFrq), timeScale: thisDur.max(\cf6 BufRateScale\cf0 .kr(sampbuf)*0.01));\
+)\
+\}).load(s);\
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf5 vol\cf2 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs28 \cf0 ( \cf3 var\cf0  buf, filename;\
+filename = \cf4 "
+\f0\fs24 sounds/Dorothy wave stereo.aiff
+\f1\fs28 "\cf0 ; 	\
+buf = \cf3 Buffer\cf0 .read(s,filename);	\
+)
+\f0\fs24 \cf2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 //THIS LOADS THE SAMPLE AND A NICE GUI _ BUT THEY DON"T INTERACT//\
+\
+\
+//This Code defines the filename, allocates a buffer, and starts a granular sampler\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\fs28 \cf0 (	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 var\cf0  filename, buf, \
+myWind,rate=1.0,startPos=0,size=1;\
+filename = \cf4 "
+\f0\fs24 sounds/Dorothy wave stereo.aiff
+\f1\fs28 "\cf0 ; 	\
+buf = \cf3 Buffer\cf0 .read(s,filename);	\
+myWind = \cf3 SCWindow\cf0 .new(\cf4 "granSamp"\cf0 );\
+\cf5 //	 a FlowLayout allows automated placement of GUI objects in a window\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf0 myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);
+\fs28 \
+myWind.front;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "rate"\cf0 ,[0.09,4.0,\cf7 \\exp\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; rate = slider.value \},1.0,numberWidth:40);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf0 myWind.view.decorator.nextLine;
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "start"\cf0 ,[0.0,1.0,\cf7 \\lin\cf0 ,0,0.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; startPos = slider.value \},0.0,numberWidth:40);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf0 myWind.view.decorator.nextLine;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 EZSlider\cf0 (myWind,300 @ 20,\cf4 "size"\cf0 ,[1.0,10.0,\cf7 \\lin\cf0 ,0,1.0].asSpec,\
+	\{ \cf3 arg\cf0  slider; size = slider.value \},1.0,numberWidth:40);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs26 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 Routine\cf0 (\{ \
+	loop(\{ \
+		\cf3 Synth\cf0 (\cf4 "grain"\cf0 ,[\cf4 "bufnum"\cf0 ,0,\
+			\cf4 "rate"\cf0 ,rate,\cf4 "startPos"\cf0 ,startPos,\
+			\cf4 "size"\cf0 ,size]);\
+			(0.02*size).wait; \
+		\}); \
+\}).play;\
+)
+\f0\fs24 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf6 Buffer\cf0 .read(s,filename, \
+action: \{ \cf6 arg\cf0  buf; \
+x = \cf6 Synth\cf0 (\cf4 "loopySampler"\cf0 , \
+[\cf4 "sampbuf"\cf0 ,buf.bufnum,\cf4 "startPos"\cf0 ,0.15,\cf4 "endPos"\cf0 ,0.25]).play; \
+\}\
+);\
+\
+\cf6 Routine\cf0 (\{ \
+loop(\{ \
+\cf6 x.set\cf0 (\cf4 "loopySampler"\cf0 ,[\cf4 "bufnum"\cf0 ,0,\
+\cf4 "rate"\cf0 ,rate,\cf4 "startPos"\cf0 ,startPos,\
+\cf4 "endPos"\cf0 ,endPos]);\
+(0.02*endPos).wait; //I changed "size" to "endPos"\
+\}); \
+\})\
+\
+)}

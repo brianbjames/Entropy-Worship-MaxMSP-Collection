@@ -1,0 +1,76 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fmodern\fcharset77 Courier;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww12440\viewh14720\viewkind0
+\deftab720
+\pard\pardeftab720\ql\qnatural
+
+\f0\fs24 \cf0 Hi people,\
+\
+Sorry for the delay in getting this out to you, my cold got the better of me! \
+The assignment is also posted on Blackboard.\'ca For the clearest formatting, I\
+suggest you download the .pdf version posted there.\
+\
+Happy filtering,\
+JL\
+\
+Music 438 - Assignment #5 (MSP #1)\
+\
+Make a MIDI keyboard controller for the \'95\'c0\uc0\u189  filtergraph~ \'95\'c0\u189  object (found on\
+the menu bar when your patcher is in edit mode).\'ca \
+\
+A. The first step is to familiarize yourself with the way this graphic filter\
+interface works.\'ca In order to save some time, I suggest you copy a good portion\
+of the extensive \'95\'c0\uc0\u189 Help\'95\'c0\u189  file for \'95\'c0\u189  filtergraph~ \'95\'c0\u189  and paste it into your\
+patch.\'ca This would include its connection to \'95\'c0\uc0\u189  biquad~ \'95\'c0\u189  (the actual\
+filter), to which is connected the \'95\'c0\uc0\u189  noise~ \'95\'c0\u189  object (a white noise\
+generator; I suppose you could also try \'95\'c0\uc0\u189  pink~ \'95\'c0\u189  for comparison\'95\'c0\u189 s sake),\
+the amplifier object (signal multiplier, i.e. \'95\'c0\uc0\u189  *~ \'95\'c0\u189 ) and the \'95\'c0\u189  dac~ \'95\'c0\u189 \
+object (digital-to-audio converter, always the last step in the chain of an MSP\
+patch).\'ca It would also include many of the messages associated with the object,\
+including the \'95\'c0\uc0\u189  Umenu \'95\'c0\u189  that selects filter types and the message to\
+activate the gain-based variant (for the lowpass, highpass, bandpass, and\
+bandreject filters, which will probably prove most interesting for this\
+assignment).\
+\
+B. The next step is to make the basic MIDI information coming from the keyboard\
+(or, if necessary, the keyboard slider, though this is a far less malleable\
+solution) control the critical values affecting the filter response.\'ca These are,\
+as you know: \
+\
+	1. 	the center frequency (bandpass/bandreject) or cutoff frequency\
+(lowpass/highpass);\
+\
+	2.	the Q (\'95\'c0\uc0\u189 quality factor\'95\'c0\u189 ), which determines the bandwidth of the\
+filter\'95\'c0\uc0\u189 s response at the \
+center/cutoff frequency [the Q factor is equal to the center frequency divided\
+by the bandwidth, so the higher the Q, the more focused is the filter\'95\'c0\uc0\u189 s\
+response around the center/cutoff frquency; here, you give the Q directly and\
+the object calculates the bandwidth for you];\
+\
+	3.	the gain (you must enable the \'95\'c0\uc0\u189 gainmode $1\'95\'c0\u189  message), which affects the\
+overall intensity \
+of the filter\'95\'c0\uc0\u189 s output. \
+\
+The most important task here is to map the MIDI values (0-127, though, in\
+reality, your range of pitches will be far narrower than that, and you\'95\'c0\uc0\u189 ll have\
+trouble playing a velocity even close to 0!) onto the ranges appropriate for the\
+filter parameters discussed above.\'ca In some cases, this conversion will work\
+fine through straightforward linear mapping (e.g., with the \'95\'c0\uc0\u189  zmap \'95\'c0\u189 \
+object); you may, however, wish to try converting certain types of values\
+according to an exponential base value (see \'95\'c0\uc0\u189  scale \'95\'c0\u189 , which can also be\
+used in place of \'95\'c0\uc0\u189  zmap \'95\'c0\u189  for linear mapping, or \'95\'c0\u189  linedrive \'95\'c0\u189 ). You may\
+also find some utility for the \'95\'c0\uc0\u189  mtof \'95\'c0\u189  object, which converts MIDI notes to\
+frequency.\'ca \
+\
+In order to test multiple options, it might be a good idea to have them\
+connected to a \'95\'c0\uc0\u189  switch \'95\'c0\u189  (remember that you can augment the number of\
+inlets with an argument). Similarly, if you want to have more than one sound\
+source available for filtering (beyond the white and pink noise already\
+mentioned, you might want to try a sawtooth wave produced by the \'95\'c0\uc0\u189  phasor~ \'95\'c0\u189 \
+object).\'ca To switch between these sound sources, you\'95\'c0\uc0\u189 ll need a special\
+signal-based switch that, oddly enough is not called \'95\'c0\uc0\u189 switch~\'95\'c0\u189  but, rather,\
+\'95\'c0\uc0\u189  selector~ \'95\'c0\u189 .\
+\
+My 7-year-old son had great fun playing with the \'95\'c0\uc0\u189  filtergraph~ \'95\'c0\u189  \'95\'c0\u189  I hope\
+you do, too!}

@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "techNOStorage5">
+	<slot number = "1">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "116" />
+			<pattr name = "twoSnareAmp" value = "0" />
+			<pattr name = "twoSnareEvenRel" value = "0" />
+			<pattr name = "twoSnareONOff" value = "0" />
+			<pattr name = "twoSnareStepRel" value = "0" />
+			<pattr name = "twoSteps" value = "16" />
+			<pattr name = "twotechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 6.441864 7.93557 0.486957 87.30706 0.134587 0 2451.931152 0.234312 0.808696 155.563492 2.378855 0.0625 12.029068 1.761525 0.895652 138.591309 0.134587 0.125 2637.737549 1.761525 0.243478 233.081879 0.134587 0.1875 6.441864 30.131096 0.626087 87.30706 0.134587 0.25 0.331617 7.93557 0.86087 87.30706 0.134587 0.3125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.375 6.441864 1.761525 0.252174 138.591309 0.134587 0.4375 6.441864 7.93557 0.486957 87.30706 0.134587 0.5 2451.931152 1.333333 0.147826 184.997208 2.378855 0.5625 18.830618 1.761525 0.043478 155.563492 0.134587 0.625 2637.737549 1.761525 0.243478 233.081879 0.134587 0.6875 6.441864 30.131096 0.626087 87.30706 0.134587 0.75 0.331617 7.93557 0.86087 87.30706 0.134587 0.8125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.875 6.441864 1.761525 0.252174 138.591309 0.134587 0.9375" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "123" />
+			<pattr name = "oneSnareAmp" value = "0" />
+			<pattr name = "oneSnareEvenRel" value = "14" />
+			<pattr name = "oneSnareONOff" value = "1" />
+			<pattr name = "oneSnareStepRel" value = "117" />
+			<pattr name = "oneSteps" value = "16" />
+			<pattr name = "onetechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 119.675362 3.149414 0.791304 97.998856 0.134587 0 3635.76709 13.854552 0.304348 138.591309 0.134587 0.03125 1.100748 7.686003 0.565217 110. 5.918787 0.125 2207.170166 5.874716 0.547826 110. 2.370914 0.15625 275.13324 14.544579 0 97.998856 0.134587 0.25 1.596154 12.075522 0 138.591309 0.134587 0.28125 14.663943 14.544579 0.313043 97.998856 0.134587 0.375 9205.734375 31.464195 0 110. 0.134587 0.40625 119.675362 3.149414 0 97.998856 0.134587 0.5 3635.76709 13.854552 0.304348 138.591309 0.134587 0.53125 68.273254 7.686003 0.565217 110. 5.918787 0.625 2207.170166 0.931564 0 110. 2.370914 0.65625 2.720476 14.544579 0 97.998856 0.134587 0.75 1.596154 0.173646 0.46087 138.591309 0.134587 0.78125 119.675362 14.544579 0.313043 97.998856 0.134587 0.875 0.386393 1.696834 0.721739 110. 0.134587 0.90625" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "116" />
+			<pattr name = "twoSnareAmp" value = "0" />
+			<pattr name = "twoSnareEvenRel" value = "0" />
+			<pattr name = "twoSnareONOff" value = "0" />
+			<pattr name = "twoSnareStepRel" value = "0" />
+			<pattr name = "twoSteps" value = "16" />
+			<pattr name = "twotechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 6.441864 7.93557 0.486957 87.30706 0.134587 0 2451.931152 0.234312 0.808696 155.563492 2.378855 0.0625 12.029068 1.761525 0.895652 138.591309 0.134587 0.125 2637.737549 1.761525 0.243478 233.081879 0.134587 0.1875 6.441864 30.131096 0.626087 87.30706 0.134587 0.25 0.331617 7.93557 0.86087 87.30706 0.134587 0.3125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.375 6.441864 1.761525 0.252174 138.591309 0.134587 0.4375 6.441864 7.93557 0.486957 87.30706 0.134587 0.5 2451.931152 1.333333 0.147826 184.997208 2.378855 0.5625 18.830618 1.761525 0.043478 155.563492 0.134587 0.625 2637.737549 1.761525 0.243478 233.081879 0.134587 0.6875 6.441864 30.131096 0.626087 87.30706 0.134587 0.75 0.331617 7.93557 0.86087 87.30706 0.134587 0.8125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.875 6.441864 1.761525 0.252174 138.591309 0.134587 0.9375" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "123" />
+			<pattr name = "oneSnareAmp" value = "0" />
+			<pattr name = "oneSnareEvenRel" value = "14" />
+			<pattr name = "oneSnareONOff" value = "1" />
+			<pattr name = "oneSnareStepRel" value = "117" />
+			<pattr name = "oneSteps" value = "16" />
+			<pattr name = "onetechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 119.675362 3.149414 0.791304 97.998856 0.134587 0 3635.76709 13.854552 0.304348 138.591309 0.134587 0.03125 1.100748 7.686003 0.565217 110. 5.918787 0.125 2207.170166 5.874716 0.547826 110. 2.370914 0.15625 275.13324 14.544579 0 97.998856 0.134587 0.25 1.596154 12.075522 0 138.591309 0.134587 0.28125 14.663943 14.544579 0.313043 97.998856 0.134587 0.375 9205.734375 31.464195 0 110. 0.134587 0.40625 119.675362 3.149414 0 97.998856 0.134587 0.5 3635.76709 13.854552 0.304348 138.591309 0.134587 0.53125 68.273254 7.686003 0.565217 110. 5.918787 0.625 2207.170166 0.931564 0 110. 2.370914 0.65625 2.720476 14.544579 0 97.998856 0.134587 0.75 1.596154 0.173646 0.46087 138.591309 0.134587 0.78125 119.675362 14.544579 0.313043 97.998856 0.134587 0.875 0.386393 1.696834 0.721739 110. 0.134587 0.90625" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "116" />
+			<pattr name = "twoSnareAmp" value = "0" />
+			<pattr name = "twoSnareEvenRel" value = "0" />
+			<pattr name = "twoSnareONOff" value = "0" />
+			<pattr name = "twoSnareStepRel" value = "0" />
+			<pattr name = "twoSteps" value = "16" />
+			<pattr name = "twotechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 6.441864 7.93557 0.486957 87.30706 0.134587 0 2451.931152 0.234312 0.808696 155.563492 2.378855 0.0625 5.564137 1.761525 0.121739 138.591309 0.134587 0.125 2637.737549 1.761525 0.243478 233.081879 0.134587 0.1875 6.441864 30.131096 0.626087 207.652344 0.134587 0.25 13.297336 7.93557 0.130435 87.30706 1.709633 0.3125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.375 6.441864 1.761525 0.252174 138.591309 0.134587 0.4375 6.441864 7.93557 0.486957 87.30706 0.134587 0.5 2451.931152 1.333333 0.147826 184.997208 2.378855 0.5625 18.830618 1.761525 0.043478 155.563492 0.134587 0.625 2637.737549 1.761525 0.243478 233.081879 0.134587 0.6875 6.441864 30.131096 0.626087 116.540939 0.134587 0.75 1.547245 7.93557 0.426087 220. 0.134587 0.8125 1564.852295 1.761525 0.582609 138.591309 2.071687 0.875 6.441864 1.761525 0.252174 138.591309 0.134587 0.9375" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "123" />
+			<pattr name = "oneSnareAmp" value = "0" />
+			<pattr name = "oneSnareEvenRel" value = "14" />
+			<pattr name = "oneSnareONOff" value = "1" />
+			<pattr name = "oneSnareStepRel" value = "117" />
+			<pattr name = "oneSteps" value = "16" />
+			<pattr name = "onetechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 16 119.675362 3.149414 0.791304 97.998856 0.134587 0 3635.76709 13.854552 0.304348 138.591309 0.134587 0.03125 1.100748 7.686003 0.565217 110. 5.918787 0.125 2207.170166 5.874716 0.547826 110. 2.370914 0.15625 275.13324 14.544579 0 97.998856 0.134587 0.25 1.596154 12.075522 0 138.591309 0.134587 0.28125 14.663943 14.544579 0.313043 97.998856 0.134587 0.375 9205.734375 31.464195 0 110. 0.134587 0.40625 119.675362 3.149414 0 97.998856 0.134587 0.5 3635.76709 13.854552 0.304348 138.591309 0.134587 0.53125 68.273254 7.686003 0.565217 110. 5.918787 0.625 2207.170166 0.931564 0 110. 2.370914 0.65625 2.720476 14.544579 0 97.998856 0.134587 0.75 1.596154 1.712342 0.46087 138.591309 0.134587 0.78125 119.675362 14.544579 0 155.563492 0.134587 0.875 0.386393 1.696834 0.721739 110. 0.134587 0.90625" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "7">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "117" />
+			<pattr name = "twoSnareAmp" value = "0" />
+			<pattr name = "twoSnareEvenRel" value = "0" />
+			<pattr name = "twoSnareONOff" value = "0" />
+			<pattr name = "twoSnareStepRel" value = "0" />
+			<pattr name = "twoSteps" value = "8" />
+			<pattr name = "twotechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 4 60.565929 7.93557 0.513043 87.30706 0.134587 0 71.525093 27.419239 0.573913 87.30706 0.134587 0.125 60.565929 7.93557 0.513043 87.30706 0.134587 0.25 71.525093 27.419239 0.573913 87.30706 0.134587 0.375" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "121" />
+			<pattr name = "oneSnareAmp" value = "0" />
+			<pattr name = "oneSnareEvenRel" value = "14" />
+			<pattr name = "oneSnareONOff" value = "1" />
+			<pattr name = "oneSnareStepRel" value = "117" />
+			<pattr name = "oneSteps" value = "4" />
+			<pattr name = "onetechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 4 119.675362 62.02 0.791304 97.998856 0.134587 0 749.930359 62.02 0.313043 369.994415 0.134587 0.308642 119.675362 62.02 0.791304 97.998856 0.134587 0.5 749.930359 62.02 0.313043 369.994415 0.134587 0.62963" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "8">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "125" />
+			<pattr name = "twoSnareAmp" value = "0" />
+			<pattr name = "twoSnareEvenRel" value = "0" />
+			<pattr name = "twoSnareONOff" value = "0" />
+			<pattr name = "twoSnareStepRel" value = "0" />
+			<pattr name = "twoSteps" value = "8" />
+			<pattr name = "twotechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 4 60.565929 7.93557 0.513043 87.30706 0.134587 0 71.525093 27.419239 0.573913 87.30706 0.134587 0.0625 60.565929 7.93557 0.513043 87.30706 0.134587 0.125 71.525093 27.419239 0.573913 87.30706 0.134587 0.1875" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "124" />
+			<pattr name = "oneSnareAmp" value = "0" />
+			<pattr name = "oneSnareEvenRel" value = "14" />
+			<pattr name = "oneSnareONOff" value = "1" />
+			<pattr name = "oneSnareStepRel" value = "117" />
+			<pattr name = "oneSteps" value = "8" />
+			<pattr name = "onetechnoUI" value = "3 20 1 0.976471 0.792157 1 0.8 1 0.690196 0.203922 0.84 0 0.603922 0.388235 1 0.376471 0 0.92549 0.8 0 0.666667 0.196078 0.8 0 0.686275 0.721569 0.8 0 0.388235 0.8 0.8 0.847059 0 0.435294 0.8 1 1 1 1 8 119.675362 3.149414 0.791304 97.998856 0.134587 0 3635.76709 13.854552 0.304348 138.591309 0.134587 0.0625 1.100748 7.686003 0.565217 110. 5.918787 0.25 2207.170166 0.931564 0.547826 110. 2.370914 0.3125 2.720476 14.544579 0.808696 97.998856 0.134587 0.5 1.596154 0.173646 0.46087 138.591309 0.134587 0.5625 119.675362 14.544579 0.313043 97.998856 0.134587 0.75 0.386393 1.696834 0.721739 110. 0.134587 0.8125" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "9">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "" />
+			<pattr name = "twoSnareAmp" value = "" />
+			<pattr name = "twoSnareEvenRel" value = "" />
+			<pattr name = "twoSnareONOff" value = "" />
+			<pattr name = "twoSnareStepRel" value = "" />
+			<pattr name = "twoSteps" value = "" />
+			<pattr name = "twotechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "" />
+			<pattr name = "oneSnareAmp" value = "" />
+			<pattr name = "oneSnareEvenRel" value = "" />
+			<pattr name = "oneSnareONOff" value = "" />
+			<pattr name = "oneSnareStepRel" value = "" />
+			<pattr name = "oneSteps" value = "" />
+			<pattr name = "onetechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "10">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "" />
+			<pattr name = "twoSnareAmp" value = "" />
+			<pattr name = "twoSnareEvenRel" value = "" />
+			<pattr name = "twoSnareONOff" value = "" />
+			<pattr name = "twoSnareStepRel" value = "" />
+			<pattr name = "twoSteps" value = "" />
+			<pattr name = "twotechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "" />
+			<pattr name = "oneSnareAmp" value = "" />
+			<pattr name = "oneSnareEvenRel" value = "" />
+			<pattr name = "oneSnareONOff" value = "" />
+			<pattr name = "oneSnareStepRel" value = "" />
+			<pattr name = "oneSteps" value = "" />
+			<pattr name = "onetechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "11">
+		<patcher name = "techNO[1]">
+			<pattr name = "none" value = "" />
+			<pattr name = "twoSnareAmp" value = "" />
+			<pattr name = "twoSnareEvenRel" value = "" />
+			<pattr name = "twoSnareONOff" value = "" />
+			<pattr name = "twoSnareStepRel" value = "" />
+			<pattr name = "twoSteps" value = "" />
+			<pattr name = "twotechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "techNO">
+			<pattr name = "none" value = "" />
+			<pattr name = "oneSnareAmp" value = "" />
+			<pattr name = "oneSnareEvenRel" value = "" />
+			<pattr name = "oneSnareONOff" value = "" />
+			<pattr name = "oneSnareStepRel" value = "" />
+			<pattr name = "oneSteps" value = "" />
+			<pattr name = "onetechnoUI" value = "" />
+			<patcher name = "colors">
+			</patcher>
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.65" />
+			<pattr name = "chrate" value = "6.3" />
+			<pattr name = "dwm" value = "37" />
+			<pattr name = "ldlytime" value = "208." />
+			<pattr name = "lfeedback" value = "0.63" />
+			<pattr name = "opl" value = "1." />
+			<pattr name = "rdlytime" value = "359." />
+			<pattr name = "rfeedback" value = "0.55" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+	</slot>
+</pattrstorage>
+

@@ -1,0 +1,159 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;\red0\green115\blue0;\red0\green115\blue0;\red0\green0\blue191;\red96\green96\blue96;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs20 \cf2 /*SynthDef("granSin",\{ arg freq=400, dur=0.01,pan=0,amp=0.1;\
+	var env, dir, saw, start;\
+	env = Env.sine(dur);\
+	Out.ar(0,\
+		EnvGen.ar(env,doneAction: 2,timeScale: dur.max(0.00025))*\
+		Pan2.ar(SinOsc.ar(freq,0,amp),pan))\
+\}).store;*/\cf3 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 (	\
+\
+	a = \cf4 List\cf3 [];	\cf2 // keep a list of buffers, instead of assigning each to separate variables\cf3 \
+	[\cf5 "sounds/Wind.aif"\cf3 ,\
+	\cf5 "sounds/a11wlk01.wav"\cf3 ,\
+	\cf5 "sounds/Cart.aif"\cf3 ].do(\{\cf4 |filename|\cf3 \
+	a = a.add(\cf4 Buffer\cf3 .read(s,filename))\});\
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 \
+(\
+\cf4 SynthDef\cf3 (\cf5 "granSampler"\cf3 ,\{ \cf4 arg\cf3  bufnum=0, rate=1, startPos=0, endPos=1.0, panPos=1;\
+	\cf4 var\cf3  thisRate, thisDur, loopFrq, env;\
+	thisRate = \cf4 BufRateScale\cf3 .kr(bufnum)*rate*((endPos-startPos).sign);\
+	thisDur = ((endPos-startPos).abs*\cf4 BufDur\cf3 .kr(bufnum))/rate;\
+	loopFrq = (thisDur.reciprocal).min(100);  	\cf2 // guard against Infinite frequency\cf3 \
+	env = \cf4 Env\cf3 .new([0,1,1,0],[0.05,1.0-0.1,0.05]);\
+	\cf4 Out\cf3 .ar(0,\cf4 Pan2\cf3 .ar(\
+		\cf4 EnvGen\cf3 .ar(env,\cf4 Impulse\cf3 .kr(loopFrq),\
+			doneAction:2,\
+			timeScale: thisDur.max(\cf4 BufRateScale\cf3 .kr(bufnum)*0.01))*\
+			\cf4 PlayBuf\cf3 .ar(1,bufnum,thisRate,   							\cf4 Impulse\cf3 .kr(	loopFrq),\
+			startPos*\cf4 BufFrames\cf3 .kr(bufnum),  \cf2 // startPos\cf3 \
+			1),panPos))\
+\}).store;\
+)\
+\
+\
+( \
+\cf4 var\cf3  w, cloudFunc,cloudBtn,\
+	rateSlider,rateSldText, \
+	densSlider, densSldText, \
+	\cf0 startPosSlider, startPosSldText,\
+	ampSlider, ampSldText,\cf3 \
+	cloudDurSlider;\
+\
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf3 \
+cloudFunc = \{ \
+	\cf4 var\cf3  cloudDuration=10, \
+	startTime,\
+	rate,\
+	dur,\
+	startPos=0.0,\
+	startPosLo=0.0,\
+	startPosHi=0.2,\
+	endPos=1.0,\
+	panPos,\
+	amp,\
+\cf0 	loamp=0.1,\
+	hiamp=0.4,\
+\cf3 	lodensity=0.025,\
+	hidensity=0.125,\
+	density=0.025,\
+	lorate=1.0,\
+	hirate=2.0,\
+	lodur=0.05,\
+	hidur=0.5;\
+\
+	\
+	\
+	startTime = \cf4 thisThread\cf3 .seconds;	\cf2 // this gets the seconds since SC startup\
+	\
+\cf0 	lorate = [-2.0,-1.0,\cf6 \\lin\cf0 ].asSpec.map(rateSlider.lo);\
+	hirate =  [1.0,2.0,\cf6 \\lin\cf0 ].asSpec.map(rateSlider.hi); \cf3 \
+	\
+	lodensity = [0.025, 0.125,\cf7 \\lin\cf3 ].asSpec.map(densSlider.lo);\
+	hidensity =  [0.125 ,2.0,\cf7 \\lin\cf3 ].asSpec.map(densSlider.hi); \
+	\
+	\cf0 startPosLo = [0.0, 0.9,\cf6 \\lin\cf0 ].asSpec.map(startPosSlider.lo);\
+	startPosHi =  [0.1,1.0,\cf6 \\lin\cf0 ].asSpec.map(startPosSlider.hi); \
+	\
+	loamp = [0.025, 0.1,\cf6 \\lin\cf0 ].asSpec.map(ampSlider.lo);\
+	hiamp =  [0.1, 0.5,\cf6 \\lin\cf0 ].asSpec.map(ampSlider.hi); \cf3 \
+	\
+\
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf3 \
+	while(\{ \cf4 thisThread\cf3 .seconds  < (startTime+cloudDuration) \},\{ \
+		rate=rrand(lorate,hirate);\
+		startPos=rrand(startPosLo, startPosHi);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		panPos=rrand(-1.0, 1.0);\
+		\cf0 density=rrand(lodensity, hidensity);\cf3 \
+		\cf4 Synth\cf3 (\cf5 "granSampler"\cf3 ,[		\
+			\cf5 "rate"\cf3 ,rate,\
+			\cf5 "startPos"\cf3 , startPos,\
+			\cf5 "endPos"\cf3 ,endPos,\
+			\cf5 "amp"\cf3 ,amp,\
+			\cf5 "panPos"\cf3 , panPos]);\
+		(dur/density).wait.postln; \
+	\});  \
+\};\
+\cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf3 \
+w = \cf4 SCWindow\cf3 (\cf5 "cloudGen"\cf3 ); w.front;\
+cloudBtn = \cf4 SCButton\cf3 (w, \cf4 Rect\cf3 (30,30, 80, 20));\
+	cloudBtn.states = [\
+		[\cf5 "startCloud"\cf3 , \cf4 Color\cf3 .black, \cf4 Color\cf3 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn.action = \{ \cf4 arg\cf3  view;\
+		\cf2 // create a Routine using cloudFunc\cf3 \
+		\cf4 Routine\cf3 (cloudFunc).play(\cf4 AppClock\cf3 ); \cf2 // AppClock allows GUI interaction\cf3 \
+	\};\
+\
+\
+rateSlider = \cf4 SCRangeSlider\cf3 (w, \cf4 Rect\cf3 (10,80, 280,20));\
+	rateSlider.lo=0.4;\
+	rateSlider.hi=0.6;\
+rateSldText = \cf4 SCStaticText\cf3 (w, \cf4 Rect\cf3 (10,60, 90,20));\
+	rateSldText.font = \cf4 Font\cf3 (\cf5 "Helvetica"\cf3 , 10);\
+	rateSldText.stringColor = \cf4 Color\cf3 .blue;\
+	rateSldText.align = \cf7 \\left\cf3 ;\
+	rateSldText.string = \cf5 "rate"\cf3 ;\
+	\
+densSlider = \cf4 SCRangeSlider\cf3 (w, \cf4 Rect\cf3 (10,120, 280,20));\
+	densSlider.lo=0.025;\
+	densSlider.hi=0.125;\
+densSldText = \cf4 SCStaticText\cf3 (w, \cf4 Rect\cf3 (10,100, 90,20));\
+	densSldText.font = \cf4 Font\cf3 (\cf5 "Helvetica"\cf3 , 10);\
+	densSldText.stringColor = \cf4 Color\cf3 .blue;\
+	densSldText.align = \cf7 \\left\cf3 ;\
+	densSldText.string = \cf5 "density"\cf3 ;\
+	\
+\cf0 startPosSlider = \cf8 SCRangeSlider\cf0 (w, \cf8 Rect\cf0 (10,160, 280,20));\
+	startPosSlider.lo=0.0;\
+	startPosSlider.hi=0.2;\
+startPosSldText = \cf8 SCStaticText\cf0 (w, \cf8 Rect\cf0 (10,140, 90,20));\
+	startPosSldText.font = \cf8 Font\cf0 (\cf9 "Helvetica"\cf0 , 10);\
+	startPosSldText.stringColor = \cf8 Color\cf0 .blue;\
+	startPosSldText.align = \cf6 \\left\cf0 ;\
+	startPosSldText.string = \cf9 "Start Position Range"\cf0 ;\
+	\
+ ampSlider = \cf8 SCRangeSlider\cf0 (w, \cf8 Rect\cf0 (10,200, 280,20));\
+	ampSlider.lo=0.0;\
+	ampSlider.hi=0.2;\
+ampSldText = \cf8 SCStaticText\cf0 (w, \cf8 Rect\cf0 (10,180, 90,20));\
+	ampSldText.font = \cf8 Font\cf0 (\cf9 "Helvetica"\cf0 , 10);\
+	ampSldText.stringColor = \cf8 Color\cf0 .blue;\
+	ampSldText.align = \cf6 \\left\cf0 ;\
+	ampSldText.string = \cf9 "Amplitude Range"\cf0 ;\cf3 \
+	\
+)\
+\
+\
+}

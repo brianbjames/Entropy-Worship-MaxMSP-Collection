@@ -1,0 +1,936 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Arial-BoldMT;\f2\fswiss\fcharset77 ArialMT;
+\f3\fnil\fcharset77 LucidaSans;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green0\blue0;\red191\green0\blue0;
+\red0\green115\blue0;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs20 \cf2 Make\cf3  a \cf2 GUI\cf3  for delay send - level, feedback, mod, - check out sample load (the problem is in the the routine for the granulatorp - \cf2 I\cf3 've got to take something out).
+\fs18 \
+\
+\
+(\
+	var inPorts = 5;\
+	var outPorts = 5;\
+	MIDIClient.init(inPorts,outPorts);			// explicitly intialize the client\
+	inPorts.do(\{ arg i; \
+		MIDIIn.connect(i, MIDIClient.sources.at(i));\
+	\});\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b\fs80 \cf3 (
+\f2\b0\fs28 	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf4 //Variables for DorothySessionConv:\cf3 \
+	\cf2 var\cf3   w, \
+		effLev=0.0, 
+\fs26 effLevControl, 
+\fs28 effLevControl
+\fs26 SldText, 
+\fs28  \
+		amp=0.0, 
+\fs26 ampControl, ampControlSldText,\
+		
+\fs48 tgfxlevel
+\fs28 ,  tgfxlevelControl, tgfxlevelControlSldText,\
+		
+\fs48 confxlevel
+\fs28 ,  confxlevelControl, confxlevelControlSldText,
+\fs26 \
+		
+\fs28 vol=0.25,volControl
+\fs26 ;
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 	\cf2 var\cf3   startButton;\
+	\cf2 var\cf3  id, cmdPeriodFunc, synthDorothy;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 \
+\cf4 //Variables for Delay Effect:\cf3 \
+	\cf2 var\cf3   dlyamp, 
+\fs26 dlyampControlSldText, dlyampControl, 		dlytime, dlytimeControlSldText, dlytimeControl,\
+		fdbk, fdbkControlSldText, fdbkControl,\
+		dlymod, dlymodControlSldText, dlymodControl;	 \
+	\cf2 var\cf3  synth
+\fs28 ParlorTrick;
+\fs26 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	  	\
+
+\fs30 \cf4 //Variables for plbuf Granularization:
+\fs26 \cf3 \
+	
+\fs28 \cf2 var\cf3  s,  b, c, nchans, nframes, buf, buftext, bufenter, soundbutt, soundtext, gotext, gobutt,\
+	
+\fs26 serialbufbutt, serialbuftext, bufs, bufnum = 0,
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 										\cf4 // GUI items to control\cf3 \
+	rateslide, ratetext, ratelo, ratehi,	\cf4 //  rate of grain generation\cf3 \
+	durslide, durtext, durlo, durhi,		\cf4 // duration of grain\cf3 \
+	pchslide, pchtext, pchlo, pchhi,	\cf4 // pitch of grain\cf3 \
+	posslide, postext, poslo, poshi,		\cf4 // current position in file\cf3 \
+	locslide, loctext, loclo, lochi, locspread,	\cf4 // spatial position\cf3 \
+	speedslide, speedtext, speed,		\cf4 // scan speed\cf3 \
+	volslide, voltext, volume;\
+	\
+	\cf2 var\cf3  synthplbuf1, synthplbuf2;\
+\
+s = \cf2 Server\cf3 .local;\
+if (s.serverRunning == \cf2 false\cf3 , \{ s.boot; \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs26 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs28 \cf3 \
+s.sendMsg(\cf5 \\b_allocRead\cf3 , 10, \cf6 "sounds/dorothy waves.aif"\cf3 );\
+s.sendMsg (\cf5 \\b_allocRead\cf3 , 11, \cf6 "sounds/Piano_Harp2.aif"\cf3  );
+\fs26 	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 bufs=\cf2 Array\cf3 .new(4);	\cf4 // keep an array of buffers\cf3 \
+	[	\
+	\cf6 "sounds/kokoratikinokokorekedineke"\cf3 ,\
+	\cf6 "sounds/Knowinvertor_mono.aif"\cf3 ,\
+	\cf6 "sounds/PianoHarp_mono1.aif"\cf3 ,\
+	\cf6 "sounds/dorothy waves.aif"\cf3 \
+	]\
+.do(\{\cf2 |filename|\cf3 \
+	bufs = bufs.add(\cf2 Buffer\cf3 .read(s,filename))\});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b\fs46 \cf3 \
+\
+\cf4 //Synchronous Gran' 
+\fs44 and Convolution
+\f2\b0\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 SynthDef\cf3  (\cf6 "DorothySessionConv"\cf3 ,\{ \
+	\
+	\cf2 arg\cf3  effLev, amp= 0.75, kbuf= 11, framesize=512, vol =0.5, 			size=framesize, tgfxlevel = 0.5, confxlevel = 0.5, fxbus = 4, fxbuslevel =0;\
+	\cf2 var\cf3  input, kernel, w,\
+		\
+		\
+		b = 10, trate, dur, clk, pos, pan;\
+		trate = \cf2 LinExp\cf3 .kr(\cf2 LFTri\cf3 .kr(\cf2 MouseY\cf3 .kr(0.1,2,1)),-1,1,8,120);\
+		dur = 12 / trate;\
+		clk = \cf2 Impulse\cf3 .kr(trate);\
+		pos = \cf2 MouseX\cf3 .kr(0,\cf2 BufDur\cf3 .kr(b)) + \cf2 TRand\cf3 .kr(0, 0.01, clk);\
+		pan = \cf2 WhiteNoise\cf3 .kr(0.6);\
+		\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 		input = \cf2 TGrains\cf3 .ar(2, clk, b, 1, pos, dur, pan, effLev);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 		kernel= \cf2 PlayBuf\cf3 .ar(2,kbuf, \cf2 BufRateScale\cf3 .kr(kbuf), \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3        				loop: 1)*vol;\
+       	\
+       \cf2 Out\cf3 .ar(0,\cf2 TGrains\cf3 .ar(4, clk, b, 1, pos, dur, pan, amp));\
+       \cf2 Out\cf3 .ar(fxbus,\cf2 TGrains\cf3 .ar(4, clk, b, 1, pos, dur, pan, amp)*tgfxlevel);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 	\cf2 Out\cf3 .ar(0,\cf2 Convolution\cf3 .ar(input,kernel, framesize, 0.5));\
+	\cf2 Out\cf3 .ar(fxbus,\cf2 Convolution\cf3 .ar(input,kernel, framesize, 0.5)*confxlevel); \
+ \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 \
+\}).store;			\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f1\b\fs46 \cf3 \
+\cf4 //Delay Effect\cf3 \
+
+\f2\b0\fs32 \cf2 SynthDef\cf3 (\cf6 "parlorTrick"\cf3 , \{\cf2 arg\cf3  fxbusin = 4, dlyamp =1, dlytime = 0.1, fdbk =0, dlymod = 1;
+\f1\b\fs46 \
+
+\fs40 \cf2 var\cf3   insig, delay;\
+insig = \cf2 In\cf3 .ar(fxbusin, 1);\
+delay=\cf2 DelayL\cf3 .ar(insig, 4, dlytime, dlyamp);\
+\cf4 //Out.ar(4,SinOsc.ar(820, 0, fdbk) );\cf3 \
+\cf2 Out\cf3 .ar(0,\cf2 Pan4\cf3 .ar(delay, \cf2 SinOsc\cf3 .kr(dlymod,0,1),\cf2 SinOsc\cf3 .kr(dlymod,0.5,1))\
+);\
+\cf2 Out\cf3 .ar(4,delay*fdbk);\
+\}).store;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\b0\fs18 \cf4 /*(\
+\{\
+	var source, local;\
+	\
+	source = in\
+		\
+	local = LocalIn.ar(2) + [source, 0]; // read feedback, add to source\
+	\
+	local = DelayN.ar(local, 0.2, 0.2); // delay sound\
+	\
+	// reverse channels to give ping pong effect, apply decay factor\
+	LocalOut.ar(local * fdbk); \
+	\
+	Out.ar(0, local);\
+\}.play;\
+)
+\f1\b\fs46 \
+*/\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf4 //Granularizer Mono
+\f2\b0\fs26 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf2 SynthDef\cf3 (\cf6 "plbuf1"\cf3 , \{ \cf2 arg\cf3  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0, vol = 0.5;\
+	\cf2 var\cf3  out, e, amp, c1, c2;\
+	e = \cf2 Env\cf3 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf2 EnvGen\cf3 .ar(e, doneAction: 2);\
+	out = \cf2 PlayBuf\cf3 .ar(1, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out*amp*pos;\
+	c2 = out*amp*(1.0-pos);\
+	\cf2 Out\cf3 .ar(0, [c1, c2])*vol;\
+	\}).load(s);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f1\b\fs46 \cf3 \
+\cf4 //Granularizer Stereo
+\f2\b0\fs26 	
+\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 SynthDef\cf3 (\cf6 "plbuf2"\cf3 , \{ \cf2 arg\cf3  trig = 1, start = 0, gdur = 0.05, \
+		prate = 1.0, pos = 0.5, bno = 0, vol = 0.5;\
+	\cf2 var\cf3  out, e, amp, c1, c2;\
+	e = \cf2 Env\cf3 .triangle(dur: gdur, level: 1.0);\
+	amp = \cf2 EnvGen\cf3 .ar(e, doneAction: 2);\
+	out = \cf2 PlayBuf\cf3 .ar(2, bno, prate, trig, startPos: start, loop: 0);\
+	c1 = out.at(0)*amp*pos;\
+	c2 = out.at(1)*amp*(1.0-pos);\
+	\cf2 Out\cf3 .ar(0, [c1, c2])*vol;\
+	\}).load(s);\
+	\
+\cf4 //	preset the hi and lo limits on random generation of parameters\cf3 \
+ratelo = 0.2;\
+ratehi = 0.21;\
+durlo = 0.04;\
+durhi = 01;\
+pchlo = 1.0;\
+pchhi = 1.0;\
+poslo = 0.5;\
+poshi = 1.5;\
+loclo = 0.1;\
+lochi = 0.2;\
+locspread = 0.1;\
+speed = 0.005;\
+buf = 0;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs26 \cf3 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f1\b\fs46 \cf4 //Band Pass
+\f2\b0\fs26 	\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs22 \cf2 SynthDef\cf3 (\cf6 "BandPass"\cf3 , \{ \cf2 arg\cf3  out=0, in=0, lo=20, hi=20000, rq=0.707, lagTime=5.0;\
+	\cf4 // replace out...you could probably change this to XOut to do a wet/dry signal\cf3 \
+	\cf2 ReplaceOut\cf3 .ar(out,\
+		\cf2 RLPF\cf3 .ar(\cf2 RHPF\cf3 .ar( \cf2 In\cf3 .ar(in, 2), \cf2 Lag\cf3 .kr(lo, lagTime), rq), \cf2 Lag\cf3 .kr(hi, lagTime), rq)\
+		);\
+	\}).send(s);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b\fs44 \cf4 //Level Meters
+\f2\b0\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs22 \cf2 SynthDef\cf3 (\cf6 "lsAmpTrack"\cf3 , \{ \cf2 arg\cf3  out=0, in=1, gain=1.0, t_reset;\
+	\cf2 var\cf3  inSig, ampSig, peak, max, min, ceil, floor, rms;\
+	\cf4 //inSig = AudioIn.ar(in);\cf3 \
+	inSig = \cf2 In\cf3 .ar(in, 1);\
+	rms = \cf2 A2K\cf3 .kr(\cf2 RunningSum\cf3 .rms(inSig*gain));\
+	ampSig = \cf2 Amplitude\cf3 .kr(inSig);\
+	peak = \cf2 PeakFollower\cf3 .kr(ampSig, 0.99);\
+	ceil = \cf2 RunningMax\cf3 .kr(ampSig, t_reset);\
+	floor = \cf2 RunningMin\cf3 .kr(peak, t_reset);\
+	\cf2 Out\cf3 .kr(out, [ampSig, peak, rms, ceil]);\
+	\
+\}).store;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs28 \cf3 \
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f1\b\fs38 \cf4 //GUIs for combined Synchronous Gran'  and Granularizers
+\f2\b0\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs20 \cf3    	
+\fs34 w = \cf2 SCWindow\cf3 .new(\cf6 "Convolution and Cloud"\cf3 , \cf2 Rect\cf3 		(20,500,700,800));\
+   	 w.front;       	\
+   	 w.view.background = \cf2 HiliteGradient\cf3 (\cf2 Color\cf3 		(0.9),\cf2 Color\cf3 .red(0.5),[\cf5 \\h\cf3 ,\cf5 \\v\cf3 ].choose, 100, rrand(0.1,0.9));  
+\fs42    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs40 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs26 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs36 \cf4 // GUI for DorothySessionConv
+\fs26 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 ampControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (10,50, 280,20));\
+
+\fs28 ampControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,30, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 ampControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 ampControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .white;\
+	
+\fs28 ampControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 ampControl
+\fs26 SldText.string = \cf6 "amp"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 ampControl.action = \{ \cf2 arg\cf3  slider; amp = slider.value; synthDorothy.set(\cf5 \\amp\cf3 , amp) \}; \
+ \
+       	  	\
+effLevControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (10,90, 280,20));\
+
+\fs28 effLevControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,70, 130,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 effLevControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 effLevControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .white;\
+	
+\fs28 effLevControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 effLevControl
+\fs26 SldText.string = \cf6 "convolution effect  level"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 effLevControl.action = \{ \cf2 arg\cf3  slider; effLev = slider.value; synthDorothy.set(\cf5 \\effLev\cf3 , effLev) \};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 tgfxlevelControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (10,140, 130 ,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 tgfxlevelControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,120, 120,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 tgfxlevelControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 tgfxlevelControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .white;\
+	
+\fs28 tgfxlevelControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 tgfxlevelControl
+\fs26 SldText.string = \cf6 "TGrains fx send lvl"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 tgfxlevelControl.action = \{ \cf2 arg\cf3  slider; tgfxlevel = slider.value; synthDorothy.set(\cf5 \\tgfxlevel\cf3 , tgfxlevel)\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 confxlevelControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (160,140, 130 ,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 confxlevelControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (160,120, 120,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 confxlevelControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 confxlevelControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .white;\
+	
+\fs28 confxlevelControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 confxlevelControl
+\fs26 SldText.string = \cf6 "Conv fx send level"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 confxlevelControl.action = \{ \cf2 arg\cf3  slider; confxlevel = slider.value; synthDorothy.set(\cf5 \\confxlevel\cf3 , confxlevel)\};\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs32 \cf4 //GUI for Delay
+\fs28 \cf3 \
+\
+\
+dlyampControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (10,180, 130 ,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 dlyampControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,160, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 dlyampControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 dlyampControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .yellow;\
+	
+\fs28 dlyampControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 dlyampControl
+\fs26 SldText.string = \cf6 "delay volume"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 dlyampControl.action = \{ \cf2 arg\cf3  slider; dlyamp = slider.value; synthParlorTrick.set(\cf5 \\dlyamp\cf3 , dlyamp)\};\
+\
+dlytimeControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (160,180, 130 ,20));\
+
+\fs28 dlytimeControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (160,160, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 dlytimeControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 dlytimeControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .yellow;\
+	
+\fs28 dlytimeControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 dlytimeControl
+\fs26 SldText.string = \cf6 "delay time"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 dlytimeControl.action = \{ \cf2 arg\cf3  slider; dlytime = slider.value; synthParlorTrick.set(\cf5 \\dlytime\cf3 , dlytime) \};\
+\
+fdbkControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (10,220, 130 ,20));\
+
+\fs28 fdbkControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,200, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 fdbkControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 fdbkControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .yellow;\
+	
+\fs28 fdbkControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 fdbkControl
+\fs26 SldText.string = \cf6 "feedback level"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 fdbkControl.action = \{ \cf2 arg\cf3  slider; fdbk = slider.value; synthParlorTrick.set(\cf5 \\fdbk\cf3 , fdbk)\};\
+\
+dlymodControl
+\fs26  = \cf2 SCSlider\cf3  (w, \cf2 Rect\cf3 (160,220, 130 ,20));\
+
+\fs28 dlymodControl
+\fs26 SldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (160, 200, 90,20));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 	
+\fs28 dlymodControl
+\fs26 SldText.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	
+\fs28 dlymodControl
+\fs26 SldText.stringColor = \cf2 Color\cf3 .yellow;\
+	
+\fs28 dlymodControl
+\fs26 SldText.align = \cf5 \\left\cf3 ;\
+	
+\fs28 dlymodControl
+\fs26 SldText.string = \cf6 "delay modulation"\cf3 ;\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 dlymodControl.action = \{ \cf2 arg\cf3  slider; dlymod =
+\fs48  slider.value\cf0 .postln
+\fs28 \cf3 ; synthParlorTrick.set(\cf5 \\dlymod\cf3 , dlymod) \};\
+\
+\
+
+\fs36 \cf4 // GUI for Granularizer - sample player
+\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 soundtext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (330,205, 60,20));\
+	soundtext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	soundtext.stringColor = \cf2 Color\cf3 .white;\
+	soundtext.align = \cf5 \\left\cf3 ;\
+	soundtext.string = \cf6 "soundfile"\cf3 ;\
+	\
+soundbutt = \cf2 SCButton\cf3 (w, \cf2 Rect\cf3 (330,230, 60, 20));\
+	soundbutt.states = [\
+		[\cf6 "load"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .new(0.0, 0.5, 0.9)],\
+		];\
+	soundbutt.action = \{ \cf2 arg\cf3  view;\
+		buf = bufenter.value; \cf4 // get the value of the current buffer\cf3 \
+		\cf2 File\cf3 .openDialog(\cf6 "hey hey hey"\cf3 , \{ \cf2 arg\cf3  path; \cf2 var\cf3  sf;\
+			sf = \cf2 SoundFile\cf3 .new;\
+			sf.openRead(path);\
+			nchans = sf.numChannels;\
+			nframes = sf.numFrames;\
+			sf.close;\
+			s.sendMsg(\cf6 "/b_allocRead"\cf3 , buf, path, 0, nframes);\
+			gobutt.enabled = \cf2 true\cf3 ;\
+			\});	\
+		\};\
+buftext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (420,205, 60,20));\
+	buftext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	buftext.stringColor = \cf2 Color\cf3 .white;\
+	buftext.align = \cf5 \\center\cf3 ;\
+	buftext.string = \cf6 "buffer #"\cf3 ;\
+\
+bufenter = \cf2 SCNumberBox\cf3 (w, \cf2 Rect\cf3 (440,230, 20,20));\
+	bufenter.align = \cf5 \\center\cf3 ;\
+	bufenter.setProperty(\cf5 \\boxColor\cf3 , \cf2 Color\cf3 .new(0.8, 0.5, 0.9));\
+	bufenter.value = 0;\
+\
+\cf4 //	GUI to set start and stop the granulator\cf3 \
+gotext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (510,205, 70,20));\
+	gotext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	gotext.stringColor = \cf2 Color\cf3 .white;\
+	gotext.align = \cf5 \\center\cf3 ;\
+	gotext.string = \cf6 "granulatarize..."\cf3 ;\
+	\
+	gobutt = \cf2 SCButton\cf3 (w, \cf2 Rect\cf3 (510,230, 60, 20));\
+	gobutt.states = [\
+		[\cf6 "GO!"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .new(0.0, 0.5, 0.9)],\
+		[\cf6 "nomore!"\cf3 , \cf2 Color\cf3 .white, \cf2 Color\cf3 .new(0.8, 0.5, 0.9)],\
+		];\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs26 \cf3 serialbuftext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (510,255, 60,20));\
+	serialbuftext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	serialbuftext.stringColor = \cf2 Color\cf3 .white;\
+	serialbuftext.align = \cf5 \\left\cf3 ;\
+	serialbuftext.string = \cf6 "sample"\cf3 ;\
+\
+serialbufbutt = \cf2 SCButton\cf3 (w, \cf2 Rect\cf3 (510,280, 60,20));\
+	serialbufbutt.states = [\
+		[\cf6 "1"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .red],\
+		[\cf6 "2"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .red],\
+		[\cf6 "3"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .red],\
+		[\cf6 "4"\cf3 ,\cf2 Color\cf3 .black, \cf2 Color\cf3 .red]\
+		];\
+	serialbufbutt.action = \{ \cf2 arg\cf3  view;\
+		switch(view.value,\
+		0,\{bufnum=bufs[0].bufnum\}, 1,\{bufnum=bufs[1].bufnum\}, 2,\{bufnum=bufs[2].bufnum\}, \
+		3,\{bufnum=bufs[3].bufnum\})\
+		\};
+\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 		\
+\cf4 // the button action triggers the two play Routines\cf3 \
+	gobutt.action = \{ \cf2 arg\cf3  view;\
+		if (gobutt.value == 1, \{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs40 \cf4 // Button Routines:
+\fs28  Routine 'b' generates  Synths\cf3 \
+			b = \cf2 Routine\cf3 (\{\
+			loop (\{\
+				if (nchans == 1, \{\
+					\cf2 Synth\cf3 (\cf6 "plbuf1"\cf3 , [\cf6 "start"\cf3 , rrand(loclo, lochi)*(nframes-	(durhi*(44100*pchhi))),\
+						\cf6 "gdur"\cf3 , rrand(durlo, durhi),\
+						\cf6 "prate"\cf3 , rrand(pchlo, pchhi),\
+						\cf6 "pos"\cf3 , rrand(poslo, poshi),\
+						\cf6 "bno"\cf3 , buf]);\
+				\},\{\
+					\cf2 Synth\cf3 (\cf6 "plbuf2"\cf3 , [\cf6 "start"\cf3 , rrand(loclo, lochi)*(nframes- (durhi*(44100*pchhi))),\
+					\cf6 "gdur"\cf3 , rrand(durlo, durhi),\
+					\cf6 "prate"\cf3 , rrand(pchlo, pchhi),\
+					\cf6 "pos"\cf3 , rrand(poslo, poshi),\
+					\cf6 "bno"\cf3 , buf]);\
+				\});\
+				rrand(ratelo, ratehi).wait;\
+				\})\
+			\}).play;\
+			\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf4 // Routine 'c' automatically changes the location of playback in the file\cf3 \
+\cf4 // by moving the lochi and loclo variables\cf3 \
+			c = \cf2 Routine\cf3 (\{\
+			loop (\{\
+				0.01.wait;\
+				loclo = loclo + speed;\
+				lochi = lochi + speed;\
+				if (lochi > 1.0, \{\
+					loclo = 0.0;\
+					lochi = loclo+locspread;\
+					\});\
+				if (loclo < 0.0, \{\
+					lochi = 1.0;\
+					loclo = lochi-locspread;\
+					\});\
+				locslide.setProperty(\cf5 \\lo\cf3 , loclo);\
+				locslide.setProperty(\cf5 \\hi\cf3 , lochi);\
+				\});\
+			\});\
+			\cf2 AppClock\cf3 .play(c);		\
+	\cf4 /* this Routine is played by the AppClock which must be used when controlling 	things with Cocoa primitives (such as MacOS graphics) .  ' .play' defaults to SystemClock.play, 	which is more accurate, but cannot call Cocoa */\cf3 \
+		\},\{\
+			b.stop;\
+			c.stop;\
+		\});\
+	\};\
+	gobutt.enabled = \cf2 false\cf3 ;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs40 \cf4 // Slider GUI
+\fs28 \cf3 \
+ratetext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,300, 90,20));\
+	ratetext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	ratetext.stringColor = \cf2 Color\cf3 .white;\
+	ratetext.align = \cf5 \\left\cf3 ;\
+	ratetext.string = \cf6 "grain rate"\cf3 ;\
+rateslide = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (310,325, 280,20));\
+	rateslide.lo = ratelo+0.01;\
+	rateslide.hi = ratehi+0.01;\
+	rateslide.action = \{ \cf2 arg\cf3  slider;\
+		ratelo = rateslide.lo+0.0025;\
+		ratehi = rateslide.hi+0.0025;\
+		\};\
+\
+durtext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,360, 90,20));\
+	durtext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	durtext.stringColor = \cf2 Color\cf3 .white;\
+	durtext.align = \cf5 \\left\cf3 ;\
+	durtext.string = \cf6 "grain duration"\cf3 ;\
+durslide = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (310,385, 280,20));\
+	durslide.lo = durlo+0.01;\
+	durslide.hi = durhi+0.01;\
+	durslide.action = \{ \cf2 arg\cf3  slider;\
+		durlo = (durslide.lo+0.0025)*(ratelo*10.0);\
+		durhi = (durslide.hi+0.0025)*(ratelo*10.0);\
+		\};\
+\
+pchtext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,420, 90,20));\
+	pchtext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	pchtext.stringColor = \cf2 Color\cf3 .white;\
+	pchtext.align = \cf5 \\left\cf3 ;\
+	pchtext.string = \cf6 "pitch variance"\cf3 ;\
+pchslide = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (310,445, 280,20));\
+	pchslide.lo = pchlo/2.0;\
+	pchslide.hi = pchhi/2.0;\
+	pchslide.action = \{ \cf2 arg\cf3  slider;\
+		pchlo = (pchslide.lo*2.0);\
+		pchhi = (pchslide.hi*2.0);\
+		\};\
+\
+postext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,480, 90,20));\
+	postext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	postext.stringColor = \cf2 Color\cf3 .white;\
+	postext.align = \cf5 \\left\cf3 ;\
+	postext.string = \cf6 "stereo variance"\cf3 ;\
+posslide = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (310,505, 280,20));\
+	posslide.lo = poslo;\
+	posslide.hi = poshi;\
+	posslide.action = \{ \cf2 arg\cf3  slider;\
+		poslo = posslide.lo;\
+		poshi = posslide.hi;\
+		\};\
+\
+loctext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,540, 90,20));\
+	loctext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	loctext.stringColor = \cf2 Color\cf3 .white;\
+	loctext.align = \cf5 \\left\cf3 ;\
+	loctext.string = \cf6 "playback location"\cf3 ;\
+locslide = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (310,565, 280,20));\
+	locslide.lo = loclo;\
+	locslide.hi = lochi;\
+	locslide.action = \{ \cf2 arg\cf3  slider;\
+		loclo = locslide.lo;\
+		lochi = locslide.hi;\
+		locspread = lochi-loclo;\
+		\};\
+\
+speedtext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,600, 90,20));\
+	speedtext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	speedtext.stringColor = \cf2 Color\cf3 .white;\
+	speedtext.align = \cf5 \\left\cf3 ;\
+	speedtext.string = \cf6 "playback speed"\cf3 ;\
+speedslide = \cf2 SCSlider\cf3 (w, \cf2 Rect\cf3 (310,625, 280,20));\
+	speedslide.value = (speed/0.05)+0.5;\
+	speedslide.action = \{ \cf2 arg\cf3  slider;\
+		speed = (speedslide.value-0.5)*0.05.
+\fs64 postln
+\fs28 ;\
+		\};\
+		\
+voltext = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (310,660, 90,20));\
+	voltext.font = \cf2 Font\cf3 (\cf6 "Helvetica"\cf3 , 10);\
+	voltext.stringColor = \cf2 Color\cf3 .white;\
+	voltext.align = \cf5 \\left\cf3 ;\
+	voltext.string = \cf6 "volume"\cf3 ;\
+	\
+volslide = \cf2 SCSlider\cf3 (w, \cf2 Rect\cf3 (310,685, 280,20));\
+	volslide.value = (vol/0.05)+0.5;\
+	volslide.action = \{ \cf2 arg\cf3  slider;\
+		vol = (slider.value;synthplbuf1.set(\cf5 \\vol\cf3 , vol)); vol = (slider.value;synthplbuf2.set(\cf5 \\vol\cf3 , vol)) \
+		\};
+\fs26 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 \
+ 
+\fs26 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\fs52 \cf4 //Band Pass instrument
+\fs26 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f3\fs24 \cf3 ~lsBandPass = \{ \cf2 var\cf3  out=0, in=0;\
+	\cf2 var\cf3  myWind, \
+		loSlider, hiSlider, rqSlider, \
+		rangeSlider, lagSlider, \
+		doUpdate, memSliders, \
+		inst;\
+\cf4 // function to call when you update the rangeslider or the high and lo sliders\cf3 \
+\cf4 // -- it sets them to the same values\cf3 \
+doUpdate = \{	\cf2 arg\cf3  inLo, inHi;\
+		\cf2 var\cf3  newLo, newHi;\
+		if(inLo<inHi, \{newLo=inLo; newHi=inHi\}, \{newLo=inHi; newHi=inLo\});\
+		rangeSlider.lo_(newLo);\
+		rangeSlider.hi_(newHi);\
+		loSlider.value = round(\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ).map(newLo), 1);\
+		hiSlider.value = round(\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ).map(newHi));			\};\
+\
+myWind = \cf2 SCWindow\cf3 .new(\cf6 "BandPass"\cf3 , \cf2 Rect\cf3 (720, 
+\fs72 300
+\fs24 , 480, 300));\
+myWind.view.decorator = \cf2 FlowLayout\cf3 (myWind.view.bounds);\
+\cf4 // on close free the synth effect\cf3 \
+myWind.onClose_(\{inst.free;\});\
+rangeSlider = \cf2 SCRangeSlider\cf3 (myWind, \cf2 Rect\cf3 (0, 0, 470, 120))\
+	.action_(\{\cf2 arg\cf3  me; doUpdate.value(me.lo.value, me.hi.value)\})\
+	.knobColor_(\cf2 Color\cf3 .black);\
+myWind.view.decorator.nextLine;\
+\cf4 // this slider sets the synth low cutoff value\cf3 \
+loSlider = \cf2 EZSlider\cf3 (myWind, 400 @ 24, \cf6 "Low Cutoff"\cf3 ,\
+	\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ),\{\
+			\cf2 |ez|\cf3  inst.set(\cf5 \\lo\cf3 , ez.value); \
+			rangeSlider.lo_(\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ).unmap(ez.value));\
+		\}, 20);\
+myWind.view.decorator.nextLine;\
+\cf4 // this slider sets the synth high cutoff value\cf3 \
+hiSlider = \cf2 EZSlider\cf3 (myWind, 400 @ 24, \cf6 "High Cutoff"\cf3 , \
+	\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ),\{\
+			\cf2 |ez|\cf3  inst.set(\cf5 \\hi\cf3 , ez.value); \
+			rangeSlider.hi_(\cf2 ControlSpec\cf3 .specs.at(\cf5 \\freq\cf3 ).unmap(ez.value));\
+		\}, 20000);		\
+myWind.view.decorator.nextLine;\
+\cf4 // resonance for the filter\cf3 \
+rqSlider = \cf2 EZSlider\cf3 (myWind, 200 @ 24, \cf6 "Rez"\cf3 , \
+	\cf2 ControlSpec\cf3 (0.001, 2, \cf5 \\exp\cf3 , 0, 0.707),\
+	\{\cf2 |ez|\cf3  inst.set(\cf5 \\rq\cf3 , ez.value); \}, 0.707, labelWidth: 40, numberWidth: 40);\
+\cf4 // lag of the controls -- so it glides evenly\cf3 \
+lagSlider = \cf2 EZSlider\cf3 (myWind, 200 @ 24, \cf6 "Lag"\cf3 , \
+	\cf2 ControlSpec\cf3 (0, 20, \cf5 \\linear\cf3 , 0, 5),\
+	\{\cf2 |ez|\cf3  inst.set(\cf5 \\lagTime\cf3 , ez.value); \}, 5, labelWidth: 40, numberWidth: 40).round_(0.01);\
+myWind.view.decorator.nextLine;\
+\
+\cf4 // this is my tricky way of making an array of buttons and rangesliders.\cf3 \
+\cf4 // the if statement checks the fill counter ("i") and sees if it's even or odd, and\cf3 \
+\cf4 // puts a button or rangeslider accordingly\cf3 \
+memSliders = \cf2 Array\cf3 .fill(8, \{\cf2 |i|\cf3 \
+	if(i%2==0, \
+		\{\cf2 SCButton\cf3 (myWind, \cf2 Rect\cf3 (0, 0, 24, 24))\
+			.states_([[(i+1).asString]])\
+			.action_(\{doUpdate.value(memSliders[i+1].lo.value, memSliders[i+1].hi.value);\})\
+			\},\
+		\{\cf2 SCRangeSlider\cf3 (myWind, \cf2 Rect\cf3 (0, 0, 200, 24)).knobColor_(\cf2 Color\cf3 .black)\}\
+	\
+	)\});\
+myWind.front;\
+\
+\cf4 // start the bandpass synth\cf3 \
+inst = \cf2 Synth\cf3 .tail(s, \cf6 "BandPass"\cf3 , [\cf5 \\out\cf3 , out, \cf5 \\in\cf3 , in]);\
+\};\
+~lsBandPass.value(\cf5 \\out\cf3 , 0, \cf5 \\in\cf3 , 0);
+\f0\fs22 \
+\
+\
+
+\fs58 \cf4 //Meters
+\fs22 \cf3 \
+~makeMeter = \{ \cf2 arg\cf3  chanNumber=0, meterWind, inBus, meterGroup;\
+	\cf2 var\cf3  stripView, peakBox, rmsBox, rSlider, sSlider, pSlider, clipWarn,\
+				stripBus, stripBtn, inst, proc, refreshRate=0.1,\
+				hx=0, hw=40, mx=40, mw=290, nx=330, nw=70, yOffset, chanHeight=40;\
+		\cf4 // how far down to begin drawing this on the window\cf3 \
+	yOffset = chanNumber*chanHeight;\
+		\cf4 // Control bus for analysis data (on default server)\cf3 \
+	stripBus = \cf2 Bus\cf3 .control(numChannels: 4);\
+		\cf4 // analysis synth node.  writes to control bus. \cf3 \
+	inst = \cf2 Synth\cf3 (\cf6 "lsAmpTrack"\cf3 , [\cf5 \\out\cf3 , stripBus.index, \cf5 \\in\cf3 , inBus, \cf5 \\gain\cf3 , 1], meterGroup);\
+	\
+		\cf4 // this channel strip's background\cf3 \
+	stripView = \cf2 SCCompositeView\cf3 (meterWind, \cf2 Rect\cf3 (hx, yOffset, hw+mw+nw, chanHeight))\
+			.background_(\cf2 Color\cf3 .new(0.0, 0.0, 0.0, 1.0));\
+		\cf4 // Button that shows channel number.  If you click on it it pauses the synth node\cf3 \
+	stripBtn = \cf2 SCButton\cf3 (stripView, \cf2 Rect\cf3 (5, 5+yOffset, 30, 30))\
+		.font_(\cf2 Font\cf3 (\cf6 "Arial"\cf3 , 12))\
+		.states_([ [(chanNumber+1).asString, \cf2 Color\cf3 .black, \cf2 Color\cf3 .gray(0.8)],\
+					[\cf6 "||"\cf3 , \cf2 Color\cf3 .gray(0.8), \cf2 Color\cf3 .gray(0.2)] ])\
+		.action_(\{ \cf2 |me|\cf3  inst.run(me.value==0);\});\
+		\cf4 // Peak monitor.  I used a multislider because you can change the size and color\cf3 \
+		\cf4 // of the slider thumb.  Someone cooler than me could make a multislider that \cf3 \
+		\cf4 // handled all the channels instead of a slider for each channel.  Anyone?\cf3 \
+	pSlider = \cf2 SCMultiSliderView\cf3 (stripView, \cf2 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf5 \\false\cf3 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf5 \\true\cf3 )\
+		.isFilled_(\cf2 false\cf3 )\
+		.thumbSize_(30).index_(0)\
+		.strokeColor_(\cf2 Color\cf3 .yellow)\
+		.fillColor_(\cf2 Color\cf3 .clear)\
+		.background_(\cf2 Color\cf3 .clear);\
+		\cf4 // Signal monitor.  This shows the current signal.  Change the color if you want\cf3 \
+	sSlider = \cf2 SCMultiSliderView\cf3 (stripView, \cf2 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf5 \\false\cf3 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf5 \\true\cf3 )\
+		.isFilled_(\cf2 true\cf3 )\
+		.index_(0)\
+		.fillColor_(\cf2 Color\cf3 .new(1.0, 0.0, 0.0, 0.75))\
+		.strokeColor_(\cf2 Color\cf3 .red)\
+		.background_(\cf2 Color\cf3 .clear)\
+		.thumbSize_(30);\
+		\cf4 // Peak Range.  This shows the max peak amount\cf3 \
+	rSlider = \cf2 SCRangeSlider\cf3 (stripView, \cf2 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.knobColor_(\cf2 Color\cf3 .new(0.4, 0.2, 0.0, 0.7)).canFocus_(\cf5 \\false\cf3 );\
+	\
+	\cf2 SCStaticText\cf3 (stripView, \cf2 Rect\cf3 (nx, 3+yOffset, 25, 15))\
+		.string_(\cf6 "peak"\cf3 ).font_(\cf2 Font\cf3 (\cf6 "Arial"\cf3 , 10)).stringColor_(\cf2 Color\cf3 .white);	\
+		\cf4 // This box displays the peak value.  If you click it it resets.\cf3 \
+	peakBox = \cf2 SCNumberBox\cf3 (stripView, \cf2 Rect\cf3 (nx+25, 3+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf5 \\t_reset\cf3 , 1);  \});\
+	\
+	\cf2 SCStaticText\cf3 (stripView, \cf2 Rect\cf3 (nx, 21+yOffset, 25, 15))\
+		.string_(\cf6 "rms"\cf3 ).font_(\cf2 Font\cf3 (\cf6 "Arial"\cf3 , 10)).stringColor_(\cf2 Color\cf3 .white);	\
+		\cf4 // This box displays the running RMS value.\cf3 \
+	rmsBox = \cf2 SCNumberBox\cf3 (stripView, \cf2 Rect\cf3 (nx+25, 21+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf5 \\t_reset\cf3 , 1);  \});\
+		\
+		\cf4 // This is the client-side update process.  it loops at the speed specified by\cf3 \
+		\cf4 // refreshRate (default 0.1) and polls the strip's control bus for the analysis info, then\cf3 \
+		\cf4 // sets the gui values.  note that it uses .defer because it's all gui stuff\cf3 \
+	proc = \cf2 Routine\cf3 (\{\
+		\cf2 var\cf3  sig=0, peak=0, ceil=0, min=0;\
+		loop(\{\
+			stripBus.getn(4, \{\cf2 |vals|\cf3  sig=vals[0]; peak=vals[1]; min=vals[2]; ceil=vals[3];\});\
+			\{\
+			peakBox.value_(\cf5 \\db\cf3 .asSpec.map(ceil).round);\
+			rmsBox.value_(\cf5 \\db\cf3 .asSpec.map(min).round(0.1));\
+			pSlider.currentvalue_(\cf5 \\amp\cf3 .asSpec.unmap(peak));\
+			sSlider.currentvalue_(\cf5 \\amp\cf3 .asSpec.unmap(sig));\
+			rSlider.hi_(\cf5 \\amp\cf3 .asSpec.unmap(0));\
+			rSlider.lo_(\cf5 \\amp\cf3 .asSpec.unmap(ceil));\
+			\}.defer;\
+			refreshRate.wait;\
+		\});\
+	\});\
+\};\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf4 /* this is the main function - it creates a window and makes each channel strip\
+	numChannels: number of channels to monitor, starting at...\
+	inBus: bus to start reading from.  Audio In bus defaults to 8 for me.\
+	target: the Synth Nodes are inserted after this object in the server order.  \
+	        if not supplied, this defaults to adding on the last node of the server */\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs40 \cf3 ~lsMeters
+\fs22  = \{ \cf2 arg\cf3  numChannels=1, inBus=8, target=\cf2 Server\cf3 .default;\
+	\cf2 var\cf3  meterWind, stripBus, channels, meterGroup, stripHeight=40;\
+		\cf4 // make the window, height determined by number of channels, non-resizeable\cf3 \
+	meterWind = \cf2 SCWindow\cf3 .new(\cf6 "Amplitude"\cf3 , \cf2 Rect\cf3 (720, 10, 480, stripHeight*numChannels), \cf5 \\false\cf3 );\
+		\cf4 // when closed stop all processes and free all nodes\cf3 \
+	meterWind.onClose_(\{channels.do(\{\cf2 |item|\cf3  item.stop\}); meterGroup.free;\});\
+	meterWind.front;\
+		\cf4 // put all Synth nodes in here\cf3 \
+	meterGroup = \cf2 Group\cf3 .new(\cf2 Server\cf3 .default, \cf5 \\addAfter\cf3 );\
+		\cf4 // create the individual channel strips,  ~makeMeter returns the update process\cf3 \
+	channels = \cf2 Array\cf3 .fill(numChannels, \{\cf2 |i|\cf3  ~makeMeter.value(i, meterWind, inBus+i, meterGroup);\});\
+		\cf4 // start updating the displays\cf3 \
+	channels.do(\{\cf2 |i|\cf3  i.play;\});\
+\};\
+~lsMeters.value(5, 0);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f2\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 \
+synthDorothy = \cf2 Synth\cf3 .head(s, \cf6 "DorothySessionConv"\cf3 ,[\cf6 "effLev"\cf3 ,effLev, \cf6 "amp"\cf3 , 
+\fs34 amp
+\fs46 ,
+\fs28  \cf6 "tgfxlevel"\cf3 , tgfxlevel, \cf6 "confxlevel"\cf3 , confxlevel, \cf6 "vol"\cf3 , vol]).play;\
+w.onClose = \{synthDorothy.free;\};\
+synthParlorTrick = 
+\fs26 \cf2 Synth\cf3 .tail
+\fs28 (s, \cf6 "parlorTrick"\cf3 ,[\cf6 "dlyamp"\cf3 , dlyamp, \cf6 "dlytime"\cf3 , dlytime ,\cf6 "fdbk"\cf3 , fdbk, 						\cf6 "dlymod"\cf3 ,dlymod]).play ;\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\fs28 \cf3 \
+\cf2 MIDIIn\cf3 .control = \{ \cf2 arg\cf3  src, chan, num, val; \
+ \cf4 // this is the vector for controller events\cf3 \
+	switch(num.postln,	\
+		\cf4 //number at beginning of lines below refer to CC controller number\cf3 \
+		9,\{ \{ampControl.valueAction_(val/127) \}.defer \},\
+		10, \{ \{effLevControl.valueAction_(val/127) \}.defer \},\
+		0, \{ \{dlyampControl.valueAction_(val/127) \}.defer \},\
+		1, \{ \{dlytimeControl.valueAction_(val/127) \}.defer \},\
+		2, \{ \{fdbkControl.valueAction_(val/127) \}.defer \},\
+		3, \{ \{dlymodControl.valueAction_(val/127) \}.defer \}\
+		)
+\f2 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf3 \};\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f1\b\fs66 \cf3 )
+\f2\b0\fs28 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3       	\
+    	\
+\
+\
+\
+}

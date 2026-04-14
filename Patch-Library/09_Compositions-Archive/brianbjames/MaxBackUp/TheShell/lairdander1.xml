@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "lairdander1">
+	<slot number = "1">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "1000." />
+		<pattr name = "osc1modDepth" value = "1492." />
+		<pattr name = "osc1modRate" value = "1506." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "64" />
+		<pattr name = "osc2freq" value = "5000." />
+		<pattr name = "osc2modDepth" value = "71." />
+		<pattr name = "osc2modRate" value = "1492." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "108" />
+		<pattr name = "osc3freq" value = "1000." />
+		<pattr name = "osc3modDepth" value = "105." />
+		<pattr name = "osc3modRate" value = "28." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "100" />
+		<pattr name = "osc4freq" value = "1000." />
+		<pattr name = "osc4modDepth" value = "89." />
+		<pattr name = "osc4modRate" value = "48." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "1000." />
+		<pattr name = "osc5modDepth" value = "59." />
+		<pattr name = "osc5modRate" value = "56." />
+		<pattr name = "osc5time" value = "2000" />
+		<pattr name = "osc6amp" value = "109" />
+		<pattr name = "osc6freq" value = "5000." />
+		<pattr name = "osc6modDepth" value = "56." />
+		<pattr name = "osc6modRate" value = "79." />
+		<pattr name = "osc6time" value = "1000" />
+		<pattr name = "osc7amp" value = "89" />
+		<pattr name = "osc7freq" value = "10000." />
+		<pattr name = "osc7modDepth" value = "79." />
+		<pattr name = "osc7modRate" value = "59." />
+		<pattr name = "osc7time" value = "2000" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272726 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.590912 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1990. 0. 1. 135.681824 0. 0 701.022705 0.105263 0 701.022705 0.596491 0 791.477295 0.052632 0 1085.45459 0. 0" />
+		<pattr name = "osc6env" value = "990. 0. 1. 101.25 0. 0 157.5 0.403509 0 180. 0.052632 0 270. 0. 0 281.25 0.684211 0 337.5 0.210526 0 360. 0.052632 0 438.75 0.421053 0 472.5 0.035088 0 585. 0. 0 990. 0. 0" />
+		<pattr name = "osc7env" value = "1990. 0. 1. 67.840912 0. 0 226.136383 0. 0 248.75 0. 0 452.272766 0.035088 0 655.795471 0.052632 0 836.704468 0. 0 1062.840942 0.070175 0 1130.681885 0.052632 0 1175.90918 0. 0" />
+	</slot>
+	<slot number = "2">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1492." />
+		<pattr name = "osc1modRate" value = "1503." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "73." />
+		<pattr name = "osc2modRate" value = "1486." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "105." />
+		<pattr name = "osc3modRate" value = "23." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "95." />
+		<pattr name = "osc4modRate" value = "53." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "71." />
+		<pattr name = "osc5modRate" value = "64." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "64." />
+		<pattr name = "osc6modRate" value = "80." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "80." />
+		<pattr name = "osc7modRate" value = "71." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+	<slot number = "3">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1496." />
+		<pattr name = "osc1modRate" value = "1504." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "69." />
+		<pattr name = "osc2modRate" value = "1489." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "105." />
+		<pattr name = "osc3modRate" value = "29." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "92." />
+		<pattr name = "osc4modRate" value = "50." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "66." />
+		<pattr name = "osc5modRate" value = "61." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "61." />
+		<pattr name = "osc6modRate" value = "83." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "83." />
+		<pattr name = "osc7modRate" value = "66." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+	<slot number = "7">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1493." />
+		<pattr name = "osc1modRate" value = "1504." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "70." />
+		<pattr name = "osc2modRate" value = "1489." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "104." />
+		<pattr name = "osc3modRate" value = "27." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "90." />
+		<pattr name = "osc4modRate" value = "50." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "64." />
+		<pattr name = "osc5modRate" value = "57." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "57." />
+		<pattr name = "osc6modRate" value = "82." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "82." />
+		<pattr name = "osc7modRate" value = "64." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+	<slot number = "8">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1492." />
+		<pattr name = "osc1modRate" value = "1506." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "71." />
+		<pattr name = "osc2modRate" value = "1492." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "105." />
+		<pattr name = "osc3modRate" value = "28." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "89." />
+		<pattr name = "osc4modRate" value = "48." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "59." />
+		<pattr name = "osc5modRate" value = "56." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "56." />
+		<pattr name = "osc6modRate" value = "79." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "79." />
+		<pattr name = "osc7modRate" value = "59." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+	<slot number = "9">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1493." />
+		<pattr name = "osc1modRate" value = "1510." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "71." />
+		<pattr name = "osc2modRate" value = "1494." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "105." />
+		<pattr name = "osc3modRate" value = "25." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "85." />
+		<pattr name = "osc4modRate" value = "49." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "61." />
+		<pattr name = "osc5modRate" value = "50." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "50." />
+		<pattr name = "osc6modRate" value = "84." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "84." />
+		<pattr name = "osc7modRate" value = "61." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+	<slot number = "10">
+		<pattr name = "osc1amp" value = "116" />
+		<pattr name = "osc1freq" value = "200." />
+		<pattr name = "osc1modDepth" value = "1491." />
+		<pattr name = "osc1modRate" value = "1506." />
+		<pattr name = "osc1time" value = "632" />
+		<pattr name = "osc2amp" value = "110" />
+		<pattr name = "osc2freq" value = "400." />
+		<pattr name = "osc2modDepth" value = "69." />
+		<pattr name = "osc2modRate" value = "1497." />
+		<pattr name = "osc2time" value = "316" />
+		<pattr name = "osc3amp" value = "109" />
+		<pattr name = "osc3freq" value = "400." />
+		<pattr name = "osc3modDepth" value = "108." />
+		<pattr name = "osc3modRate" value = "24." />
+		<pattr name = "osc3time" value = "158" />
+		<pattr name = "osc4amp" value = "106" />
+		<pattr name = "osc4freq" value = "800." />
+		<pattr name = "osc4modDepth" value = "86." />
+		<pattr name = "osc4modRate" value = "49." />
+		<pattr name = "osc4time" value = "1264" />
+		<pattr name = "osc5amp" value = "110" />
+		<pattr name = "osc5freq" value = "300." />
+		<pattr name = "osc5modDepth" value = "54." />
+		<pattr name = "osc5modRate" value = "48." />
+		<pattr name = "osc5time" value = "1264" />
+		<pattr name = "osc6amp" value = "112" />
+		<pattr name = "osc6freq" value = "600." />
+		<pattr name = "osc6modDepth" value = "48." />
+		<pattr name = "osc6modRate" value = "82." />
+		<pattr name = "osc6time" value = "632" />
+		<pattr name = "osc7amp" value = "115" />
+		<pattr name = "osc7freq" value = "1200." />
+		<pattr name = "osc7modDepth" value = "82." />
+		<pattr name = "osc7modRate" value = "54." />
+		<pattr name = "osc7time" value = "1264" />
+		<pattr name = "osc1env" value = "622. 0. 1. 28.272728 0. 0 49.477264 0.894737 0 63.613693 0.017544 0 551.070496 0.030769 0 622. 0. 0" />
+		<pattr name = "osc2env" value = "306. 0. 1. 34.772728 0.666667 0 45.204529 0. 0 306. 0. 0" />
+		<pattr name = "osc3env" value = "148. 0. 1. 10.090909 0. 0 23.545456 0. 0 28.59091 0.157895 0 42.045456 0. 0 148. 0. 0" />
+		<pattr name = "osc4env" value = "1254. 0. 1. 128.25 0. 0 399. 0.035088 0 498.75 0.403509 0 584.25 0.175439 0 1254. 0. 0" />
+		<pattr name = "osc5env" value = "1254. 0. 1. 85.5 0. 0 441.75 0.596491 0 441.75 0.105263 0 684. 0. 0" />
+		<pattr name = "osc6env" value = "622. 0. 1. 63.613644 0. 0 98.954552 0.403509 0 113.090912 0.052632 0 169.636368 0. 0 176.704559 0.684211 0 212.045456 0.210526 0 226.181824 0.052632 0 275.659119 0.421053 0 296.863678 0.035088 0 367.545471 0. 0 622. 0. 0" />
+		<pattr name = "osc7env" value = "1254. 0. 1. 142.5 0. 0 156.75 0. 0 285. 0.45614 0 285. 0.035088 0 413.25 0.052632 0 527.25 0. 0 669.75 0.070175 0 712.5 0.052632 0 741. 0. 0" />
+	</slot>
+</pattrstorage>
+

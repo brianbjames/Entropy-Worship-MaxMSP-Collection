@@ -1,0 +1,317 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red0\green115\blue0;
+\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs30 \cf0 ( \cf2 //	HERE'S A SOLUTION FOR THE mmfmCascade Synth from last weeks assignment\cf0 \
+\cf3 SynthDef\cf0 (\cf4 \\mmfmCascade\cf0 ,\{ \cf3 arg\cf0  carFreq=440, carAmp=0.2, cmRatio1=1, cmRatio2=1,index1=0.5, index2=0.1;\
+	\cf3 var\cf0  mod1Freq, mod2Freq;\
+	mod1Freq = cmRatio1*carFreq;  \
+	mod2Freq = cmRatio2*mod1Freq;\
+	\cf3 Out\cf0 .ar(0,\cf3 SinOsc\cf0 .ar(\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(\
+				mod2Freq,0,\
+				mod2Freq*index2,		\cf2 // mul\cf0 \
+				mod1Freq				\cf2 // add\cf0 \
+			),\
+			0, \
+			mod1Freq*index1, 			\cf2 // mul\cf0 \
+			carFreq),				\cf2 // add\cf0 \
+		0, carAmp\
+	))\
+\}).store;\
+\cf2 // add FM SPECS\cf0 \
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf4 \\carFreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf4 \\freq\cf0 ),\
+	\cf4 \\carAmp\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf4 \\amp\cf0 ),\
+	\cf4 \\index1\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf4 \\index2\cf0 ->\cf3 ControlSpec\cf0 (0,16),\
+	\cf4 \\cmRatio1\cf0 ->\cf3 ControlSpec\cf0 (0.1,20),\
+	\cf4 \\cmRatio2\cf0 ->\cf3 ControlSpec\cf0 (0.1,20)\
+]);\
+)\cf3 \
+AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 "mmfmCascade"\cf0 ));\
+\
+\
+\
+\
+\
+\
+\cf2 // Let's forget about AutoGui for awhile and get back to making our own interfaces -- here's a GUI interface for our cascade FM synth, that also serves as introduction to using EZSlider, which makes labeling, viewing a slider's numerical output, and layout much simpler than using more basic SCView GUI objects.  Then, there's are also examples of triggering actions from the computer keyboard, and triggering and controlling things via MIDI\cf0 \
+\
+\
+\cf2 //HOW TO MAKE GUI WINDOWS\cf0 \
+(\
+\cf3 var\cf0  w, startButton, carFreqControl, carAmpControl, index1Control, index2Control, \
+cmRatio1Control, cmRatio2Control,keyTrgFunc;\
+\cf3 var\cf0  cmdPeriodFunc,synth;\
+\
+\cf2 // make the window\cf0 \
+w = \cf3 SCWindow\cf0 (\cf5 "cascadeFM"\cf0 , \cf3 Rect\cf0 (20, 400, 440, 240)); \cf2 //dimentions of GUI\cf0 \
+w.front; \cf2 // make window visible and front window.\cf0 \
+w.view.decorator = \cf3 FlowLayout\cf0 (w.view.bounds);  \cf2 // allows easy addition of new GUI items\cf0 \
+\cf2 // choose pretty background color\cf0 \
+w.view.background = \cf3 HiliteGradient\cf0 (     \cf2 //coloring system for GUI\cf0 \
+	\cf3 Color\cf0 .rand(0.0,1.0),\cf3 Color\cf0 .rand(0.0,1.0),   \cf2 // colors 1 and 2\cf0 \
+			[\cf4 \\h\cf0 ,\cf4 \\v\cf0 ].choose, 		\cf2 // direction horizontal and vertical\cf0 \
+			100, 					\cf2 // steps\cf0 \
+			rrand(0.1,0.9)		\cf2 // frac\cf0 \
+);\
+\cf2 // add a button to start and stop the sound.\cf0 \
+startButton = \cf3 SCButton\cf0 (w, 75 @ 24);	\cf2 // creates a Button in window 'w' with width=75, height=24\cf0 \
+startButton.states = [			\cf2 // button changes state each time pressed\cf0 \
+	[\cf5 "Start"\cf0 , \cf3 Color\cf0 .black, \cf3 Color\cf0 .green],\
+	[\cf5 "Stop"\cf0 , \cf3 Color\cf0 .white, \cf3 Color\cf0 .red]\
+];\
+startButton.action = \{\cf3 |view|\cf0 		\cf2 // this is what pressing the button does\cf0 \
+		if (view.value == 1) \{		\cf2 // the value is equal to the state\cf0 \
+			\cf2 // start sound\cf0 \
+			synth = \cf3 Synth\cf0 (\cf4 \\mmfmCascade\cf0 ,[\cf5 "carFreq"\cf0 ,carFreqControl.value,\
+				\cf5 "carAmp"\cf0 ,carAmpControl.value,\cf5 "cmRatio1"\cf0 ,cmRatio1Control.value,\
+				\cf5 "cmRatio2"\cf0 ,cmRatio2Control.value,\cf5 "index1"\cf0 ,\
+				index1Control.value, \cf5 "index2"\cf0 ,index2Control.value]);\
+\
+		\};\
+		if (view.value == 0) \{\
+			synth.free\
+		\};\
+\};\
+\cf2 // create controls for all parameters\cf0 \
+w.view.decorator.nextLine;	\cf2 // start sliders below the button\cf0 \
+\cf2 //	 EZSlider(window, dimensions, label, controlSpec, action, initVal, initAction, labelWidth, numberWidth)\cf0 \
+\
+carFreqControl = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "CarFreq"\cf0 , \cf3 Spec\cf0 .specs[\cf4 \\freq\cf0 ], \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "carFreq"\cf0 , ez.value) \}, 440);\
+w.view.decorator.nextLine;\
+carAmpControl = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "CarAmp"\cf0 , \cf3 Spec\cf0 .specs[\cf4 \\amp\cf0 ], \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "carAmp"\cf0 , ez.value) \}, 0.1);\
+w.view.decorator.nextLine;\
+cmRatio1Control = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "cmRatio1"\cf0 , \cf3 ControlSpec\cf0 (0.1,20,\cf4 \\lin\cf0 ,0.1,2), \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "cmRatio1"\cf0 , ez.value) \}, 2);\
+w.view.decorator.nextLine;\
+cmRatio2Control = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "cmRatio2"\cf0 , \cf3 ControlSpec\cf0 (0.1,20,\cf4 \\lin\cf0 ,0.1,4), \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "cmRatio2"\cf0 , ez.value) \}, 4);\
+w.view.decorator.nextLine;	\
+index1Control = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "index1"\cf0 , \cf3 ControlSpec\cf0 (0,20),  \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "index1"\cf0 , ez.value) \}, 2);\
+w.view.decorator.nextLine;	\
+index2Control = \cf3 EZSlider\cf0 (w, 400 @ 24, \cf5 "index2"\cf0 , \cf3 ControlSpec\cf0 (0,20),  \
+	\{\cf3 |ez|\cf0  synth.set(\cf5 "index2"\cf0 , ez.value) \}, 4);\
+w.view.decorator.nextLine;\
+\
+\cf2 // set start button to zero upon a cmd-period\cf0 \
+cmdPeriodFunc = \{ startButton.value = 0; \
+	\cf3 Server\cf0 .freeAll;\
+\};\
+\cf3 CmdPeriod\cf0 .add(cmdPeriodFunc); \cf2 // this function is executed in response to command-period.\cf0 \
+\
+\cf2 // stop the sound when window closes and remove cmdPeriodFunc.\cf0 \
+w.onClose = \{\
+	synth.free;\
+	\cf3 CmdPeriod\cf0 .remove(cmdPeriodFunc);\
+\};\
+\
+\cf2 // now make a function that handles computer keyboard events\cf0 \
+keyTrgFunc = \{ \cf3 arg\cf0  view, key, modifiers, unicode;  	\cf2 //	" key = ".post; key.post; " mod = ".post; modifiers.post; \cf0 \
+	\cf2 //	" uni = ".post; unicode.postln;\cf0 \
+	if( startButton.value == 0,\{ startButton.valueAction_(1) \
+	\},\{ startButton.valueAction_(0) \});\
+\};\
+w.view.keyDownAction_(keyTrgFunc);   \cf2 // this sets the keyDownAction vector\cf0 \
+\
+\cf2 // now program the MIDI system to turn on/off notes, and control faders with MIDI controllers\cf0 \
+\cf3 MIDIIn\cf0 .connect;	\cf2 //  initializes the MIDI vector system - see MIDIIn helpfile for explanations\cf0 \
+\
+ \cf2 // the function equated with MIDIIn.noteOn will be executed whenever a midinote is received -- the 'src' arg refers to which of multiple MIDI input ports the event occurred on\cf0 \
+\cf3 MIDIIn\cf0 .noteOn = \{\cf3 arg\cf0  src, chan, num, vel;\
+	\{ if(startButton.value == 0,\{ startButton.valueAction_(1) \}) \}.defer;	\cf2 // in response to a MIDI event you must 'defer' any function executed that changes graphics, which schedules it to be executed by the AppClock\cf0 \
+\};\
+\
+\cf3 MIDIIn\cf0 .noteOff = \{ \cf3 arg\cf0  src, chan, num, vel;  \cf2 // executes with every noteOff received\cf0 \
+	\{ if(startButton.value == 1,\{ startButton.valueAction_(0) \}) \}.defer; \cf2 //defer gives the MIDI more priority than GUI graphics therefore a quicker response\cf0 \
+\};\
+\
+\cf3 MIDIIn\cf0 .control = \{ \cf3 arg\cf0  src, chan, num, val;  \cf2 // this is the vector for controller events\cf0 \
+	switch(num,	\cf2 // 'switch' matches a value with an appropriate response\cf0 \
+		10,\{ \{carFreqControl.value_(carFreqControl.controlSpec.map(val/127))\}.defer \},\
+		11,\{ \{carAmpControl.value_(carAmpControl.controlSpec.map(val/127))\}.defer \},\
+		12,\{ \{cmRatio1Control.value_(cmRatio1Control.controlSpec.map(val/127))\}.defer \},\
+		13,\{ \{cmRatio2Control.value_(cmRatio2Control.controlSpec.map(val/127))\}.defer \},\
+		14,\{ \{index1Control.value_(index1Control.controlSpec.map(val/127))\}.defer \},\
+		15,\{ \{index2Control.value_(index2Control.controlSpec.map(val/127))\}.defer \}\
+	) \cf2 //all of these wiggle the sliders\cf0 \
+\};\
+)\
+\
+\cf2 // the next code shows how to make a 8 voice polyphonic keyboard triggered sampler -- trigger different voices with the keys "q,w,e,r,t,y,u,i", toggling the voices on and off -- it uses the EZSlider and other basic GUI classes, which take more code and time to write, but ultimately allow more control -- the sliders display only the current Voice's parameters, which are stored for each Voice in separate arrays -- the data is thus decoupled from the GUI, allowing more efficient display\cf0 \
+\
+(  \cf2 // first, compile the SynthDef\cf0 \
+\cf3 SynthDef\cf0 (\cf5 "loopSampler"\cf0 ,\{ \cf3 arg\cf0  sampbuf=0, rate=1, startPos=0, endPos=1,pan=0,amp=0.1,gate=1;	\cf3 var\cf0  loop=1, dir, 	thisRate, 	thisDur, env;\
+	dir = (endPos-startPos).sign; \cf2 // +1 or -1\cf0 \
+	thisRate = \cf3 BufRateScale\cf0 .kr(sampbuf)*rate*dir;\
+	thisDur = ((endPos-startPos).abs*\cf3 BufDur\cf0 .kr(sampbuf));\
+	env = \cf3 EnvGen\cf0 .kr(		\cf2 // an envelope w/ sustain\cf0 \
+				\cf3 Env\cf0 .asr(attackTime: 0.02, releaseTime: 0.02),  				gate, 	\cf2 // gate\cf0 \
+				doneAction: 2 \
+			);\
+	\cf3 Out\cf0 .ar(0,\
+		\cf3 Pan2\cf0 .ar(\
+			\cf3 PlayBuf\cf0 .ar(1,		\cf2 // numChannels\cf0 \
+				sampbuf,				\cf2 // which bufnum to play\cf0 \
+				thisRate,   			\cf2 // rate\cf0 \
+				\cf3 Impulse\cf0 .kr(1.0/thisDur),		\cf2 // impulse retriggers sample\cf0 \
+				startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  \cf2 // startPos\cf0 \
+				loop),\
+			pan,env*amp)\
+	)\
+\}).store;\
+\
+)\
+\
+(  \cf2 // make generic gui Controls for loopSampler\cf0 \
+\cf3 var\cf0  soundfiles, sampBufs, keyMap, noteMap, vcMap, numVoices=8, numParams=6, paramLabels, paramSpecs, myWind, sliderView, ctlSliders, numLayoutView, numViews, curVoiceNum=0, curVoiceView, paramView, vcValues, curVoiceUpdate, keySampFunc, keyTrgFunc, samplerFunc, keyQueue, thisSample, notesPlaying, synths, args;\
+soundfiles = [\
+	\cf5 "sounds/Wind.aif"\cf0 ,\
+	\cf5 "sounds/Cart.aif"\cf0 ,\
+	\cf5 "sounds/schoolbell1"\cf0 ,\
+	\cf5 "sounds/a11wlk01.wav"\cf0 \
+]; \cf2 //enter your samples in the above code\cf0 \
+sampBufs = \cf3 List\cf0 [];\
+soundfiles.do(\{ \cf3 arg\cf0  filename,i;\
+	\cf3 var\cf0  buf, file;\
+	buf = \cf3 Buffer\cf0 .read(s,filename);\
+	sampBufs = sampBufs.add(buf);\
+	file = \cf3 SoundFile\cf0 .new; file.openRead(filename);\
+\});\
+keyMap = \cf3 IdentityDictionary\cf0 [\
+	$q -> 0, $w -> 1, $e -> 2, $r -> 3, $t -> 4, $y -> 5, $u -> 6, $i -> 7\
+];\
+noteMap = [$q,$w,$e,$r,$t,$y,$u,$i];	\cf2 // keys will be accessed by midiNotes in this order\cf0 \
+keyQueue = \cf3 List\cf0 [];		\cf2 // will contain records on notes playing\cf0 \
+vcMap = \cf3 IdentityDictionary\cf0 [\
+	$! -> 1, $@ -> 2, $# -> 3, $$ -> 4, $% -> 5, $^ -> 6, $& -> 7, $* -> 8\
+];\
+args = [\cf5 "sampbuf"\cf0 , \cf5 "rate"\cf0 , \cf5 "startPos"\cf0 , \cf5 "endPos"\cf0 ,\cf5 "pan"\cf0 ,\cf5 "amp"\cf0 ];\
+synths = \cf3 Array\cf0 .fill(8,\cf3 nil\cf0 );\
+vcValues = \cf3 Array\cf0 .fill(8,\{[1,1.0,0,1.0,0,0.1]\});\
+paramLabels = \cf5 "smp  rate strt end  pan  vol"\cf0 ;\
+paramSpecs = [\
+	\cf3 ControlSpec\cf0 (1,soundfiles.size,\cf4 \\lin\cf0 ,1),  \cf2 // sample\cf0 \
+	\cf3 ControlSpec\cf0 (0.125,8,\cf4 \\exp\cf0 ),\cf3 nil\cf0 ,\cf3 nil\cf0 ,\
+	\cf3 ControlSpec\cf0 (-1,1,\cf4 \\lin\cf0 ),			    \cf2 // pan\cf0 \
+	\cf3 ControlSpec\cf0 (0,1,\cf4 \\amp\cf0 )			 \cf2 // volume\cf0 \
+];\
+myWind =  \cf3 SCWindow\cf0 .new(\cf5 "sampler"\cf0 ,\cf3 Rect\cf0 (128, 64, 440, 480));\
+myWind.front;\
+myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);  \cf2 // allows easy addition of new GUI items\cf0 \
+\cf2 // choose pretty background color\cf0 \
+myWind.view.background = \cf3 HiliteGradient\cf0 (\
+	\cf3 Color\cf0 .rand(0.0,1.0),\cf3 Color\cf0 .rand(0.0,1.0),   \cf2 // colors 1 and 2\cf0 \
+			[\cf4 \\h\cf0 ,\cf4 \\v\cf0 ].choose, 		\cf2 // direction\cf0 \
+			100, 					\cf2 // steps\cf0 \
+			rrand(0.1,0.9)		\cf2 // frac\cf0 \
+);\
+myWind.view.decorator.nextLine;\
+\cf2 // make EZSliders to control sampler parameters\cf0 \
+ctlSliders = \cf3 Array\cf0 .fill(numParams,\{ \cf3 arg\cf0  i; \cf2 //i stands for index\cf0 \
+	myWind.view.decorator.nextLine;\
+	\cf3 EZSlider\cf0 (myWind,400@24,args[i],paramSpecs[i],\
+		\{ \cf3 arg\cf0  item; \
+			if(synths[curVoiceNum].notNil,\{\
+				if(i != 0,\{ synths[curVoiceNum].set(args[i],item.value)\
+				\},\{ synths[curVoiceNum].set(args[i],item.value-1)\});\
+			\});\
+			vcValues[curVoiceNum].put(i,item.value);\
+			if( (i == 0),\{ 	\
+				thisSample.string_(sampBufs[item.value.asInt-1].path); \});\
+		\})\
+\});\
+\
+curVoiceUpdate = \{ \
+	ctlSliders.do(\{ \cf3 arg\cf0  item, i; \
+		\cf3 var\cf0  val, spec;\
+		val = vcValues[curVoiceNum][i];\
+		item.value_(val.round(0.0001)); \cf2 //round rounds out the resolution\cf0 \
+	\});\
+\}; 	\
+myWind.view.decorator.nextLine;\
+thisSample = \cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (20,390,400,20));\
+notesPlaying = \cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (40,360,200,20))\
+								.string_(\cf5 "playing: "\cf0 );\
+myWind.view.decorator.nextLine;\
+curVoiceView = \cf3 SCNumberBox\cf0 (myWind,\cf3 Rect\cf0 (340,410,30,30));\
+curVoiceView.setProperty(\cf4 \\align\cf0 ,\cf4 \\center\cf0 ); curVoiceView.font_(\cf3 Font\cf0 (\cf5 "Monaco"\cf0 , 12));\
+\cf3 SCStaticText\cf0 (myWind,\cf3 Rect\cf0 (240,440,50,20)).string_(\cf5 "curVoice"\cf0 );\
+curVoiceView.action_(\{ \cf3 arg\cf0  item; \
+		curVoiceNum = (item.value-1).asInt.clip(0,numVoices-1);\
+		curVoiceView.value_(curVoiceNum+1);\
+		curVoiceUpdate.value; \
+	\});\
+curVoiceView.valueAction_(1); \
+keySampFunc = \{ \cf3 arg\cf0  key;\
+	\cf3 var\cf0  susNote, voiceNum;\
+	voiceNum = keyMap.at(key);\
+	if( voiceNum.notNil,\{ 		\cf2 // if this is a trigger key\cf0 \
+		\cf2 // then set curVoice thru curVoiceView\cf0 \
+		curVoiceView.valueAction_(voiceNum.mod(numVoices)+1); 		susNote = keyQueue.detect(\{ \cf3 arg\cf0  item, i; \
+				(item.at(0)) == key \});\
+		if( susNote.isNil,\{	  \cf2 // if note is not already playing, then play it \cf0 \
+			keyQueue = keyQueue.add([key,voiceNum]);\
+			notesPlaying.string_(keyQueue.collect(\{ \cf3 arg\cf0  item; 									item.at(0) \}).asString);\
+			samplerFunc.value(voiceNum);\
+		\},\{		\cf2 // if the note is playing, then turn gate off\cf0 \
+			synths[curVoiceNum].set(\cf5 "gate"\cf0 ,0); \
+			synths.put(curVoiceNum,\cf3 nil\cf0 );\
+			\cf2 // purge note from queue\cf0 \
+			keyQueue = keyQueue.flatten.removeAll(susNote).clump(2);  \
+			notesPlaying.string_(keyQueue.collect(\{ \cf3 arg\cf0  item; item.at(0) \}).asString);\
+		\});\
+	\},\{ if( vcMap.at(key).notNil,\{  \cf2 // number key?\cf0 \
+				curVoiceNum = vcMap.at(key);	\cf2 // # sets curVoiceNum\cf0 \
+				curVoiceView.valueAction_(curVoiceNum);\
+	\})\});\
+\};\
+\
+keyTrgFunc = \{  \cf3 arg\cf0  view, key, modifiers, unicode;\
+	keySampFunc.value(key)\
+\};\
+\
+myWind.view.keyDownAction_(keyTrgFunc);\
+samplerFunc = \{ \cf3 arg\cf0  voiceNum;\
+	\cf3 var\cf0  vals, sampNum,synth;\
+	vals = vcValues[curVoiceNum];\
+	\cf2 //	"send new sampler note, buffer = ".post; \cf0 \
+	synth = \cf3 Synth\cf0 (\cf5 "loopSampler"\cf0 ,[\cf4 \\sampbuf\cf0 ,vals[0]-1,\cf4 \\rate\cf0 ,vals[1],\cf4 \\startPos\cf0 ,vals[2],\
+			\cf4 \\endPos\cf0 ,vals[3],\cf4 \\pan\cf0 ,vals[4],\cf4 \\amp\cf0 ,vals[5] ]); \
+	synths.put(curVoiceNum,synth);\
+\};\
+\cf3 MIDIIn\cf0 .connect;	\cf2 //  initializes the MIDI vector system - \cf0 \
+\cf3 MIDIIn\cf0 .noteOn = \{\cf3 arg\cf0  src, chan, num, vel;\
+	\{ keySampFunc.value(noteMap[num.mod(8)]) \}.defer;\
+\};\
+\
+\cf3 MIDIIn\cf0 .noteOff = \{ \cf3 arg\cf0  src, chan, num, vel;  \cf2 // executes with every noteOff received\cf0 \
+	\cf3 var\cf0  thisKey;\
+	thisKey = noteMap[num.mod(8)];\
+	if( keyQueue.detect(\{ \cf3 arg\cf0  item; 	\cf2 // only turn off if key is on\cf0 \
+				(item.at(0)) == thisKey \}).notNil,\{\
+		\{ keySampFunc.value(thisKey) \}.defer;\
+	\})\
+\};\
+\
+\cf3 MIDIIn\cf0 .control = \{ \cf3 arg\cf0  src, chan, num, val;  \cf2 // this is the vector for controller events\cf0 \
+	if( num<7,\{\
+		\{ ctlSliders[num-1].value_(\
+			ctlSliders[num-1].controlSpec.map(val/127).round(0.0001))\
+		\}.defer \
+	\})\
+\};\
+\
+myWind.onClose_(\{\
+	\cf3 Server\cf0 .freeAll;\
+	\cf3 MIDIIn\cf0 .disconnect;\
+\});\
+)\
+}

@@ -1,0 +1,334 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green115\blue0;\red0\green0\blue191;
+\red96\green96\blue96;}
+\deftab720
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\f0\fs68 \cf2 //add a button, slider, or box that allows me to control cloudDuration, 
+\fs66 density, lofreq, hifreq, lodur, hidur\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs28 \cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //take from this example, from \cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf4 var\cf0  gobutt,gotext,synthbutt,synthtext,\
+durtext,durslide,freqtext,freqslide,panslide,pantext,\
+ampslide,amptext,densslide,denstext,locslide,loctext,\
+cfreq=400,frqRng=100,dur, cdur=0.1,location=0,inbuf=0,\
+durRng=0.025,cpan=0,panRng=1,camp=0.1,ampRng=0.1,locRng=0.1,\
+density=1,densRng=4,densSpec,shortest=0.005,synth=\cf3 \\granSin\cf0 ;\
+\
+inbuf = \cf4 Buffer\cf0 .alloc(s,44100*8.0,1);		\cf2 // 8 second buffer\cf0 \
+\cf4 Synth\cf0 (\cf3 \\audioInRec\cf0 ,[\cf3 \\bufNum\cf0 ,inbuf.bufnum]);  \cf2 // start recording input\cf0 \
+\
+r = \cf4 Routine\cf0 (\{\
+	\cf4 var\cf0  dur;\
+	loop(\{\
+		dur = (cdur+rrand(durRng.neg,durRng)).max(shortest);\
+		\cf4 Synth\cf0 (synth,\
+			[\cf3 \\freq\cf0 ,cfreq+rrand(frqRng.neg,frqRng),\
+				\cf3 \\dur\cf0 ,dur,\
+				\cf3 \\pan\cf0 ,cpan+rrand(panRng.neg,panRng).max(-1.0),\
+				\cf3 \\amp\cf0 ,camp+rrand(ampRng.neg,ampRng),\
+				\cf3 \\loc\cf0 ,location+rrand(locRng.neg,locRng),\
+				\cf3 \\bufNum\cf0 ,inbuf.bufnum]);\
+		(dur/(density+rrand((densRng*0.125).neg,densRng)))\
+						.max(shortest*0.1).wait\
+	\})\
+\});\
+\
+w = \cf4 SCWindow\cf0 (\cf5 "cloudGen"\cf0 , \cf4 Rect\cf0 (100, 600, 300, 500));\
+w.front;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 //	GUI to set start and stop the granulator\cf0 \
+gotext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (210,5, 70,20));\
+	gotext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	gotext.stringColor = \cf4 Color\cf0 .blue;\
+	gotext.align = \cf3 \\center\cf0 ;\
+	gotext.string = \cf5 "granulator"\cf0 ;\
+	gobutt = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (210,30, 60, 20));\
+	gobutt.states = [\
+		[\cf5 "GO!"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)],\
+		[\cf5 "stop!"\cf0 , \cf4 Color\cf0 .white, \cf4 Color\cf0 .new(0.8, 0.5, 0.9)],\
+		];\
+	gobutt.action = \{ \cf4 arg\cf0  view;\
+		if (gobutt.value == 1, \{ r.reset; r.play(\cf4 SystemClock\cf0 ) \},\{ r.stop \})\
+	\};\
+\
+\cf2 // 	GUI to choose which Synth to play\cf0 \
+synthtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (20,5, 70,20));\
+	synthtext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	synthtext.stringColor = \cf4 Color\cf0 .blue;\
+	synthtext.align = \cf3 \\center\cf0 ;\
+	synthtext.string = \cf5 "synth"\cf0 ;\
+	synthbutt = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (20,30, 60, 20));\
+	synthbutt.states = [\
+		[\cf5 "sine"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .red],\
+		[\cf5 "noise"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .red],\
+		[\cf5 "klank"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .red],\
+		[\cf5 "audioIn"\cf0 ,\cf4 Color\cf0 .black, \cf4 Color\cf0 .red]\
+		];\
+	synthbutt.action = \{ \cf4 arg\cf0  view;\
+		switch(view.value,\
+		0,\{synth=\cf3 \\granSin\cf0 \},1,\{synth=\cf3 \\granNse\cf0 \},2,\{synth=\cf3 \\granKlnk\cf0 \},\
+			\{synth=\cf3 \\granPlayBuf\cf0 \})\
+	\};\
+\
+\cf2 // 	GUI to set ranges of parameters for random selection\cf0 \
+durtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,120, 90,20));\
+	durtext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	durtext.stringColor = \cf4 Color\cf0 .blue;\
+	durtext.align = \cf3 \\left\cf0 ;\
+	durtext.string = \cf5 "grain duration"\cf0 ;\
+	\
+durslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,145, 280,20));\
+	durslide.lo = 0.025;\
+	durslide.hi = 0.125;\
+	durslide.action = \{ \cf4 arg\cf0  slider;\
+		cdur =  (((durslide.hi - durslide.lo)*0.5)+durslide.lo).max(shortest);\
+		durRng = cdur-durslide.lo;\
+		durRng.postln;\
+	\};\
+freqtext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,180, 90,20));\
+	freqtext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqtext.stringColor = \cf4 Color\cf0 .blue;\
+	freqtext.align = \cf3 \\left\cf0 ;\
+	freqtext.string = \cf5 "freq variance"\cf0 ;\
+freqslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,205, 280,20));\
+	freqslide.lo = 0.4;\
+	freqslide.hi = 0.6;\
+	freqslide.action = \{ \cf4 arg\cf0  slider;\
+		cfreq =  \cf3 \\freq\cf0 .asSpec\
+			.map(((freqslide.hi - freqslide.lo)*0.5)+freqslide.lo);\
+		frqRng = cfreq-\cf3 \\freq\cf0 .asSpec.map(freqslide.lo);\
+	\};\
+pantext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,240, 90,20));\
+	pantext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	pantext.stringColor = \cf4 Color\cf0 .blue;\
+	pantext.align = \cf3 \\left\cf0 ;\
+	pantext.string = \cf5 "stereo variance"\cf0 ;\
+	\
+panslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,265, 280,20));\
+	panslide.lo = -1.0;\
+	panslide.hi = 1.0;\
+	panslide.action = \{ \cf4 arg\cf0  slider;\
+		cpan = \cf3 \\pan\cf0 .asSpec\
+			.map(((panslide.hi - panslide.lo)*0.5)+panslide.lo);\
+		panRng = cpan-\cf3 \\pan\cf0 .asSpec.map(panslide.lo);\
+	\};\
+\
+amptext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,300, 90,20));\
+	amptext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	amptext.stringColor = \cf4 Color\cf0 .blue;\
+	amptext.align = \cf3 \\left\cf0 ;\
+	amptext.string = \cf5 "amp variance"\cf0 ;\
+	\
+ampslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,325, 280,20));\
+	ampslide.lo = 0.1;\
+	ampslide.hi = 0.3;\
+	ampslide.action = \{ \cf4 arg\cf0  slider;\
+		camp = \cf3 \\amp\cf0 .asSpec.map(((ampslide.hi - ampslide.lo)*0.5)+ampslide.lo);\
+		ampRng = camp-(\cf3 \\amp\cf0 .asSpec.map(ampslide.lo));\
+	\};\
+\
+densSpec = [0.1,10,\cf3 'lin'\cf0 ,0,1].asSpec;\
+denstext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,360, 90,20));\
+	denstext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	denstext.stringColor = \cf4 Color\cf0 .blue;\
+	denstext.align = \cf3 \\left\cf0 ;\
+	denstext.string = \cf5 "dens variance"\cf0 ;\
+	\
+densslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,385, 280,20));\
+	densslide.lo = 0.1;\
+	densslide.hi = 0.3;\
+	densslide.action = \{ \cf4 arg\cf0  slider;\
+		density = densSpec.map(((densslide.hi - densslide.lo)*0.5)+densslide.lo);\
+		densRng = density-densSpec.map(densslide.lo);\
+	\};\
+	\
+loctext = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (10,440, 90,20));\
+	loctext.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	loctext.stringColor = \cf4 Color\cf0 .blue;\
+	loctext.align = \cf3 \\left\cf0 ;\
+	loctext.string = \cf5 "loc variance"\cf0 ;\
+	\
+locslide = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (10,465, 280,20));\
+	locslide.lo = 0.1;\
+	locslide.hi = 0.3;\
+	locslide.action = \{ \cf4 arg\cf0  slider;\
+		location = (((locslide.hi - locslide.lo)*0.5)+locslide.lo);\
+		locRng = location-locslide.lo;\
+	\};\
+)
+\fs66 \cf2 \
+\
+\
+\
+\
+\
+\
+//model\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf0 (\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf4 var
+\fs8 \cf0   
+\fs18 w,cloudFunc1,cloudBtn1,freqSlider1,freqSldText1,cpan1=0,panRng1=1,panslide1,pantext1,ampRng4=0.1,camp4=0.1,ampslide4,amptext4
+\fs56 ;
+\fs18 \
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+\cf2 // this Function will be used, and reused, to create new granular clouds\cf0 \
+cloudFunc1 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf4 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf4 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf3 \\exp\cf0 ].asSpec.map(freqSlider1.lo);\
+	hifreq =  [40,4000,\cf3 \\exp\cf0 ].asSpec.map(freqSlider1.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf4 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf4 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf3 \\pan\cf0 ,cpan1+rrand(panRng1.neg,panRng1).max(-1.0),\
+			
+\fs28 \cf3 \\amp\cf0 ,camp4+rrand(ampRng4.neg,ampRng4)\cf2 \
+			
+\fs20 \cf0 ]
+\fs22 );
+\fs18 \
+		(dur/density).wait;\
+	\});  \
+\};\
+\
+\
+\
+
+\fs30 w = \cf4 SCWindow\cf0 (\cf5 "lots of cloudGen's", 
+\fs32 \cf4 Rect\cf0 (10, 400, 1400, 440)
+\fs30 );
+\fs36 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs26 \cf0 w.front;\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf2 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs22 \cf0 cloudBtn1 = \cf4 SCButton\cf0 (w, \cf4 Rect\cf0 (10,10, 80, 20)); 
+\fs28 \cf2 //Rect
+\f1\fs26 (inLeft, inTop, inWidth, inHeight)
+\f0\fs18 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs26 \cf0 	
+\fs20 cloudBtn1.states = [\
+		[\cf5 "startCloud1"\cf0 , \cf4 Color\cf0 .black, \cf4 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn1.action = \{ \cf4 arg\cf0  view;\
+		\cf2 // create a Routine using cloudFunc\cf0 \
+		\cf4 Routine\cf0 (cloudFunc1).play(\cf4 AppClock\cf0 ); \cf2 // AppClock allows GUI interaction\cf0 \
+	\};
+\fs30 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs20 \cf0 freqSlider1= \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (100,10, 
+\fs22 100
+\fs20 ,20)).lo_(0.1).hi_(0.2);\
+\
+freqSldText1 = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (
+\fs22 100
+\fs20 ,410, 90,20));
+\fs18 \
+	freqSldText1.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	freqSldText1.stringColor = \cf4 Color\cf0 .blue;\
+	freqSldText1.align = \cf3 \\left\cf0 ;\
+	freqSldText1.string = \cf5 "grain freq"\cf0 ;	
+\fs20 \
+	\
+pantext1 = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (210,410, 90,20)); \
+	pantext1.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	pantext1.stringColor = \cf4 Color\cf0 .blue;\
+	pantext1.align = \cf3 \\left\cf0 ;\
+	pantext1.string = \cf5 "stereo variance"\cf0 ;
+\fs28 \
+	\
+
+\fs20 panslide1 = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (210,10, 100,20));\
+	panslide1.lo = -1.0;\
+	panslide1.hi = 1.0;\
+	panslide1.action = \{ \cf4 arg\cf0  slider;\
+		cpan1 = \cf3 \\pan\cf0 .asSpec\
+			.map(((panslide1.hi - panslide1.lo)*0.5)+panslide1.lo);\
+		panRng1 = cpan1-\cf3 \\pan\cf0 .asSpec.map(panslide1.lo);\
+	\};
+\fs2 \
+	\
+
+\fs20 amptext4 = \cf4 SCStaticText\cf0 (w, \cf4 Rect\cf0 (320,410, 90,20));\
+	amptext4.font = \cf4 Font\cf0 (\cf5 "Helvetica"\cf0 , 10);\
+	amptext4.stringColor = \cf4 Color\cf0 .blue;\
+	amptext4.align = \cf3 \\left\cf0 ;\
+	amptext4.string = \cf5 "amp variance"\cf0 ;
+\fs48 \
+	\
+
+\fs18 ampslide4 = \cf4 SCRangeSlider\cf0 (w, \cf4 Rect\cf0 (320,70, 100,20));\
+	ampslide4.lo = 0.1;\
+	ampslide4.hi = 0.3;\
+	ampslide4.action = \{ \cf4 arg\cf0  slider;\
+		camp4 = \cf3 \\amp\cf0 .asSpec.map(((ampslide4.hi - ampslide4.lo)*0.5)+ampslide4.lo);\
+		ampRng4 = camp4-(\cf3 \\amp\cf0 .asSpec.map(ampslide4.lo));\
+	\};
+\fs20 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs66 \cf0 )
+\fs26 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural
+
+\fs18 \cf0 cloudFunc1 = \{ \cf2 // each cloud generated will have its own unique variables\cf0 \
+	\cf4 var\cf0  
+\fs30 cloudDuration=10, 
+\fs18 startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.2;\
+	startTime = \cf4 thisThread\cf0 .seconds;	\cf2 // this gets the seconds since SC startup\cf0 \
+	density = rrand(0.1,8);	\
+	\cf2 // use this kind of code to get values from an SCRangeSlider\cf0 \
+	lofreq = [40,4000,\cf3 \\exp\cf0 ].asSpec.map(freqSlider1.lo);\
+	hifreq =  [40,4000,\cf3 \\exp\cf0 ].asSpec.map(freqSlider1.hi); \
+	\cf2 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+	while(\{ \cf4 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf4 Synth\cf0 (\cf5 "granSin"\cf0 ,[		\cf2 // replace with your own granular Synth\cf0 \
+			\cf5 "freq"\cf0 ,freq,\
+			\cf5 "dur"\cf0 , dur,\
+			
+\fs20 \cf3 \\pan\cf0 ,cpan1+rrand(panRng1.neg,panRng1).max(-1.0),
+\fs8 \
+			
+\fs20 \cf3 \\amp\cf0 ,camp1+rrand(ampRng1.neg,ampRng1)
+\fs22 ]);
+\fs18 \
+		(dur/density).wait;\
+	\});  \
+\};}

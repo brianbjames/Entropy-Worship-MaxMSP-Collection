@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "storage">
+	<slot number = "1">
+		<patcher name = "abstractionExample">
+			<pattr name = "object1#1" value = "-59" />
+			<pattr name = "object2#1" value = "265" />
+			<pattr name = "object3#1" value = "29" />
+			<pattr name = "object4#1" value = "88" />
+			<pattr name = "object5#1" value = "-29" />
+			<pattr name = "object6#1" value = "103" />
+			<pattr name = "object7#1" value = "-55" />
+			<pattr name = "object8#1" value = "75" />
+		</patcher>
+		<patcher name = "abstractionExample[1]">
+			<pattr name = "object1#1" value = "0" />
+			<pattr name = "object2#1" value = "0" />
+			<pattr name = "object3#1" value = "0" />
+			<pattr name = "object4#1" value = "0" />
+			<pattr name = "object5#1" value = "0" />
+			<pattr name = "object6#1" value = "0" />
+			<pattr name = "object7#1" value = "0" />
+			<pattr name = "object8#1" value = "0" />
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<patcher name = "abstractionExample">
+			<pattr name = "object1#1" value = "184" />
+			<pattr name = "object2#1" value = "244" />
+			<pattr name = "object3#1" value = "-48" />
+			<pattr name = "object4#1" value = "124" />
+			<pattr name = "object5#1" value = "-192" />
+			<pattr name = "object6#1" value = "375" />
+			<pattr name = "object7#1" value = "52" />
+			<pattr name = "object8#1" value = "-64" />
+		</patcher>
+		<patcher name = "abstractionExample[1]">
+			<pattr name = "object1#1" value = "" />
+			<pattr name = "object2#1" value = "" />
+			<pattr name = "object3#1" value = "" />
+			<pattr name = "object4#1" value = "" />
+			<pattr name = "object5#1" value = "" />
+			<pattr name = "object6#1" value = "" />
+			<pattr name = "object7#1" value = "" />
+			<pattr name = "object8#1" value = "" />
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<patcher name = "abstractionExample">
+			<pattr name = "object1#1" value = "154" />
+			<pattr name = "object2#1" value = "-402" />
+			<pattr name = "object3#1" value = "341" />
+			<pattr name = "object4#1" value = "-70" />
+			<pattr name = "object5#1" value = "28" />
+			<pattr name = "object6#1" value = "305" />
+			<pattr name = "object7#1" value = "153" />
+			<pattr name = "object8#1" value = "132" />
+		</patcher>
+		<patcher name = "abstractionExample[1]">
+			<pattr name = "object1#1" value = "" />
+			<pattr name = "object2#1" value = "" />
+			<pattr name = "object3#1" value = "" />
+			<pattr name = "object4#1" value = "" />
+			<pattr name = "object5#1" value = "" />
+			<pattr name = "object6#1" value = "" />
+			<pattr name = "object7#1" value = "" />
+			<pattr name = "object8#1" value = "" />
+		</patcher>
+	</slot>
+</pattrstorage>
+

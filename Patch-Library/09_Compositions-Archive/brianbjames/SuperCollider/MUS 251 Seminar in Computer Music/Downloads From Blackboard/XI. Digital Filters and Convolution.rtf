@@ -1,0 +1,127 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\froman\fcharset77 Times-Bold;\f1\fnil\fcharset77 LucidaGrande;\f2\froman\fcharset77 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;\red0\green32\blue222;}
+\margl1440\margr1440\vieww16440\viewh14360\viewkind0
+\deftab720
+\pard\pardeftab720\sa320\qc
+
+\f0\b\fs64 \cf0 XI. Digital Filters and Convolution
+\f1\b0\fs32 \uc0\u8232 
+\f2 read: 
+\f0\b Roads
+\f2\b0 , chap. 10, pp. 432-438 or 
+\f0\b\fs36 D/J
+\f2\b0 , chapter 10, p.322-338
+\f1\fs32 \uc0\u8232 
+\f2 also see: {\field{\*\fldinst{HYPERLINK "https://mills.blackboard.com/courses/1/FA2006_MUS160-80/content/downloads/convolution.pdf"}}{\fldrslt \cf2 \ul \ulc2 Convolution.pdf}} (Chapter 18, Steven W. Smith) 
+\f1 \uc0\u8232 
+\fs48 \uc0\u8232 
+\f0\b DIGITAL FILTER
+\f1\b0\fs36 \uc0\u8232 
+\f2 modifies the amplitude and phase of an input signal's spectral components in frequency dependent ways, without changing their frequencies
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 FILTER COEFFICIENTS
+\f1\b0\fs36 \uc0\u8232 
+\f2 digital filters work by multiplying samples and delayed samples by numbers called coefficients - the products are then summed to create the filter output - a set of coefficients determines all of the filter's characteristics, but controlling filter response by adjusting its coefficients is non-intuitive.
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 IMPULSE RESPONSE
+\f1\b0\fs36 \uc0\u8232 
+\f2 because of these delays, the filter's output appears sometime after the input is applied - the IR is the output of the filter to a one-sample impulse...this can be used to find out the acoustics of a room or hall...record a clap, then use it as a sample with this weeks code examples to find the resonant freq of the room or hall
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 FIR FILTER
+\f2\b0\fs36  
+\f1 \uc0\u8232 
+\f2 (F)inite (I)mpulse (R)esponse, or non-recursive, uses the present and past values of the input to compute a new output.
+\f1 \uc0\u8232 
+\f2 equation: y(n) = a0
+\fs30 \sub x
+\fs36 \nosupersub (n) + a1
+\fs30 \sub x
+\fs36 \nosupersub (n-1) + a2
+\fs30 \sub x
+\fs36 \nosupersub (n-2) + ... aN
+\fs30 \sub x
+\fs36 \nosupersub (n-N)
+\f1 \uc0\u8232 
+\f2 where, N= filter order, a = coefficient
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 IIR FILTER
+\f2\b0\fs36  
+\f1 \uc0\u8232 
+\f2 (I)nfinite (I)mpulse (R)esponse, or recursive, uses present and past values of the input, but also past values of the output (feedback) in computing a new output.
+\f1 \uc0\u8232 
+\f2 equation: y(n)= a0
+\fs30 \sub x
+\fs36 \nosupersub  - b1
+\fs30 \sub y
+\fs36 \nosupersub (n-1) - b2
+\fs30 \sub y
+\fs36 \nosupersub (n-2) - ... bN
+\fs30 \sub y
+\fs36 \nosupersub (n-N)
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 ORDER
+\f1\b0\fs36 \uc0\u8232 
+\f2 the length of the maximum delay (number of samples) defines the order of the filter, i.e. 1 sample delay = 1s order, 2 sample delay = 2nd order -- higher orders enable sharper response.
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 POLE
+\f2\b0\fs36  
+\f1 \uc0\u8232 
+\f2 the frequency peak(s), or resonance(s), in amplitude response of a filter, described in terms of center frequency and bandwidth - the narrower the bandwidth, the higher the peak - poles are created by using past values of the output (feedback) in combination with inputs in computing the new output.
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 ZERO
+\f1\b0\fs36 \uc0\u8232 
+\f2 the frequency trough(s), valley(s), or antiresonance(s), in amplitude response of a filter, also described by center frequency and bandwidth - zeros are created by using past values of the input with present input to compute output.
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 PHASE RESPONSE
+\f1\b0\fs36 \uc0\u8232 
+\f2 the phase shift for each spectral frequency component between a filter's input and output
+\f1 \uc0\u8232 \u8232 
+\f0\b\fs48 CONVOLUTION
+\f1\b0\fs36 \uc0\u8232 
+\f2 is the name of the mathematical process for combining functions (signals), in which one function is treated as the input function x(n), and the second as the filter coefficients a0...M. thus, one signal filters the other. for ex., 
+\f1 \uc0\u8232 
+\f2 f(n) = \{2,2,3,3,4\}
+\f1 \uc0\u8232 
+\f2 g(n) = \{1,1,2\}
+\f1 \uc0\u8232 
+\f2 f(n)*g(n) = 2 2 4 //the * is a symbol for convolution
+\f1 \uc0\u8232 
+\f2 2 2 4
+\f1 \uc0\u8232 
+\f2 3 3 6
+\f1 \uc0\u8232 
+\f2 3 3 6
+\f1 \uc0\u8232 
+\f2 4 4 8
+\f1 \uc0\u8232 
+\f2 ________________
+\f1 \uc0\u8232 
+\f2 h(n) = \{2 4 9 10 13 10 8\} //this is the outline of the fiter
+\f1 \uc0\u8232 \u8232 \u8232 
+\f0\b\fs48 FREQUENCY RESPONSE
+\f1\b0\fs36 \uc0\u8232 
+\f2 the frequency domain representation of the filter, found by taking the Fourier transform of the filter's Impulse Response. The frequency response of a filter multiplied by the Fourier transform of an input signal will give the output spectrum, which is equivalent to but faster than convolving the samples of the input with the IR:
+\f1 \uc0\u8232 \u8232 
+\f2 convolution (*) of time domain signals = multiplication of spectra:
+\f1 \uc0\u8232 \u8232 
+\f2 f(n)*g(n) = F(k)G(k)
+\f1 \uc0\u8232 \u8232 
+\f2 Convolution in the time domain is equivalent to multiplication in the frequency domain.
+\fs32 \
+
+\f0\b\fs36 For Non-realtime Convolution:
+\f2\b0  use SoundHack (www.soundhack.com)
+\fs32 \
+
+\f0\b\fs48 SC3 Classes
+\fs36 : 
+\f1\b0 \uc0\u8232 
+\f2 OnePole, OneZero, TwoPole, TwoZero, 
+\f1 \uc0\u8232 
+\f2 FFT, IFFT, PV_MagMul, Convolution, Convolution2 \
+\
+\
+\
+}

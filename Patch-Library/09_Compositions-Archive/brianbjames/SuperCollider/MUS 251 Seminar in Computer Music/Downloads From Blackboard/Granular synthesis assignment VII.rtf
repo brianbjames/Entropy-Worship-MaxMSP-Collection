@@ -1,0 +1,115 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\froman\fcharset77 Times-Bold;\f1\fnil\fcharset77 LucidaGrande-Bold;\f2\froman\fcharset77 Times-Roman;
+\f3\fnil\fcharset77 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww22260\viewh15680\viewkind0
+\deftab720
+\pard\pardeftab720\sa320\qc
+
+\f0\b\fs64 \cf0 Granular synthesis
+\f1 \uc0\u8232 
+\f2\b0\fs48 uses statistical methods to form sounds from masses of brief acoustical events (usually between 2 and 50 ms) called
+\fs64  
+\f3 \uc0\u8232 
+\f0\b grains
+\f2\b0 .
+\fs32 \
+
+\fs48 In
+\fs64  
+\f3 \uc0\u8232 
+\f0\b asynchronous granular synthesis
+\f1 \uc0\u8232 
+\f2\b0\fs48 grains are scattered probabilistically over a specific duration within regions called 
+\f0\b\fs64 clouds
+\f2\b0 . 
+\f3 \uc0\u8232 \u8232 
+\f0\b Granular Synthesis parameters:
+\f3\b0 \uc0\u8232 \u8232 
+\f2 1. 
+\f0\b Start time and duration of the cloud
+\f2\b0 ;
+\f3 \uc0\u8232 
+\f2 2. 
+\f0\b Amplitude envelope of the cloud
+\f2\b0 ;
+\f3 \uc0\u8232 
+\f2 3. 
+\f0\b Grain duration
+\f3\b0 \uc0\u8232 
+\f2\fs48 this may be constant (the same for every grain in the cloud), randomly variable within boundaries (typ. 10 to 100 ms), or frequency dependent (the duration of each grain is tied to its fundamental frequency period, as in synthesis with wavelets) - shorter grains will generally produce wider spectrum clouds, midsize grains produce fluttering/gurgling effects, and longer grains produce AM/tremolo-like results - in general, grain duration affects the bandwidth of the cloud.
+\fs32 \
+
+\fs64 4. 
+\f0\b Grain envelope
+\f3\b0 \uc0\u8232 
+\f2\fs48 usually a bell-shaped (gaussian) envelope, to minimize sharp transitions between grains.
+\fs32 \
+
+\fs64 5. 
+\f0\b Density of grains per second
+\f3\b0 \uc0\u8232 
+\f2\fs48 ( how many grains per second) which can vary over the duration of the cloud - its effect will depend also on the grain duration, since longer grains will overlap more with each other (anything over 1 will create layered sounds).
+\fs32 \
+
+\fs64 6. 
+\f0\b Frequency band of the cloud
+\f3\b0 \uc0\u8232 
+\f2\fs48 usually given as high and low frequency bounds within which grains are scattered (cumulus), but also restricted to discrete sets of pitches (stratus) - narrow bands and high densities create pitched streams with formant spectra, medium bands (like intervals of several semitones) and high densities generate colored noises, wide bands (an octave or more) and high densities form massive blocks of sound. 
+\fs32 \
+
+\fs64 7. 
+\f0\b Waveforms
+\f3\b0 \uc0\u8232 
+\f2\fs48 any waveform may be inserted into grains, beginning with sine waves, but including sampled waveforms - grain waveforms may change within the duration of a cloud, creating statistically controllable mutation effects.
+\fs32 \
+
+\fs64 8. 
+\f0\b Spatial dispersion
+\f3\b0 \uc0\u8232 
+\f2\fs48 (directional) of the cloud among output channels.
+\f3\fs64 \uc0\u8232 \u8232 
+\f0\b Time granulation of sampled sounds:
+\f3\b0 \uc0\u8232 \u8232 
+\f2 1. 
+\f0\b Time/rate changing effects
+\f3\b0 \uc0\u8232 
+\f2\fs48 the playback rate of a granulated signal is changed with respect to the rate at which it was sampled. To double duration but not pitch, clone each grain of the original once, and to halve duration but not pitch, delete every other grain. To shift pitch without changing duration, change the playback sample rate while cloning or deleting a proportional number of grains.
+\fs32 \
+
+\fs64 2. 
+\f0\b Real-time granulation of an input sound
+\f1 \uc0\u8232 
+\f2\b0\fs48 (granulating a buffer) a programmable delay line is tapped to furnish the various grains, enriching the input sound with the spectral products of the granulation window and the mixture of the original and delayed sound.
+\fs32 \
+
+\fs64 3. 
+\f0\b Asynchronous granulation of different samples
+\f2\b0 ,
+\f3 \uc0\u8232 
+\f2\fs48 ( also granulating a buffer) to create mutations or cross- sampling effects
+\fs36 .
+\fs32 \
+\pard\pardeftab720\sa320\qc
+
+\f0\b\fs48 \cf0 SynthDefs from Code Examples:
+\f2\b0\fs32 \
+
+\f0\b\fs48 GranSampler
+\f2\b0  - provides granular enveloping at sample loop points
+\f3 \uc0\u8232 
+\f0\b GranSampScanner
+\f2\b0  - (speed through sample) playback sample as a stream of very short grains
+\f3 \uc0\u8232 
+\f0\b TGrains
+\f2\b0 .ar - (Class in SC written in C) SC Ugen for producing granular streams
+\fs32 \
+
+\f0\b\fs48 Assignment:
+\f2\b0\fs32 \
+\pard\pardeftab720\sa320\qc
+
+\fs48 \cf0 Adapt any of the instruments provided in the code examples to produce single "cloud" of granular events when triggered by a GUI button, or by a keyboard event. The trigger will start a Routine that changes arguments in the instrument over time. It should have a discrete start and end, and be retriggerable, so that multiple starts produce new clouds that overlap. Play your instrument using your own samples and record a performance.
+\fs32 \
+\
+}

@@ -1,0 +1,96 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf330
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 (\
+\cf2 /* BandPass -- This is a simple effect modeled after GRM's BandPass VST\
+	The cool treat about the GUI is that there's 4 memory slots at the bottom; once you\
+	set the slider on the memory location click the button next to it and the bandpass will\
+	glide to the new settings according to your lagTime.\
+	Just be sure to run the function ~lsBandPass AFTER whatever it is you want to process.\
+	\
+	Hope you like it! ~luke\
+	\
+	Synthdef -\
+ 	takes an input and does a high and lo cut of the signal.\
+	rq = resonance, lagTime = speed of change of controls\
+*/\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "BandPass"\cf0 , \{ \cf3 arg\cf0  out=0, in=0, lo=20, hi=20000, rq=0.707, lagTime=5.0;\
+	\cf2 // replace out...you could probably change this to XOut to do a wet/dry signal\cf0 \
+	\cf3 ReplaceOut\cf0 .ar(out,\
+		\cf3 RLPF\cf0 .ar(\cf3 RHPF\cf0 .ar( \cf3 In\cf0 .ar(in, 2), \cf3 Lag\cf0 .kr(lo, lagTime), rq), \cf3 Lag\cf0 .kr(hi, lagTime), rq)\
+		);\
+	\}).send(s);\
+\
+\cf2 // MAKE GUI Function -- the tilde is necessary!\cf0 \
+~lsBandPass = \{ \cf3 var\cf0  out=0, in=0;\
+	\cf3 var\cf0  myWind, \
+		loSlider, hiSlider, rqSlider, \
+		rangeSlider, lagSlider, \
+		doUpdate, memSliders, \
+		inst;\
+\cf2 // function to call when you update the rangeslider or the high and lo sliders\cf0 \
+\cf2 // -- it sets them to the same values\cf0 \
+doUpdate = \{	\cf3 arg\cf0  inLo, inHi;\
+		\cf3 var\cf0  newLo, newHi;\
+		if(inLo<inHi, \{newLo=inLo; newHi=inHi\}, \{newLo=inHi; newHi=inLo\});\
+		rangeSlider.lo_(newLo);\
+		rangeSlider.hi_(newHi);\
+		loSlider.value = round(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newLo), 1);\
+		hiSlider.value = round(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newHi));			\};\
+\
+myWind = \cf3 SCWindow\cf0 .new(\cf4 "BandPass"\cf0 , \cf3 Rect\cf0 (128, 64, 480, 480));\
+myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);\
+\cf2 // on close free the synth effect\cf0 \
+myWind.onClose_(\{inst.free;\});\
+rangeSlider = \cf3 SCRangeSlider\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 470, 120))\
+	.action_(\{\cf3 arg\cf0  me; doUpdate.value(me.lo.value, me.hi.value)\})\
+	.knobColor_(\cf3 Color\cf0 .black);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth low cutoff value\cf0 \
+loSlider = \cf3 EZSlider\cf0 (myWind, 400 @ 24, \cf4 "Low Cutoff"\cf0 ,\
+	\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf3 |ez|\cf0  inst.set(\cf5 \\lo\cf0 , ez.value); \
+			rangeSlider.lo_(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth high cutoff value\cf0 \
+hiSlider = \cf3 EZSlider\cf0 (myWind, 400 @ 24, \cf4 "High Cutoff"\cf0 , \
+	\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf3 |ez|\cf0  inst.set(\cf5 \\hi\cf0 , ez.value); \
+			rangeSlider.hi_(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20000);		\
+myWind.view.decorator.nextLine;\
+\cf2 // resonance for the filter\cf0 \
+rqSlider = \cf3 EZSlider\cf0 (myWind, 200 @ 24, \cf4 "Rez"\cf0 , \
+	\cf3 ControlSpec\cf0 (0.001, 2, \cf5 \\exp\cf0 , 0, 0.707),\
+	\{\cf3 |ez|\cf0  inst.set(\cf5 \\rq\cf0 , ez.value); \}, 0.707, labelWidth: 40, numberWidth: 40);\
+\cf2 // lag of the controls -- so it glides evenly\cf0 \
+lagSlider = \cf3 EZSlider\cf0 (myWind, 200 @ 24, \cf4 "Lag"\cf0 , \
+	\cf3 ControlSpec\cf0 (0, 20, \cf5 \\linear\cf0 , 0, 5),\
+	\{\cf3 |ez|\cf0  inst.set(\cf5 \\lagTime\cf0 , ez.value); \}, 5, labelWidth: 40, numberWidth: 40).round_(0.01);\
+myWind.view.decorator.nextLine;\
+\
+\cf2 // this is my tricky way of making an array of buttons and rangesliders.\cf0 \
+\cf2 // the if statement checks the fill counter ("i") and sees if it's even or odd, and\cf0 \
+\cf2 // puts a button or rangeslider accordingly\cf0 \
+memSliders = \cf3 Array\cf0 .fill(8, \{\cf3 |i|\cf0 \
+	if(i%2==0, \
+		\{\cf3 SCButton\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 24, 24))\
+			.states_([[(i+1).asString]])\
+			.action_(\{doUpdate.value(memSliders[i+1].lo.value, memSliders[i+1].hi.value);\})\
+			\},\
+		\{\cf3 SCRangeSlider\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 200, 24)).knobColor_(\cf3 Color\cf0 .black)\}\
+	\
+	)\});\
+myWind.front;\
+\
+\cf2 // start the bandpass synth\cf0 \
+inst = \cf3 Synth\cf0 .tail(s, \cf4 "BandPass"\cf0 , [\cf5 \\out\cf0 , out, \cf5 \\in\cf0 , in]);\
+\};\
+)\
+\
+\cf2 // USAGE: ~lsBandPass.value(\\out, 0, \\in, 0);\cf0 \
+~lsBandPass.value(\cf5 \\out\cf0 , 0, \cf5 \\in\cf0 , 0);}

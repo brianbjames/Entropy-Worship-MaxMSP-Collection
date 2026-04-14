@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "chimeEffects">
+	<slot number = "1">
+		<pattr name = "FLeftDelayTime" value = "276." />
+		<pattr name = "FOutPut" value = "1." />
+		<pattr name = "FlangeLFeedback" value = "0.08" />
+		<pattr name = "FlangeRFeedback" value = "0.06" />
+		<pattr name = "RrightDelayTime" value = "376." />
+		<pattr name = "chorusDepth" value = "0.03" />
+		<pattr name = "chorusRate" value = "8." />
+		<pattr name = "chorusSlider" value = "54" />
+		<pattr name = "flangeDepth" value = "0.15" />
+		<pattr name = "flangeSlider" value = "0" />
+		<pattr name = "lFeedBack" value = "0.67" />
+		<pattr name = "leftDelayTime" value = "17." />
+		<pattr name = "outputLevelFlange" value = "0.5" />
+		<pattr name = "rFeedBack" value = "0.67" />
+		<pattr name = "rate" value = "0.14" />
+		<pattr name = "rightDelayTime" value = "23." />
+		<pattr name = "rdirectlevel" value = "0.09" />
+		<pattr name = "ldirectlevel" value = "0.15" />
+	</slot>
+</pattrstorage>
+

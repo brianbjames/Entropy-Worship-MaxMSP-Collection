@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "testsave">
+	<slot number = "1">
+		<pattr name = "duration" value = "150" />
+		<pattr name = "endpoint" value = "7" />
+		<pattr name = "instrument" value = "17" />
+		<pattr name = "tempo" value = "200" />
+		<pattr name = "transpose" value = "21" />
+		<pattr name = "velocity" value = "127" />
+	</slot>
+	<slot number = "2">
+		<pattr name = "duration" value = "26" />
+		<pattr name = "endpoint" value = "15" />
+		<pattr name = "instrument" value = "5" />
+		<pattr name = "tempo" value = "400" />
+		<pattr name = "transpose" value = "45" />
+		<pattr name = "velocity" value = "127" />
+	</slot>
+	<slot number = "3">
+		<pattr name = "duration" value = "12" />
+		<pattr name = "endpoint" value = "5" />
+		<pattr name = "instrument" value = "10" />
+		<pattr name = "tempo" value = "800" />
+		<pattr name = "transpose" value = "63" />
+		<pattr name = "velocity" value = "127" />
+	</slot>
+	<slot number = "4">
+		<pattr name = "duration" value = "12" />
+		<pattr name = "endpoint" value = "4" />
+		<pattr name = "instrument" value = "14" />
+		<pattr name = "tempo" value = "100" />
+		<pattr name = "transpose" value = "28" />
+		<pattr name = "velocity" value = "127" />
+	</slot>
+	<slot number = "5">
+		<pattr name = "duration" value = "392" />
+		<pattr name = "endpoint" value = "3" />
+		<pattr name = "instrument" value = "37" />
+		<pattr name = "tempo" value = "600" />
+		<pattr name = "transpose" value = "56" />
+		<pattr name = "velocity" value = "79" />
+	</slot>
+</pattrstorage>
+

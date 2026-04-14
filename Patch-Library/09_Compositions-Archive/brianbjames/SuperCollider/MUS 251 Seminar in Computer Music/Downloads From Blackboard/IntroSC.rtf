@@ -1,0 +1,74 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;\f1\fswiss\fcharset77 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;}
+\vieww20360\viewh14280\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf0 \
+
+\f1\b SC Server basics:
+\f0\b0 \
+\
+The SuperCollider audio programming environment consists of two separate applications: 1) a Server, which runs groups of audio and control rate Unit generators (UGens) to produce sound synthesis in real-time,  and 2) the SuperColllider language, or 'SC Lang' for short, which is an Object-Oriented programming language in which you can create synthesis definitions (SynthDefs) and control the Synths they define that run on the Server.  The two applications communicate with each other using  via 'udp' or 'tcp' messages using the Open Sound Control syntax. For more info, see the ClientVsServer.rtf help-file.\
+ \
+
+\f1\b  Simple operations: 
+\f0\b0 \
+ \
+1) Start the server (usually 'localhost server') manually by pressing 'Boot' button on its panel, and quit it by repressing it -- leaving the program quits it automatically.\
+\
+2) Select code to compile by double-clicking to the immediate right of the enclosing parentheses, or just\
+press ENTER with the cursor on a single line of code to be compiled.\
+\
+3) Watch the localhost window to see that a Synth has started (the numbers following "UGens:" and  "Synths:" changes), and observe the CPU usage displayed.\
+\
+4) Stop any running synths and all SC Lang processes with "command-period".\
+\
+5) Type command-? on a selected Class (any word that begins with upper case letter is a Class) to see its help-file, if one exists; type command-? with nothing selected to bring up the HELP-HELP file, which is an index to all the help-files and tutorials.\
+\
+6) Type command-j on a selected class to see it's source code.\
+\
+7) Type command-y on a selected method (a word starting with lower case letter that follows a period) to see a listing of all classes that implement it.\
+\
+8) Delimit comments to be ignored by the compiler with "//" to exclude everything on the same line,\
+and with"/* ..... */" to exclude everthing in between the slashes.\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ri-620\ql\qnatural
+
+\f1\b \cf0 SC3 OOP implementation
+\f0\b0 \
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 	The SuperCollider language is an object oriented language. All entities in the language\
+are objects. An object is something that has data, representing the object's state,\
+and a set of operations that can be performed on the object. All objects are instances of\
+some class which describes the structure of the object and its operations. Objects in SuperCollider include numbers, character strings, object collections, unit generators, wave samples, points, rectangles, graphical windows, graphical buttons, sliders and much more.\
+	\
+	Operations upon objects are invoked by messages. A message is a request for an object, called the\
+receiver, to perform one of its operations. The means by which the operation is performed is determined\
+by the object's class. Objects of different classes may implement the same message in different\
+ways, each appropriate to the class of the object. For example all objects understand the 'value'\
+message. Many objects simply return themselves in response to 'value', but other objects such as\
+functions and streams first evaluate themselves and return the result of that evaluation.\
+The ability for different objects to react differently to the same message is known as 
+\f1\b polymorphism
+\f0\b0  \
+and is perhaps the most important concept in object oriented programming since it allows the object's \
+behaviour to be abstract from the point of view of the user of the object (the client). \
+\
+see HelpFile: 
+\f1\b  Intro-to-Objects.rtf\
+
+\f0\b0 \
+
+\f1\b Number Representation in SC3
+\f0\b0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ri-620\ql\qnatural
+\cf0 	\
+see HelpFile: 
+\f1\b  Literals.rtf 
+\f0\b0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ri-620\ql\qnatural
+\cf0 Run Tutorial.rtf}

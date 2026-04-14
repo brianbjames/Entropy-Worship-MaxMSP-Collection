@@ -1,0 +1,87 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs28 \cf2 // startup\cf3 \
+s = \cf4 Server\cf3 .local;\
+s.boot;\
+(\
+ \cf2 /*\
+  Task: to randomly choose between three pitches in an Array:\
+First, define a Synth that plays a sine wave, and load it to 's'\
+ The first two arguments of a SynthDef are its name, and it's UgenGraphFunction\
+*/\cf3 \
+\cf4 SynthDef\cf3 (\cf5 "help-Osc"\cf3 ,\{ \cf4 arg\cf3  out=0, freq=200; 	\cf2 // these are its arguments\cf3 \
+	\cf4 Out\cf3 .ar(out,\
+		\cf4 SinOsc\cf3 .ar(freq, 0, 0.5)		\cf2 // freq=200, phase=0, amp = 0.5\cf3 \
+	)\
+\}).send(s);	\cf2 // 'send' the UGenGraphFunction to the server. There server must be running, and will know how to make a Synth from this SynthDef until it is restarted.  The method 'store' will write it to disk, and automatically load it every time you start the Server.  This is good for SynthDefs you never want to change.\cf3 \
+)\
+\
+( \cf2 // Start the Synth playing, then run a 'Routine' that changes it's pitch\cf3 \
+x = \cf4 Synth\cf3 (\cf5 "help-Osc"\cf3 ); \cf2 // start playing the Synth, and save a reference to it in the environment variable 'x'\cf3 \
+p = [60, 63, 67];	\cf2 // an Array is defined by any objects enclosed by brackets [ ];\cf3 \
+\cf2 // a Function is defined by a set of messages enclosed by curly-brackets \{ \}\cf3 \
+\cf4 Routine\cf3 (\{	\cf2 // a Routine is a function that can pause execution of its function and resume where it left off\cf3 \
+	loop(\{ 	\cf2 // do this function again and again, infinitely\cf3 \
+		x.set(\cf5 "freq"\cf3 ,p.choose.midicps);	 \cf2 // set x's freq to a number chosen at random \cf3 \
+			\cf2 //	by using  the 'choose' method applied to the Array p, converting it from a midikey number to cycles-per-sec using 'midicps' method\cf3 \
+		1.0.wait	\cf2 // pause for 1 second\cf3 \
+	\});\
+\}).play;	\cf2 // the 'play' message starts executing the Routine\cf3 \
+)\
+\cf2 //	 cmd-period to stop !!\cf3 \
+\
+( \cf2 // VARIATION 1: choose freq from one of three pitch sets, which is also randomly chosen\cf3 \
+\cf4 var\cf3  pitchSet1, pitchSet2, pitchSet3,freqArrays, source, ctr=0; \cf2 // these are variable definitions, which  are always defined at the top of code to be compiled\cf3 \
+pitchSet1 = [60, 63, 67]; pitchSet2 = [65, 68, 72]; pitchSet3 = [67, 70, 73];\
+freqArrays = [pitchSet1, pitchSet2, pitchSet3];\
+source = pitchSet1;\
+x = \cf4 Synth\cf3 (\cf5 "help-Osc"\cf3 );\
+\cf4 Routine\cf3 (\{\
+	loop(\{ \
+		\cf2 // choose which array is the source\cf3 \
+		\cf2 // 'if' requires two or three arguments; the first is a logical test, the second is a function to execute if the test is true, and the third (if it exists) is a function to evaluate if the test is false \cf3 \
+		if( ctr ==  3,\{	\cf2 //    '==' means 'is equals to' and is a logical operator that  returns 'true' or 'false; if the test is true, then execute the function that follows the comma, otherwise do nothing, because there is no argument for the 'false' condition\cf3 \
+			ctr = 0;	\cf2 // reset 'ctr' variable to 1\cf3 \
+			source = freqArrays.choose.postln;  \cf2 // choose the next Array, and post (print) it to the Untitled window, then execute a line-feed (jump to new line)\cf3 \
+		\});	\cf2 // end of true condition function\cf3 \
+		x.set(\cf5 "freq"\cf3 ,source.choose.midicps);	\cf2 // set x to a freq chosen from current list\cf3 \
+		ctr = ctr+1;	\cf2 // increment the ctr variable\cf3 \
+		0.2.wait;\
+	\});	\cf2 // end of loop\cf3 \
+\}).play;\
+)\
+\
+( \cf2 // now choose the arrays sequentially\cf3 \
+\cf4 var\cf3  pitchSet1, pitchSet2, pitchSet3,freqArrays, source, ctr=0, arrayCtr=0;\
+pitchSet1 = [60, 63, 67]; pitchSet2 = [65, 68, 72]; pitchSet3 = [67, 70, 73];\
+freqArrays = [pitchSet1, pitchSet2, pitchSet3];\
+source = pitchSet1;\
+x = \cf4 Synth\cf3 (\cf5 "help-Osc"\cf3 );\
+\cf4 Routine\cf3 (\{\
+	loop(\{ \
+		if( ctr == 0,\{\
+			source = freqArrays[arrayCtr].postln; \cf2 //  pick the array from freqArrays 'at' arrayCtr\cf3 \
+			arrayCtr = (arrayCtr+1).mod(3) \cf2 // 'mod' is short for 'modulo', and means "return remainder after divide"\cf3 \
+		\});\
+		x.set(\cf5 "freq"\cf3 ,source.choose.midicps);\
+		ctr = (ctr+1).mod(3);\
+		0.1.wait;\
+	\});\
+\}).play;\
+)\
+\
+\cf2 /*	ASSGN #1:  make the notes chosen from the array also be chosen sequentially\
+Try other variations, using Arrays to provide different rhythms, and running more than one\
+Routine at a time.  Upload your piece to your own folder on the class site.\
+*/\cf3 \
+\
+\
+\
+\
+\
+\
+}

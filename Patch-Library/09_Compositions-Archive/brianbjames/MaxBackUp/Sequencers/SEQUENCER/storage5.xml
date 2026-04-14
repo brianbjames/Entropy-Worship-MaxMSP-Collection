@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "storage">
+	<slot number = "1">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 1 15 0 1" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "122" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "96" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "127" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 1 7 0 1 8 0 1 9 0 1 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "127" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "209." />
+			<pattr name = "fmOnedur" value = "146." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "164." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "19." />
+			<pattr name = "fmOnedur" value = "76." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 1 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "293." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "348." />
+			<pattr name = "fmOnedur" value = "329." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 1 8 0 1 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "143." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "209." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "164." />
+			<pattr name = "flangeRate" value = "0.14" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "143." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "348." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "5." />
+			<pattr name = "hg3" value = "348" />
+			<pattr name = "hg4" value = "190" />
+			<pattr name = "hg5" value = "164" />
+			<pattr name = "hg6" value = "209" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "1." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 1 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 1 6 0 1 6 1 0 6 2 0 6 3 1 6 4 0 6 5 0 6 6 0 6 7 1 6 8 1" />
+	</slot>
+	<slot number = "2">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 1 15 0 1" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "122" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "96" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "127" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 1 7 0 1 8 0 1 9 0 1 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "127" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "209." />
+			<pattr name = "fmOnedur" value = "146." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "164." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "19." />
+			<pattr name = "fmOnedur" value = "76." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 1 11 0 0 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "293." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "348." />
+			<pattr name = "fmOnedur" value = "329." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 1 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "143." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "209." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "164." />
+			<pattr name = "flangeRate" value = "0.14" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "143." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "348." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "5." />
+			<pattr name = "hg3" value = "348" />
+			<pattr name = "hg4" value = "190" />
+			<pattr name = "hg5" value = "164" />
+			<pattr name = "hg6" value = "209" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "1." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 1 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 1 6 0 1 6 1 0 6 2 0 6 3 1 6 4 0 6 5 0 6 6 0 6 7 1 6 8 1" />
+	</slot>
+	<slot number = "3">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 1 15 0 1" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "122" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "96" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "127" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 1 7 0 1 8 0 1 9 0 1 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "127" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "209." />
+			<pattr name = "fmOnedur" value = "146." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "164." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "19." />
+			<pattr name = "fmOnedur" value = "76." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 1 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "293." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "348." />
+			<pattr name = "fmOnedur" value = "329." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 1 8 0 1 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "143." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "209." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "164." />
+			<pattr name = "flangeRate" value = "0.14" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "143." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "348." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "5." />
+			<pattr name = "hg3" value = "348" />
+			<pattr name = "hg4" value = "190" />
+			<pattr name = "hg5" value = "164" />
+			<pattr name = "hg6" value = "209" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "1." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 1 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 1 6 0 1 6 1 0 6 2 0 6 3 1 6 4 0 6 5 0 6 6 0 6 7 1 6 8 1" />
+	</slot>
+	<slot number = "7">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "107" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "707." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "603." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "" />
+	</slot>
+	<slot number = "8">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 1 15 0 1" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "122" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "96" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "127" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 1 7 0 1 8 0 1 9 0 1 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "127" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "209." />
+			<pattr name = "fmOnedur" value = "146." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "164." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "19." />
+			<pattr name = "fmOnedur" value = "76." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 1 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "293." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "348." />
+			<pattr name = "fmOnedur" value = "329." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 1 8 0 1 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "143." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "209." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "164." />
+			<pattr name = "flangeRate" value = "0.14" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "143." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "348." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "5." />
+			<pattr name = "hg3" value = "348" />
+			<pattr name = "hg4" value = "190" />
+			<pattr name = "hg5" value = "164" />
+			<pattr name = "hg6" value = "209" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "1." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 1 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 1 6 0 1 6 1 0 6 2 0 6 3 1 6 4 0 6 5 0 6 6 0 6 7 1 6 8 1" />
+	</slot>
+	<slot number = "9">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 1 14 0 1 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 1 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "107" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "107" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "0." />
+			<pattr name = "fmOnedur" value = "0." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "0." />
+			<pattr name = "fmOneoutputSlider" value = "107" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "280." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "530." />
+			<pattr name = "flangeRate" value = "0.15" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "707." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "603." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "14." />
+			<pattr name = "hg3" value = "382" />
+			<pattr name = "hg4" value = "68" />
+			<pattr name = "hg5" value = "106" />
+			<pattr name = "hg6" value = "95" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "0." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "" />
+	</slot>
+	<slot number = "10">
+		<patcher name = "samplePlayback">
+			<pattr name = "clink1matrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 1 15 0 1" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "122" />
+		</patcher>
+		<patcher name = "samplePlayback[1]">
+			<pattr name = "clankmatrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 1 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "5." />
+			<pattr name = "clanksliderOut" value = "96" />
+		</patcher>
+		<patcher name = "samplePlayback[2]">
+			<pattr name = "clink1matrix" value = "0 0 0 1 0 1 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 1 11 0 1 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clink1rate" value = "19." />
+			<pattr name = "clink1sliderOut" value = "127" />
+		</patcher>
+		<patcher name = "samplePlayback[3]">
+			<pattr name = "clankmatrix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 1 7 0 1 8 0 1 9 0 1 10 0 0 11 0 0 12 0 1 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "clankrate" value = "14." />
+			<pattr name = "clanksliderOut" value = "127" />
+		</patcher>
+		<patcher name = "FMEnvModule">
+			<pattr name = "fmOnecar" value = "209." />
+			<pattr name = "fmOnedur" value = "146." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 1 2 0 1 3 0 1 4 0 0 5 0 0 6 0 0 7 0 0 8 0 0 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "164." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[1]">
+			<pattr name = "fmOnecar" value = "19." />
+			<pattr name = "fmOnedur" value = "76." />
+			<pattr name = "fmOnematrtix" value = "0 0 1 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 9 0 0 10 0 1 11 0 1 12 0 1 13 0 1 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "293." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "FMEnvModule[2]">
+			<pattr name = "fmOnecar" value = "348." />
+			<pattr name = "fmOnedur" value = "329." />
+			<pattr name = "fmOnematrtix" value = "0 0 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 1 8 0 1 9 0 0 10 0 0 11 0 0 12 0 0 13 0 0 14 0 0 15 0 0" />
+			<pattr name = "fmOnemod" value = "143." />
+			<pattr name = "fmOneoutputSlider" value = "127" />
+			<pattr name = "fmOnepresetNmber" value = "0" />
+		</patcher>
+		<patcher name = "sub patch">
+			<pattr name = "FlangeLFeedBack" value = "0.18" />
+			<pattr name = "FlangeRFeedBack" value = "0.32" />
+			<pattr name = "flageDepth" value = "0.33" />
+			<pattr name = "flangeLDelayTime" value = "209." />
+			<pattr name = "flangeOutputLevel" value = "1." />
+			<pattr name = "flangeRDelayTime" value = "164." />
+			<pattr name = "flangeRate" value = "0.14" />
+			<pattr name = "flangeSlider" value = "93" />
+		</patcher>
+		<patcher name = "chorus">
+			<pattr name = "chdepth" value = "0.03" />
+			<pattr name = "chrate" value = "8." />
+			<pattr name = "dwm" value = "70" />
+			<pattr name = "ldlytime" value = "143." />
+			<pattr name = "lfeedback" value = "0.67" />
+			<pattr name = "opl" value = "0.5" />
+			<pattr name = "rdlytime" value = "348." />
+			<pattr name = "rfeedback" value = "0.67" />
+		</patcher>
+		<patcher name = "vocoder">
+		</patcher>
+		<patcher name = "forbiddenPlanet">
+		</patcher>
+		<patcher name = "3rd8vaEQ">
+		</patcher>
+		<patcher name = "harmGran">
+			<pattr name = "hg1" value = "3.27" />
+			<pattr name = "hg2" value = "5." />
+			<pattr name = "hg3" value = "348" />
+			<pattr name = "hg4" value = "190" />
+			<pattr name = "hg5" value = "164" />
+			<pattr name = "hg6" value = "209" />
+		</patcher>
+		<patcher name = "filtergraph">
+			<pattr name = "freq" value = "1." />
+		</patcher>
+		<pattr name = "effectsmatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 1 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 1 6 0 1 6 1 0 6 2 0 6 3 1 6 4 0 6 5 0 6 6 0 6 7 1 6 8 1" />
+	</slot>
+</pattrstorage>
+

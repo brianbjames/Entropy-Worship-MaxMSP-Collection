@@ -1,0 +1,246 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica;\f2\fnil\fcharset77 LucidaGrande;
+}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs24 \cf0 \
+\cf2 //probabilities... a lasting friendship\cf0 \
+\
+(\
+\cf3 SynthDef\cf0 (\cf4 "probpulseDuet"\cf0 , \
+	\{\cf3 arg\cf0  rate=6, prob=0.01,mdF=2.5,\
+	idx=1.5,amp=0.00,ctlBusNum=0,\
+	rateB=3, probB=0.6,mdFB=40,\
+	idxB=1,ampB=6,\
+	
+\fs22 sampG2=0, sampbuf2=0, rateS2=0.9, startPos2=0,
+\fs24 \
+	
+\fs22 sampG=0, sampbuf=0, rateS=1, startPos=0
+\fs26 ;\
+
+\fs24 \
+\cf3 var\cf0  trig, index,trigB, indexB, buf, filename, buf2, filename2;\
+\
+trig = \cf3 Impulse\cf0 .kr(rate, 0, \cf3 SinOsc\cf0 .kr(0.5,0,1,1));\
+\
+\cf2 /* here's the good stuff. this "index" variable makes it so that x percent of the time the impulse fires, the array will yield a new value. Each value in this array is the probability of that position in the array being chosen when the array is triggered. The output is the chosen position (or rather an index value). This index determines which pitches are used from the array further down in the FMsynth. In short, the probabilities in the "index" variable, correspond to the pitches that the synth will play. For example, for lots of Is and Vs I made positions one and five have higher probability values. (Note the array does not add up to 1, because I am normalizing the values (TWindex can do that for you if you do not want to worry about always adding up to 100%)). */\cf0 \
+\
+index = \cf3 TWindex\cf0 .kr(\cf3 CoinGate\cf0 .kr(prob,trig), 	[1,0.428,0.571,0.714,0.857,0.285,0.143,0.072,0.072],1);\
+\
+trigB = \cf3 Impulse\cf0 .kr(rateB, 0, \cf3 SinOsc\cf0 .kr(0.5,0,1,1));\
+indexB = \cf3 TWindex\cf0 .kr(\cf3 CoinGate\cf0 .kr(probB,trigB), 	[1,0.428,0.571,0.714,0.857,0.285,0.143],1);\
+\
+\cf2 //these sounds were just here to mix in now and then... you could add your own or just ignore it\cf0 \
+\
+filename = \cf4 "
+\f1\fs20 /Users/kevin/Music/Samps_loc/
+\f2 aloeHIs.wav
+\f0\fs24 "\cf0 ; \
+buf = \cf3 Buffer\cf0 .read(s,filename);	\
+\
+filename2 = \cf4 "
+\f1\fs20 /Users/kevin/Music/Samps_loc/
+\f2 JerryRubin.wav
+\f0\fs24 "\cf0 ; \
+buf2 = \cf3 Buffer\cf0 .read(s,filename2);\
+\
+\cf2 //Lead \cf0 \
+\cf3 Out\cf0 .ar([0,1],\
+\cf3 CombN\cf0 .ar(\
+	\cf3 SinOsc\cf0 .ar(\
+		\cf3 SinOsc\cf0 .ar(mdF,0,\
+			mdF*idx,\
+				(\cf3 Select\cf0 .kr(index,\
+					([60,62,63,65,67,69,70,72,79]+[12,0]).midicps.postln)) \cf2 //minor scale across 2 registers\cf0 \
+				),\
+			0,amp), 
+\fs22 0.3, 0.3, 2, 2)
+\fs24 	\
++\
+\cf2 //Bass voice\cf0 \
+	(\cf3 AllpassC\cf0 .ar(	\
+		\cf3 SinOsc\cf0 .ar(\
+			\cf3 SinOsc\cf0 .ar(mdFB,0,\
+				mdFB*idxB,\
+					(\cf3 Select\cf0 .kr(indexB,\
+						([60,62,63,65,67,69,70]+[-12]).midicps.postln)\
+						\cf2 //minor scale at a lower register\cf0 \
+					)),\
+		0,\
+		\cf3 EnvGen\cf0 .kr(
+\fs22 \cf3 Env\cf0 .adsr(0.3,0.3,0.3,1.0),\
+			
+\fs24 \cf3 CoinGate\cf0 .kr(probB,trigB)
+\fs22 ,levelScale:ampB)),\
+
+\fs24 1.5,0.5,1))\
+)
+\fs22 \
+
+\fs24 \
++\
+\
+
+\fs22 (\cf3 Out\cf0 .ar([0,1],\
+	\cf3 Pan2\cf0 .ar(\
+		\cf3 PlayBuf\cf0 .ar(1,			\
+			buf.bufnum,			\
+			\cf3 BufRateScale\cf0 .kr(sampbuf)*rateS,   \
+			1.0,		\
+			startPos*\cf3 BufFrames\cf0 .kr(sampbuf),  				1),0
+\fs14 ,
+\fs22 sampG)
+\fs30 \
+		
+\fs24 ))\
+\
++\
+\
+
+\fs22 (\cf3 Out\cf0 .ar([0,1],\
+	\cf3 Pan2\cf0 .ar(\
+		\cf3 PlayBuf\cf0 .ar(1,			\
+			buf2.bufnum,			\
+			\cf3 BufRateScale\cf0 .kr(sampbuf2)*rateS2,   \
+			1.0,		\
+			startPos2*\cf3 BufFrames\cf0 .kr(sampbuf2),  				1),0
+\fs14 ,
+\fs22 sampG2)
+\fs30 \
+		
+\fs24 ));
+\fs26 \
+
+\fs24 	\
+\}).store;\
+\
+\
+
+\fs26 \cf3 Spec\cf0 .specs.addAll([\
+\cf5 \\mdF\cf0 ->\cf3 ControlSpec\cf0 (1,12,\cf5 \\linear\cf0 ,0.001),\
+\cf5 \\rate\cf0 ->\cf3 ControlSpec\cf0 (1,12,\cf5 \\linear\cf0 ,1),\
+\cf5 \\prob\cf0 ->\cf3 ControlSpec\cf0 (0.0,1.0,\cf5 \\linear\cf0 ,0.01),\
+\cf5 \\idx\cf0 ->\cf3 ControlSpec\cf0 (0.1,200,\cf5 \\linear\cf0 ,0.1),\
+\cf5 \\amp\cf0 ->\cf3 ControlSpec\cf0 (0.0,0.08,\cf5 \\linear\cf0 ,0.0001),\
+
+\fs24 \cf5 \\mdFB\cf0 ->\cf3 ControlSpec\cf0 (0,80,\cf5 \\linear\cf0 ,0.01),\
+\cf5 \\rateB\cf0 ->\cf3 ControlSpec\cf0 (1,12,\cf5 \\linear\cf0 ,1),\
+\cf5 \\probB\cf0 ->\cf3 ControlSpec\cf0 (0.0,1.0,\cf5 \\linear\cf0 ,0.01),\
+\cf5 \\idxB\cf0 ->\cf3 ControlSpec\cf0 (1,8,\cf5 \\linear\cf0 ,0.1),\
+\cf5 \\ampB\cf0 ->\cf3 ControlSpec\cf0 (0.0,8,\cf5 \\linear\cf0 ,0.1),\
+\cf5 \\sampG\cf0 ->\cf3 ControlSpec\cf0 (0.0,1,\cf5 \\linear\cf0 ,0.01),\
+\cf5 \\sampG2\cf0 ->\cf3 ControlSpec\cf0 (0.0,1,\cf5 \\linear\cf0 ,0.01)
+\fs26 \
+]);\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf0 \
+\cf2 /* BandPass -- This is a simple effect modeled after GRM's BandPass VST\
+	The cool treat about the GUI is that there's 4 memory slots at the bottom; once you\
+	set the slider on the memory location click the button next to it and the bandpass will\
+	glide to the new settings according to your lagTime.\
+	Just be sure to run the function ~lsBandPass AFTER whatever it is you want to process.\
+	\
+	Hope you like it! ~luke\
+	\
+	Synthdef -\
+ 	takes an input and does a high and lo cut of the signal.\
+	rq = resonance, lagTime = speed of change of controls\
+*/\cf0 \
+\cf3 SynthDef\cf0 (\cf4 "BandPass"\cf0 , \{ \cf3 arg\cf0  out=0, in=0, lo=20, hi=20000, rq=0.707, lagTime=5.0;\
+	\cf2 // replace out...you could probably change this to XOut to do a wet/dry signal\cf0 \
+	\cf3 ReplaceOut\cf0 .ar(out,\
+		\cf3 RLPF\cf0 .ar(\cf3 RHPF\cf0 .ar( \cf3 In\cf0 .ar(in, 2), \cf3 Lag\cf0 .kr(lo, lagTime), rq), \cf3 Lag\cf0 .kr(hi, lagTime), rq)\
+		);\
+	\}).send(s);\
+\
+\cf2 // MAKE GUI Function -- the tilde is necessary!\cf0 \
+~lsBandPass = \{ \cf3 var\cf0  out=0, in=0;\
+	\cf3 var\cf0  myWind, \
+		loSlider, hiSlider, rqSlider, \
+		rangeSlider, lagSlider, \
+		doUpdate, memSliders, \
+		inst;\
+\cf2 // function to call when you update the rangeslider or the high and lo sliders\cf0 \
+\cf2 // -- it sets them to the same values\cf0 \
+doUpdate = \{	\cf3 arg\cf0  inLo, inHi;\
+		\cf3 var\cf0  newLo, newHi;\
+		if(inLo<inHi, \{newLo=inLo; newHi=inHi\}, \{newLo=inHi; newHi=inLo\});\
+		rangeSlider.lo_(newLo);\
+		rangeSlider.hi_(newHi);\
+		loSlider.value = round(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newLo), 1);\
+		hiSlider.value = round(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).map(newHi));			\};\
+\
+myWind = \cf3 SCWindow\cf0 .new(\cf4 "BandPass"\cf0 , \cf3 Rect\cf0 (128, 64, 480, 480));\
+myWind.view.decorator = \cf3 FlowLayout\cf0 (myWind.view.bounds);\
+\cf2 // on close free the synth effect\cf0 \
+myWind.onClose_(\{inst.free;\});\
+rangeSlider = \cf3 SCRangeSlider\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 470, 120))\
+	.action_(\{\cf3 arg\cf0  me; doUpdate.value(me.lo.value, me.hi.value)\})\
+	.knobColor_(\cf3 Color\cf0 .black);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth low cutoff value\cf0 \
+loSlider = \cf3 EZSlider\cf0 (myWind, 400 @ 24, \cf4 "Low Cutoff"\cf0 ,\
+	\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf3 |ez|\cf0  inst.set(\cf5 \\lo\cf0 , ez.value); \
+			rangeSlider.lo_(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20);\
+myWind.view.decorator.nextLine;\
+\cf2 // this slider sets the synth high cutoff value\cf0 \
+hiSlider = \cf3 EZSlider\cf0 (myWind, 400 @ 24, \cf4 "High Cutoff"\cf0 , \
+	\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ),\{\
+			\cf3 |ez|\cf0  inst.set(\cf5 \\hi\cf0 , ez.value); \
+			rangeSlider.hi_(\cf3 ControlSpec\cf0 .specs.at(\cf5 \\freq\cf0 ).unmap(ez.value));\
+		\}, 20000);		\
+myWind.view.decorator.nextLine;\
+\cf2 // resonance for the filter\cf0 \
+rqSlider = \cf3 EZSlider\cf0 (myWind, 200 @ 24, \cf4 "Rez"\cf0 , \
+	\cf3 ControlSpec\cf0 (0.001, 2, \cf5 \\exp\cf0 , 0, 0.707),\
+	\{\cf3 |ez|\cf0  inst.set(\cf5 \\rq\cf0 , ez.value); \}, 0.707, labelWidth: 40, numberWidth: 40);\
+\cf2 // lag of the controls -- so it glides evenly\cf0 \
+lagSlider = \cf3 EZSlider\cf0 (myWind, 200 @ 24, \cf4 "Lag"\cf0 , \
+	\cf3 ControlSpec\cf0 (0, 20, \cf5 \\linear\cf0 , 0, 5),\
+	\{\cf3 |ez|\cf0  inst.set(\cf5 \\lagTime\cf0 , ez.value); \}, 5, labelWidth: 40, numberWidth: 40).round_(0.01);\
+myWind.view.decorator.nextLine;\
+\
+\cf2 // this is my tricky way of making an array of buttons and rangesliders.\cf0 \
+\cf2 // the if statement checks the fill counter ("i") and sees if it's even or odd, and\cf0 \
+\cf2 // puts a button or rangeslider accordingly\cf0 \
+memSliders = \cf3 Array\cf0 .fill(8, \{\cf3 |i|\cf0 \
+	if(i%2==0, \
+		\{\cf3 SCButton\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 24, 24))\
+			.states_([[(i+1).asString]])\
+			.action_(\{doUpdate.value(memSliders[i+1].lo.value, memSliders[i+1].hi.value);\})\
+			\},\
+		\{\cf3 SCRangeSlider\cf0 (myWind, \cf3 Rect\cf0 (0, 0, 200, 24)).knobColor_(\cf3 Color\cf0 .black)\}\
+	\
+	)\});\
+myWind.front;\
+\
+\cf2 // start the bandpass synth\cf0 \
+inst = \cf3 Synth\cf0 .tail(s, \cf4 "BandPass"\cf0 , [\cf5 \\out\cf0 , out, \cf5 \\in\cf0 , in]);\
+\};\
+
+\fs26 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 )\
+\
+\cf2 //play. note that each voice has it's own rate, mess with it for different rhythmic relationships between the lead anb bass voices (rate 2,and rate 3 = two against three etc.). Also, note that the probability (prob) slider just controls probability of a note playing per pulse (static-->active, it is the rhythmic probability of shorter durations, the shortest possible being determined by the impulse rate). The pitch probabilities are fixed in the code where it says "minor scale"... at least in this implementation. \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\fs18 \cf0 \
+\cf2 // USAGE: ~lsBandPass.value(\\out, 0, \\in, 0);\cf0 \
+~lsBandPass.value(\cf5 \\out\cf0 , 0, \cf5 \\in\cf0 , 0);
+\fs26    \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf5 \\probpulseDuet
+\fs28 \cf0 ));\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //Kevin\cf0 \
+}

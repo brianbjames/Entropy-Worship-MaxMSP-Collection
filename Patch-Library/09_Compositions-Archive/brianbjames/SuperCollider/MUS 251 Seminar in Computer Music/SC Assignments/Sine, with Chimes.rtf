@@ -1,0 +1,537 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica-Bold;\f2\fswiss\fcharset77 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red96\green96\blue96;\red191\green0\blue0;
+}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf0 init_OSC\
+compiling class library..\
+	NumPrimitives = 618\
+	compiling dir: '/Users/brianjames/Desktop/SuperCollider_f/SCClassLibrary'\
+	pass 1 done\
+numentries = 668026 / 6871170 = 0.097\
+	Method Table Size 4378880 bytes\
+	Number of Method Selectors 3495\
+	Number of Classes 1966\
+	big table size 27484680\
+	Number of Symbols 8169\
+	Byte Code Size 208606\
+	compiled 297 files in 1.54 seconds \
+compile done\
+Class tree inited in 0.1 seconds\
+booting 57110\
+Using vector unit: yes\
+Number of Devices: 4\
+   0 : "Built-in Microphone"\
+   1 : "Built-in Input"\
+   2 : "Built-in Output"\
+   3 : "Digidesign HW ( MBox )"\
+\
+"Built-in Input" Input Device\
+   Streams: 0\
+\
+"Built-in Input" Output Device\
+   Streams: 0\
+\
+mSafetyOffset 20\
+mNumberBuffers 1\
+  mDataByteSize 0 4096\
+SC_AudioDriver: numSamples=512, sampleRate=44100.000000\
+start   UseSeparateIO?: 1\
+SuperCollider 3 server ready..\
+PublishPortToRendezvous 0 57110\
+notification is on\
+/cmd 
+\f1\b\fs24 /d_recv\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ri-620\ql\qnatural
+\cf0 /d_loadDir
+\f0\b0\fs18 \
+\
+No implementations of '/d_loadDir\
+'.\
+\
+No references to ''.\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs28 \cf2 SynthDef\cf0 (\cf3 "help-Osc"\cf0 ,\{ \cf2 arg\cf0  out=0, freq=200; 	\cf4 // these are its arguments\cf0 \
+	\cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(freq, 0, 0.5)	\
+\
+No implementations of '		SinOsc.ar(freq, 0, 0.5)	\
+'.\
+\cf2 SinOsc\cf0 .ar\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf0  \cf2 FSinOsc\cf0 .ar(800, 0, 0.1)\
+a BinaryOpUGen\
+\{ \cf2 FSinOsc\cf0 .ar(800, 0, 0.1) \}.play\
+Synth("temp__1187419877" : 1000)\
+w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 \
+a Routine\
+AppClock\cf0 .play(r);\
+AppClock\
+\
+nil\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // ^^^^^^^^ double click above this line ^^^^^^^^\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 play(\{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // Three patches in one...\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 n = 5;	\cf4 // number of strings\
+\cf0 b = [	\cf4 // array of possible impulse excitation behaviours\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(2 + 0.2.rand, 0.3) \}, \cf4 // slow phasing\
+\cf0 		\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \},	\cf4 // "wind chimes"\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(\cf2 SinOsc\cf0 .kr(0.05+0.1.rand, 2pi.rand, 5, 5.2), 0.3) \} \cf4 // races\
+\cf0 	].choose;		\cf4 // choose one at random to use for all voices\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 Mix\cf0 .new(\
+	\cf2 Array\cf0 .fill(n, \{	\cf4 // n strings tuned randomly to MIDI keys 60-90\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 		\cf2 var\cf0  delayTime;\
+		\cf4 // calculate delay based on a random note\
+\cf0 		delayTime = 1 / (60 + 30.rand).midicps; \
+		\cf2 Pan2\cf0 .ar(\
+			\cf2 LeakDC\cf0 .ar(		\cf4 // removes DC buildup\cf0 \
+			\cf2 	CombL\cf0 .ar(		\cf4 // used as a string resonator\
+	\cf0 				\cf2 Decay\cf0 .ar(		\cf4 // decaying envelope for noise\
+	\cf0 					b.value,				\cf4 // instantiate an exciter\
+	\cf0 					0.04,				\cf4 // decay time of excitation\
+	\cf0 					\cf2 PinkNoise\cf0 .ar(0.2)),	\cf4 // multiply noise by envelope\
+\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 24 :\
+  						PinkNoise.ar(0.2))\'a5,	// multiply noise by envelope\
+   \
+-----------------------------------\
+unmatched ')'\
+  in file 'selected text' line 1 char 24\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 24 :\
+  						PinkNoise.ar(0.2))\'a5,	// multiply noise by envelope\
+   \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+	\cf0 				delayTime, 		\cf4 // max delay time\
+	\cf0 				delayTime,		\cf4 // actual delay time\
+	\cf0 				4)), 				\cf4 // decay time of string\
+\cf0 			1.0.rand2 \cf4 // random pan position\
+\cf0 		)\
+	\}))\
+\})\
+\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 1 :\
+  \}\'a5)\
+   \
+-----------------------------------\
+unmatched '\}'\
+  in file 'selected text' line 1 char 1\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 1 :\
+  \}\'a5)\
+   \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 1 :\
+  \}\'a5)\
+   \
+-----------------------------------\
+unmatched '\}'\
+  in file 'selected text' line 1 char 1\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 1 :\
+  \}\'a5)\
+   \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+ \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // ^^^^^^^^ double click above this line ^^^^^^^^\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 play(\{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // Three patches in one...\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 n = 5;	\cf4 // number of strings\
+\cf0 b = [	\cf4 // array of possible impulse excitation behaviours\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(2 + 0.2.rand, 0.3) \}, \cf4 // slow phasing\
+\cf0 		\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \},	\cf4 // "wind chimes"\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(\cf2 SinOsc\cf0 .kr(0.05+0.1.rand, 2pi.rand, 5, 5.2), 0.3) \} \cf4 // races\
+\cf0 	].choose;		\cf4 // choose one at random to use for all voices\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 Mix\cf0 .new(\
+	\cf2 Array\cf0 .fill(n, \{	\cf4 // n strings tuned randomly to MIDI keys 60-90\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 		\cf2 var\cf0  delayTime;\
+		\cf4 // calculate delay based on a random note\
+\cf0 		delayTime = 1 / (60 + 30.rand).midicps; \
+		\cf2 Pan2\cf0 .ar(\
+			\cf2 LeakDC\cf0 .ar(		\cf4 // removes DC buildup\cf0 \
+			\cf2 	CombL\cf0 .ar(		\cf4 // used as a string resonator\
+	\cf0 				\cf2 Decay\cf0 .ar(		\cf4 // decaying envelope for noise\
+	\cf0 					b.value,				\cf4 // instantiate an exciter\
+	\cf0 					0.04,				\cf4 // decay time of excitation\
+	\cf0 					\cf2 PinkNoise\cf0 .ar(0.2)),	\cf4 // multiply noise by envelope\
+	\cf0 				delayTime, 		\cf4 // max delay time\
+	\cf0 				delayTime,		\cf4 // actual delay time\
+	\cf0 				4)), 				\cf4 // decay time of string\
+\cf0 \
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 7 :\
+  					4)\'a5), 				// decay time of string\
+   \
+-----------------------------------\
+unmatched ')'\
+  in file 'selected text' line 1 char 7\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 7 :\
+  					4)\'a5), 				// decay time of string\
+   \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+			1.0.rand2 \cf4 // random pan position\
+\cf0 		)\
+	\}))\
+\})\
+\{ \cf2 FSinOsc\cf0 .ar(800, 0, 0.1) \}.play;\
+Synth("temp__59120264" : 1000)\
+w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 AppClock\cf0 .play(r);\
+ERROR: Message 'alpha_' not understood.\
+RECEIVER:\
+   nil\
+ARGS:\
+   Float 1.0   3FF00000 00000000\
+CALL STACK:\
+	DoesNotUnderstandError-reportError   0EB65D90\
+		arg this = <instance of DoesNotUnderstandError>\
+	Nil-handleError   0EB65C10\
+		arg this = nil\
+		arg error = <instance of DoesNotUnderstandError>\
+	Object-throw   0EB52BF0\
+		arg this = <instance of DoesNotUnderstandError>\
+	Object-doesNotUnderstand   0EB64C50\
+		arg this = nil\
+		arg selector = 'alpha_'\
+		arg args = [*1]\
+	< closed FunctionDef >   0EB539D0\
+		arg i = 0\
+	Integer-do   0EB592B0\
+		arg this = 200\
+		arg function = <instance of Function>\
+		var i = 0\
+	< closed FunctionDef >  (no arguments or variables)\
+	Routine-prStart   0ED13010\
+		arg this = <instance of Routine>\
+		arg inval = 1022.1375955120001\
+w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\cf2 AppClock\cf0 .play(r);\
+AppClock\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // ^^^^^^^^ double click above this line ^^^^^^^^\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 play(\{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // Three patches in one...\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 n = 5;	\cf4 // number of strings\
+\cf0 b = [	\cf4 // array of possible impulse excitation behaviours\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(2 + 0.2.rand, 0.3) \}, \cf4 // slow phasing\
+\cf0 		\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \},	\cf4 // "wind chimes"\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(\cf2 SinOsc\cf0 .kr(0.05+0.1.rand, 2pi.rand, 5, 5.2), 0.3) \} \cf4 // races\
+\cf0 	].choose;		\cf4 // choose one at random to use for all voices\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 Mix\cf0 .new(\
+	\cf2 Array\cf0 .fill(n, \{	\cf4 // n strings tuned randomly to MIDI keys 60-90\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 		\cf2 var\cf0  delayTime;\
+		\cf4 // calculate delay based on a random note\
+\cf0 		delayTime = 1 / (60 + 30.rand).midicps; \
+		\cf2 Pan2\cf0 .ar(\
+			\cf2 LeakDC\cf0 .ar(		\cf4 // removes DC buildup\cf0 \
+			\cf2 	CombL\cf0 .ar(		\cf4 // used as a string resonator\
+	\cf0 				\cf2 Decay\cf0 .ar(		\cf4 // decaying envelope for noise\
+	\cf0 					b.value,				\cf4 // instantiate an exciter\
+	\cf0 					0.04,				\cf4 // decay time of excitation\
+	\cf0 					\cf2 PinkNoise\cf0 .ar(0.2)),	\cf4 // multiply noise by envelope\
+	\cf0 				delayTime, 		\cf4 // max delay time\
+	\cf0 				delayTime,		\cf4 // actual delay time\
+	\cf0 				4)), 				\cf4 // decay time of string\
+\cf0 			1.0.rand2 \cf4 // random pan position\
+\cf0 		)\
+	\}))\
+\})\
+Synth("temp__530542231" : 1000)\
+w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 AppClock\cf0 .play(r);\
+AppClock\
+\{ \cf2 FSinOsc\cf0 .ar(800, 0, 0.1) \}.play;\
+Synth("temp__972020004" : 1001)\
+w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\cf2 AppClock\cf0 .play(r);\
+AppClock\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs28 \cf2 SynthDef\cf0 (\cf3 "help-Osc"\cf0 ,\{ \cf2 arg\cf0  out=0, freq=200; 	\cf4 // these are its arguments\cf0 \
+	\cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(freq, 0, 0.5)	\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 3 char 28 :\
+  		SinOsc.ar(freq, 0, 0.5)	 \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\cf2 SynthDef\cf0 (\cf3 "help-Osc"\cf0 ,\{ \cf2 arg\cf0  out=0, freq=200;\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 44 :\
+  SynthDef("help-Osc",\{ arg out=0, freq=200; \cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(freq, 0, 0.5)\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 2 char 27 :\
+  		SinOsc.ar(freq, 0, 0.5) \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\cf3 "help-Osc"\cf2 0\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(200, 0, 0.5)\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 11 :\
+  "help-Osc"0\'a5.ar(out,\
+  		SinOsc.ar(200, 0, 0.5) \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf0 \{ \cf2 FSinOsc\cf0 .ar(354, 0, 0.1) \}.play;\
+\
+Synth("temp__893680723" : 1000)\
+\
+Synth("temp__1044912198" : 1001)\
+Synth("temp__1267534694" : 1000)
+\fs24 \
+\
+Synth("temp__689930590" : 1022)\
+\
+Synth("temp__1705317039" : 1021)\
+\
+Synth("temp__102605336" : 1020)\
+\
+Synth("temp__1108671230" : 1019)\
+\
+Synth("temp__1362065558" : 1018)\
+\
+Synth("temp__1946525061" : 1017)\
+\
+Synth("temp__1445165929" : 1016)\
+\
+Synth("temp__1414803671" : 1015)\
+\
+Synth("temp__1672140086" : 1014)\
+\
+Synth("temp__73542565" : 1013)\
+\
+Synth("temp__158521148" : 1012)\
+\
+Synth("temp__949260606" : 1011)\
+\
+Synth("temp__1931750605" : 1010)\
+\
+Synth("temp__1144922873" : 1009)\
+\
+Synth("temp__1578342801" : 1008)\
+\
+Synth("temp__898116144" : 1007)\
+\
+Synth("temp__1580050546" : 1006)\
+\
+Synth("temp__23202559" : 1005)\
+\
+Synth("temp__1003568540" : 1004)\
+\
+Synth("temp__29823531" : 1003)\
+\
+Synth("temp__1952979962" : 1002)\
+\
+Synth("temp__1449242009" : 1001)\
+\
+Synth("temp__380973942" : 1000)\
+\
+Synth("temp__1417012164" : 1000)\
+\
+Synth("temp__772704942" : 1000)\
+ \
+ \
+Synth("temp__815621740" : 1000)\
+
+\fs18 w = \cf2 SCWindow\cf0 .new(\cf3 "Fading"\cf0 ).front;\
+r = \cf2 Routine\cf0 (\{ 200.do(\{\cf2 |i|\cf0  w.alpha = 1 - (i * 0.005); 0.005.wait;\}); w.close; \});\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 AppClock\cf0 .play(r);\
+AppClock\
+AppClock\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f2\fs28 \cf2 SynthDef\cf0 (\cf3 "help-Osc"\cf0 ,\{ \cf2 arg\cf0  out=0, freq=200; 	\cf4 // these are its arguments\cf0 \
+	\cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(freq, 0, 0.5)\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 3 char 27 :\
+  		SinOsc.ar(freq, 0, 0.5) \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs18 \cf0 \
+\
+\'a5 ERROR: Variable 'freq' not defined.\
+   in file 'selected text'\
+   line 1 char 16 :\
+  		SinOsc.ar(freq\'a5, 0, 0.5)\
+   \
+   \
+   \
+   \
+\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \},	\
+\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 22 :\
+  \{ Dust.ar(0.5, 0.3) \},\'a5	\
+   \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 1 char 22 :\
+  \{ Dust.ar(0.5, 0.3) \},\'a5	 \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \}\
+\
+a Function\
+a Function\
+\
+\{ \cf2 FSinOsc\cf0 .ar(705, 0, 0.1) \}.stop;\
+\
+a Function\
+\
+a Function\
+\
+a Function\
+\
+Synth("temp__1537572807" : 1010)\
+\
+Synth("temp__445149307" : 1009)\
+\
+Synth("temp__783103327" : 1008)\
+\
+Synth("temp__934192647" : 1007)\
+\
+Synth("temp__1046542139" : 1006)\
+\
+Synth("temp__628283110" : 1005)\
+\
+Synth("temp__1601033779" : 1003)\
+\
+Synth("temp__40683689" : 1002)\
+Synth("temp__1167954986" : 1000)\
+\{ \cf2 Dust\cf0 .ar(0.5, 0.3\
+\
+\
+0.3) \},	\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // ^^^^^^^^ double click above this line ^^^^^^^^\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 play(\{\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf4 // Three patches in one...\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 n = 1;	\cf4 // number of strings\
+\cf0 b = [	\cf4 // array of possible impulse excitation behaviours\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(1 + 0.2.rand, 0.3) \}, \cf4 // slow phasing\
+\cf0 		\{ \cf2 Dust\cf0 .ar(0.5, 0.3) \},	\cf4 // "wind chimes"\
+\cf0 		\{ \cf2 Impulse\cf0 .ar(\cf2 SinOsc\cf0 .kr(0.05+0.1.rand, 2pi.rand, 5, 5.2), 0.3) \} \cf4 // races\
+\cf0 	].choose;		\cf4 // choose one at random to use for all voices\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 Mix\cf0 .new(\
+	\cf2 Array\cf0 .fill(n, \{	\cf4 // n strings tuned randomly to MIDI keys 60-90\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 		\cf2 var\cf0  delayTime;\
+		\cf4 // calculate delay based on a random note\
+\cf0 		delayTime = 1 / (60 + 30.rand).midicps; \
+		\cf2 Pan2\cf0 .ar(\
+			\cf2 LeakDC\cf0 .ar(		\cf4 // removes DC buildup\cf0 \
+			\cf2 	CombL\cf0 .ar(		\cf4 // used as a string resonator\
+	\cf0 				\cf2 Decay\cf0 .ar(		\cf4 // decaying envelope for noise\
+	\cf0 					b.value,				\cf4 // instantiate an exciter\
+	\cf0 					0.04,				\cf4 // decay time of excitation\
+	\cf0 					\cf2 PinkNoise\cf0 .ar(0.2)),	\cf4 // multiply noise by envelope\
+	\cf0 				delayTime, 		\cf4 // max delay time\
+	\cf0 				delayTime,		\cf4 // actual delay time\
+	\cf0 				4)), 				\cf4 // decay time of string\
+\cf0 			1.0.rand2 \cf4 // random pan position\
+\cf0 		)\
+	\}))\
+\})\
+Synth("temp__921459293" : 1012)\
+\
+Synth("temp__1298390953" : 1011)\
+\
+Synth("temp__1144951110" : 1004)\
+\
+Synth("temp__1859666578" : 1001)\
+\
+Synth("temp__558538472" : 500)\
+\'a5 ERROR: Parse error\
+   in file 'selected text'\
+   line 29 char 5 :\
+  Synth\'a5("temp__558538472" : 500) \
+-----------------------------------\
+\'a5 ERROR: Command line parse failed\
+nil\
+\
+\
+nil\
+}

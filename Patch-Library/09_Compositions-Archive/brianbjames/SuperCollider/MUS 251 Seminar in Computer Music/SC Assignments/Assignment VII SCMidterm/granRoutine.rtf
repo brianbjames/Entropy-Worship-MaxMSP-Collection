@@ -1,0 +1,55 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green0\blue0;\red96\green96\blue96;
+\red191\green0\blue0;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf2 SynthDef\cf3 (\cf4 "granSin"\cf3 ,\{ \cf2 arg\cf3  freq=400, dur=0.01,pan=0,amp=0.1;\
+	\cf2 var\cf3  env, dir, saw, start;\
+	env = \cf2 Env\cf3 .sine(dur);\
+	\cf2 Out\cf3 .ar(0,\
+		\cf2 EnvGen\cf3 .ar(env,doneAction: 2,timeScale: dur.max(0.00025))*\
+		\cf2 Pan2\cf3 .ar(\cf2 SinOsc\cf3 .ar(freq,0,amp),pan))\
+\}).store;\
+\
+( \
+\cf2 var\cf3  w, cloudFunc,cloudBtn,freqSlider,freqSldText;\
+\
+\cf5 // this Function will be used, and reused, to create new granular clouds\cf3 \
+cloudFunc = \{ \cf5 // each cloud generated will have its own unique variables\cf3 \
+	\cf2 var\cf3  cloudDuration=10, startTime,freq,dur,amp,density,\
+		lofreq,hifreq,lodur=0.05,hidur=0.5,loamp=0.1,hiamp=0.4;\
+	startTime = \cf2 thisThread\cf3 .seconds;	\cf5 // this gets the seconds since SC startup\cf3 \
+	density = rrand(0.1,8);	\
+	\cf5 // use this kind of code to get values from an SCRangeSlider\cf3 \
+	lofreq = [40,4000,\cf6 \\exp\cf3 ].asSpec.map(freqSlider.lo);\
+	hifreq =  [40,4000,\cf6 \\exp\cf3 ].asSpec.map(freqSlider.hi); \
+	\cf5 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf3 \
+	while(\{ \cf2 thisThread\cf3 .seconds  < (startTime+cloudDuration) \},\{ \
+		freq=rrand(lofreq,hifreq);\
+		dur = rrand(lodur,hidur);\
+		amp = rrand(loamp,hiamp);\
+		\cf2 Synth\cf3 (\cf4 "granSin"\cf3 ,[		\cf5 // replace with your own granular Synth\cf3 \
+			\cf4 "freq"\cf3 ,freq,\
+			\cf4 "dur"\cf3 , dur,\cf4 "amp"\cf3 ,amp]);\
+		(dur/density).wait; \
+	\});  \
+\};\
+\cf5 // the beginnings of a GUI to control all cloud parameters -- here, just controls to start the cloud, and to control its frequency range -- extend this to other parameters\cf3 \
+w = \cf2 SCWindow\cf3 (\cf4 "cloudGen"\cf3 ); w.front;\
+cloudBtn = \cf2 SCButton\cf3 (w, \cf2 Rect\cf3 (30,30, 80, 20));\
+	cloudBtn.states = [\
+		[\cf4 "startCloud"\cf3 , \cf2 Color\cf3 .black, \cf2 Color\cf3 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn.action = \{ \cf2 arg\cf3  view;\
+		\cf5 // create a Routine using cloudFunc\cf3 \
+		\cf2 Routine\cf3 (cloudFunc).play(\cf2 AppClock\cf3 ); \cf5 // AppClock allows GUI interaction\cf3 \
+	\};\
+freqSlider = \cf2 SCRangeSlider\cf3 (w, \cf2 Rect\cf3 (10,145, 280,20)).lo_(0.4).hi_(0.6);\
+freqSldText = \cf2 SCStaticText\cf3 (w, \cf2 Rect\cf3 (10,120, 90,20));\
+	freqSldText.font = \cf2 Font\cf3 (\cf4 "Helvetica"\cf3 , 10);\
+	freqSldText.stringColor = \cf2 Color\cf3 .blue;\
+	freqSldText.align = \cf6 \\left\cf3 ;\
+	freqSldText.string = \cf4 "grain freq"\cf3 ;\
+	\
+)\
+}

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "metaTunings">
+	<slot number = "1">
+		<pattr name = "one" value = "372" />
+		<pattr name = "two" value = "304" />
+		<pattr name = "three" value = "209" />
+		<pattr name = "four" value = "169" />
+		<pattr name = "five" value = "120" />
+		<pattr name = "six" value = "1486" />
+		<pattr name = "seven" value = "1169" />
+		<pattr name = "eight" value = "997" />
+		<pattr name = "ninie" value = "352" />
+		<pattr name = "ten" value = "721" />
+		<pattr name = "elev" value = "948" />
+		<pattr name = "twel" value = "1428" />
+		<pattr name = "thirt" value = "947" />
+		<pattr name = "fourte" value = "1345" />
+		<pattr name = "fiftee" value = "1764" />
+		<pattr name = "sixtee" value = "689" />
+		<pattr name = "sevente" value = "989" />
+		<pattr name = "eighteen" value = "189" />
+		<pattr name = "noineteen" value = "296" />
+		<pattr name = "twent" value = "1262" />
+	</slot>
+</pattrstorage>
+

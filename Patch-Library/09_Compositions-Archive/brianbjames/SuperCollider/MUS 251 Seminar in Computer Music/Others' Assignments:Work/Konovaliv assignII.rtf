@@ -1,0 +1,79 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red191\green0\blue0;\red96\green96\blue96;
+\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs24 \cf2 Server\cf0 .default = \cf2 Server\cf0 .internal;	\cf3 // use the internal Server, so we can view the waveform\cf0 \
+s = \cf2 Server\cf0 .default;\
+s.boot;\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 //Assignment 2 Part 2\cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 SynthDef\cf0 (\cf4 "duet"\cf0 ,\{ \cf2 arg\cf0  out;\
+	\cf2 var\cf0  ampEnvelopes, freqEnvelopes;\
+	\
+	ampEnvelopes = \
+		[\
+			\cf2 Env\cf0 .new([0.0,0.2, 0.03, 0.0],[20, 20, 20],\cf5 'linear'\cf0 ),\cf3 //0\cf0 \
+			\cf2 Env\cf0 .new([0.0,0.1, 0.08, 0.1, 0.0],[10, 20, 15, 15],\cf5 'linear'\cf0 ),\cf3 //1\cf0 \
+			\cf2 Env\cf0 .new([0.0,0.1,0.2, 0.0],[30, 10, 20],\cf5 'linear'\cf0 ),\cf3 //2\cf0 \
+			\cf2 Env\cf0 .new([0.0,0.025,0.0],[30,30],\cf5 'linear'\cf0 ),\cf3 //3\cf0 \
+			\cf2 Env\cf0 .new([0.0,0.1,0.0],[30,30],\cf5 'linear'\cf0 ),\cf3 //4\cf0 \
+			\cf2 Env\cf0 .new([0.0,0.2,0.0],[30,30],\cf5 'linear'\cf0 ),\cf3 //5\cf0 \
+			\cf2 Env\cf0 .new([0.0, 0.05, 0.2, 0.1, 0.0],[10,20,20,10],\cf5 'linear'\cf0 ),\
+			\cf2 Env\cf0 .new([0.0, 0.05, 0.2, 0.1, 0.0],[10,20,20,10],\cf5 'linear'\cf0 )\
+		];\
+	\
+	freqEnvelopes = \
+		[\
+			\cf2 Env\cf0 .new([0,97.999,97.999, 246.942, 246.942, 293.665, 293.665, 369.994, 369.994, 0], [0.01,10, 5, 20, 5, 10, 5, 5, 5],[2,1]),\
+			\cf2 Env\cf0 .new([0, 369.994, 369.994, 293.665, 293.665, 246.942, 246.942, 97.999, 97.999,0], [0.01,5, 15, 15, 5, 10, 4, 7, 4],\cf5 'linear'\cf0 ),			\cf2 Env\cf0 .new([739.989, 880, 763.991, 739.989],[15 ,20, 25],\cf5 'linear'\cf0 ),\cf3 //2\cf0 \
+			\cf2 Env\cf0 .new([400,1200,1100],[1.0,1.0],[4,1]),\cf3 //3\cf0 \
+			\cf2 Env\cf0 .new([320,620,500],[1.0,1.0],[4,1]),\cf3 //4\cf0 \
+			\cf2 Env\cf0 .new([50,75,200],[1.0,1.0],[4,1]),\cf3 //5\cf0 \
+			\cf2 Env\cf0 .new([62,72, 62, 64, 62, 72, 62, 64, 62, 72, 62, 64, 62],[2,3,4,5,6,7,6,7,6,5,4,3 ],\cf5 'linear'\cf0 ),\
+			\cf2 Env\cf0 .new([60,70, 60, 62, 60, 70, 60, 62, 60, 70, 60, 62, 60],[2,3,4,5,6,7,6,7,6,5,4,3 ],\cf5 'linear'\cf0 )\
+		];\
+	\cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(0)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(0))],  \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(0),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(0),doneAction: 2)])  \
+				\
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(1)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(1))], \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(1),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(1),doneAction: 2)]) \
+				\
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(2)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(2))],  \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(2),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(2),doneAction: 2)])  \
+				\
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(3)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(3))],  \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(3),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(3),doneAction: 2)])  \
+				\
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(4)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(4))],  \cf3 //\cf0 \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(4),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(4),doneAction: 2)])  \cf3 //				\cf0 \
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(5)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(5))],  \cf3 //\cf0 \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(5),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(5),doneAction: 2)])  \cf3 //				\cf0 \
+		+\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(6)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(6))],  \cf3 //\cf0 \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(6),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(6),doneAction: 2)])  \cf3 //\cf0 \
+				\
+		+\
+		\
+		\cf2 SinOsc\cf0 .ar([\cf2 EnvGen\cf0 .kr(freqEnvelopes.at(7)), \cf2 EnvGen\cf0 .kr(freqEnvelopes.at(7))],  \cf3 //\cf0 \
+				0,[\cf2 EnvGen\cf0 .kr(ampEnvelopes.at(7),doneAction: 2), \cf2 EnvGen\cf0 .kr(ampEnvelopes.at(7),doneAction: 2)]));\
+		\
+		\
+\
+ \}).play\
+)\
+\
+\
+}

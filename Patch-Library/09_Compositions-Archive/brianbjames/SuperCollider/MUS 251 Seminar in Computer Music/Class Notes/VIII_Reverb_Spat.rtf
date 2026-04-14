@@ -1,0 +1,267 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica-Bold;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red191\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf2 (\
+\cf3 // use internal Server so that we can use 'scope'\cf2 \
+\cf4 Server\cf2 .default = \cf4 Server\cf2 .internal;\
+s = \cf4 Server\cf2 .default;	\cf3 // s defaults to localhost, so reassign it to internal\cf2 \
+s.boot;\
+)\
+( \cf3 // show impulse and comb response\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "comb-Impulse"\cf2 ,\{ \
+ 	\cf4 var\cf2  impulse, delay;\
+	impulse = \cf4 Impulse\cf2 .ar(2);\
+	\cf3 // CombC args = input, maxdelay, delay, decaytime\cf2 \
+	delay = \cf4 CombC\cf2 .ar(impulse, 0.1, 0.05, 5);\
+	\cf4 Out\cf2 .ar(0,[impulse, delay])\
+ \}).play;	\
+ s.scope(2, zoom: 4)\
+)\
+\
+\cf3 /* Modulate the delay time with very slow LFNoise: the frequency the echo spikes generate changes over time */\cf2 \
+(\
+\cf4 var\cf2  impulse, delay, timeMod;\
+\{ \
+	impulse = \cf4 Impulse\cf2 .ar(5); \
+	timeMod = \cf4 LFNoise1\cf2 .kr(0.5, 0.02, 0.03); \cf3 // an LFO with randomly changing shape\cf2 \
+	delay = \cf4 CombC\cf2 .ar(impulse, 0.1,timeMod, \cf4 MouseX\cf2 .kr(0.1,10,1)); \
+			\cf3 // return delay output.\cf2 \
+	[impulse,delay] \
+\}.play;\
+	s.scope(2, zoom: 4)\
+)\
+\
+\cf3 // The same with an Array of delays, creating 8 channel output\cf2 \
+(\
+\cf4 var\cf2  dust, delay, decay = 15;\
+\{ dust = \cf4 Dust2\cf2 .ar(2); \cf3 // random impulses -1 to +1, arg  = avg density of impulses per sec\cf2 \
+delay = \cf4 Array\cf2 .fill(\
+		7,\
+		\{ \cf4 CombC\cf2 .ar(dust, 0.1, \cf4 LFNoise1\cf2 .kr(0.1.rand, 0.04, 0.05), decay) \}\
+	).postln; \
+\cf3 // return input and comb array output as one long array of separate channels. (You will only hear two unless you have an 8 channel audio card.)\cf2 \
+	[dust].addAll(delay).postln \
+\}.play;\
+s.scope(8, zoom: 10)	\
+)\
+\
+\cf3 // The same with a Mix of the Array of delays:\cf2 \
+(\
+\cf4 var\cf2  dust, delay, decay=15;\
+\{ dust = \cf4 Dust2\cf2 .ar(2, 1); \
+\cf3 // 7 length modulated comb delays in parallel\cf2 \
+delay = \cf4 Mix\cf2 .fill(7,\{ \
+			\cf4 CombC\cf2 .ar(dust, 0.1, \cf4 LFNoise1\cf2 .kr(0.1.rand, 0.04, 0.05), \
+			decay, 0.2) 	\cf3 // decrease volume of each to avoid overload\cf2 \
+		\}); \
+	\cf3 // return 2 channels: input and comb array output.\cf2 \
+[dust].addAll(delay) \}.play;\
+s.scope(2, zoom: 4)\
+)\
+\
+\cf3 //	 listen to an allpass chain by itself\cf2 \
+\cf3 // AllpassC.ar(in, maxdelaytime, delaytime, decaytime, mul, add)\cf2 \
+( \
+\cf4 var\cf2  dust, reverb, decay=15;\
+\{ dust = \cf4 Dust2\cf2 .ar(2, 1); \
+	reverb = dust;\
+	24.do(\{ reverb = \cf4 AllpassC\cf2 .ar(reverb, 0.050, [0.050.rand, 0.050.rand], decay) \});\
+ 	\cf4 Pan2\cf2 .ar(dust,0,1-\cf4 MouseX\cf2 .kr) + (reverb * \cf4 MouseX\cf2 .kr) 	\cf3 // balance source and reverb\cf2 \
+\}.play;\
+s.scope(2, zoom: 4)\
+)\
+\
+( \cf3 // let's move back to the local Server \cf2 \
+\cf4 Server\cf2 .default = \cf4 Server\cf2 .local;\
+s = \cf4 Server\cf2 .default; s.boot;\
+)\
+\
+\cf3 // Karplus-Strong Algorithm uses a burst of noise sent into a combFilter with high resonance to simulate the plucking of a string.  The inverse of the length of the delay gives the resonance frequency.\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "KSpluck"\cf2 ,\{   \cf4 arg\cf2  midiPitch = 69, decay = 1.0, spd=1;    \
+	\cf4 var\cf2  signalOut, delayTime;   \
+	delayTime = midiPitch.midicps.reciprocal;        \
+	signalOut = \cf4 PinkNoise\cf2 .ar(\cf4 Decay\cf2 .kr(\cf4 Impulse\cf2 .kr(spd),0.01));    \
+	signalOut = \cf4 CombL\cf2 .ar(signalOut, 0.125, delayTime, decay);       \
+	\cf4 Out\cf2 .ar(0, signalOut)  \
+\}).store; \
+)\
+\cf4 Spec\cf2 .specs.addAll([\
+	\cf6 \\midiPitch\cf2 ->[1,127,\cf6 \\lin\cf2 ,1].asSpec,\
+	\cf6 \\decay\cf2 ->[0.1,10,\cf6 \\exp\cf2 ].asSpec,\
+	\cf6 \\spd\cf2 ->[0.25,16,\cf6 \\exp\cf2 ].asSpec\
+]);\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf5 "KSpluck"\cf2 ));\
+\
+\cf3 /* Next, combine predelay, combdelay, and allpass to create a synthetic reverb.  For this example, the input and reverb are separated into different Synths that use SC3's audio busses to create effect-send/mixing capability.  You must match the effSendBus and inBus args on each Synth, and must also start the sound generator (percussion) before starting the effect generator (reverb); you can avoid this limitation by  using Synth.after or Synth.before when playing them -- the effect must be placed after the source  -- see the help-file Order-of-execution for a full explanation */\cf2 \
+\
+\
+( \cf3 // a percussion generator with an effects-send\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "percolators"\cf2 ,\{ \cf4 arg\cf2  effLev=0, amp=0.5, effSendBus=2; \
+	\cf4 var\cf2  numPerc = 10, perc;\
+	perc = \cf4 Mix\cf2 .fill(			\cf3 // mix to mono \cf2 \
+		numPerc, 	\cf3 // an array of numPerc \cf2 \
+		\{ \cf4 Resonz\cf2 .ar(	\cf3 // resonating filter sounds\cf2 \
+			\cf4 Dust\cf2 .ar(2/numPerc, 100), \cf3 // excite the filter with spikes at density=2/numPerc\cf2 \
+			200 + 3000.0.rand, 	\cf3 // filt freqs are chosen randomly at compilation\cf2 \
+			0.003)		\cf3 // low rq makes the filter highly resonant\cf2 \
+		\}\
+	);\
+	\cf4 Out\cf2 .ar(effSendBus,perc*effLev); \cf3 // effSend\cf2 \
+	\cf4 Out\cf2 .ar(0,\cf4 Pan2\cf2 .ar(perc,0.0,amp));\
+\}).store;\
+\cf4 Spec\cf2 .specs.addAll([\
+	\cf6 \\effLev\cf2 ->\cf4 ControlSpec\cf2 .specs.at(\cf6 \\amp\cf2 )\
+]);\
+)\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf5 "percolators"\cf2 ));\
+\cf3 /* Synthesized Reverb\
+a single delay (pre-delay) is used to simulate the arrival of the first reflection, global secondary echos are simulated by comb delay-filters, and dense reverb, which is heard as phase shift instead of discrete echos, is simulated by allpass delay-filters.  	*/\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "reverb"\cf2 ,\{ \cf4 arg\cf2  amp=0.1, busIn=2, decay=15;\
+	\cf4 var\cf2  preDelay, earlyEcho, denseRvb, numAllpass=4, numCombs=7;\
+	\cf3 // preDelay = 48 msec, adds 'spaciousness' by delaying reverb\cf2 \
+	preDelay = \cf4 DelayC\cf2 .ar(\cf4 In\cf2 .ar(busIn), 0.048);	\cf3 // 7 length modulated comb delays in parallel :\cf2 \
+	earlyEcho = \cf4 Mix\cf2 .ar(			\cf3 // mix an Array of comb filters to mono\cf2 \
+		\cf4 CombC\cf2 .ar(preDelay, 	\cf3 // preDelayed input\cf2 \
+			0.1, 				\cf3 // maxDelay = 100 msec\cf2 \
+			\cf4 LFNoise1\cf2 .kr(		\cf3 // the delayTime is modulated randomly\cf2 \
+				\cf4 Array\cf2 .fill(numCombs,	\cf3 // creates numCombs CombL's\cf2 \
+					\{0.1.rand\}), 	\cf3 // Comb modSpeed chosen at compilation\cf2 \
+				0.04, 0.05), 	\cf3 // mul and add args set range of modulation from 10-90 msec\cf2 \
+			decay)		\cf3 // decaytime of each comb delay is long !\cf2 \
+		); \
+\cf3 // chain of numAllpass allpass delays on each of two channels (8 total) :\cf2 \
+	denseRvb= earlyEcho; \cf3 // initialize to input from earlyEcho\cf2 \
+	numAllpass.do(\{ 	\cf3 // creates a series of AllPass delays\cf2 \
+\cf3 // the input of which is the output of the last\cf2 \
+		denseRvb = \cf4 AllpassC\cf2 .ar(denseRvb, 					0.050, 	\cf3 //	with maxdelay = 50 msec;\cf2 \
+			\cf3 // and stereo output with rand delay 0-50 msec\cf2 \
+				[0.050.rand,0.050.rand],				1) \
+	\});\
+	\cf4 Out\cf2 .ar(0,amp*denseRvb)\
+\}).store;\
+)\
+\cf4 AutoGui\cf2 (x = \cf4 Synth\cf2 (\cf5 "percolators"\cf2 ));\
+\cf4 AutoGui\cf2 (y = \cf4 Synth\cf2 .after(x,\cf5 "reverb"\cf2 ));\
+\cf3 // try the above two lines without using Synth.after for the reverb, and the percolators will not get into the reverb -- this is because when you execute Synth.new the default execution order of the Synth in is at the head of the default synth group, so the reverb comes before the percolator and there is no input -- see the Synth help-file for more info on these issues\cf2 \
+(\
+ \cf3 // try it with a different percussion generator -- if you start it after the reverb, everything, including the effectSends automatically mix\cf2 \
+\cf4 SynthDef\cf2 (\cf5 "pinkPerc"\cf2 ,\{ \cf4 arg\cf2  amp=0.1, effSendBus=2, effLev=0; \
+	\cf4 var\cf2  perc;\
+	perc = \cf4 Decay\cf2 .ar(\cf4 Dust\cf2 .ar(2), 0.15, \cf4 PinkNoise\cf2 .ar);\
+	\cf4 Out\cf2 .ar(effSendBus,perc*effLev);\
+	\cf4 Out\cf2 .ar(0,\cf4 Pan2\cf2 .ar(perc,0.0,amp));\
+\}).store;\
+)\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 .before(y,\cf5 "pinkPerc"\cf2 ));\
+\
+\cf3 // for a quick and cheap reverb that you can use inside any synth, just use the AllPass network\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf5 "pink&cheap"\cf2 ,\{ \cf4 arg\cf2  amp=0.1, bal=0.5, decay=4; \
+	\cf4 var\cf2  perc,rvb;\
+	perc = \cf4 Decay\cf2 .ar(\cf4 Dust\cf2 .ar(2), 0.15, \cf4 PinkNoise\cf2 .ar);\
+	rvb = perc;\
+	6.do(\{ \
+		rvb = \cf4 AllpassN\cf2 .ar(rvb, 0.050, [0.050.rand, 0.050.rand], decay) \
+	\});\
+	\cf4 Out\cf2 .ar(0,\cf4 Pan2\cf2 .ar(perc*(1-bal)+(rvb*bal),0.0,amp));\
+\}).store;\
+)\
+\cf4 Spec\cf2 .specs.addAll([\
+	\cf6 \\bal\cf2 ->[0,1,\cf6 \\lin\cf2 ].asSpec\
+]);\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf5 "pink&cheap"\cf2 ))\
+\cf3 \
+/*\
+Interaural time delay panning, mouse x controls interaural delay -- the amplitude is equal in both channels even though you perceive it as coming entirely from one side when it is panned to that side.  The source sound being panned the plucked-string algorithm \
+*/\cf2 \
+(\
+\cf4 SynthDef\cf2 (\cf6 \\InterAuralKS\cf2 ,\{ \cf4 arg\cf2  midiPitch = 69, decay = 1.0, spd=1;    \
+	\cf4 var\cf2  output, delayTime;   \
+	delayTime = midiPitch.midicps.reciprocal;        \
+	output = \cf4 PinkNoise\cf2 .ar(\cf4 Decay\cf2 .kr(\cf4 Impulse\cf2 .kr(spd),0.01));    \
+	output = \cf4 CombL\cf2 .ar(output, 0.125, delayTime, decay);    \
+	\cf4 Out\cf2 .ar(0, [\cf4 DelayL\cf2 .ar(output, 0.002, \cf4 MouseX\cf2 .kr(0,0.002)),\
+				\cf4 DelayL\cf2 .ar(output, 0.002, \cf4 MouseX\cf2 .kr(0.002,0)) ] )\
+\}).store;\
+)\
+\cf4 AutoGui\cf2 (\cf4 Synth\cf2 (\cf6 \\InterAuralKS\cf2 ));\
+\
+\cf3 //	Multichannel Spatialisation\cf2 \
+\
+(	\cf3 // lfo-controlled panning, using Pan4, which has separate arguments controlling X and Y position -- you need multichannel output to hear the effect (of course)!\cf2 \
+\{ 	\cf4 var\cf2  soundSource, \
+		panOscLR, panOscFB, 	\cf3 // left-right, front-back controls\cf2 \
+		output;\
+\
+\cf3 //	soundSource = Resonz.ar(Impulse.ar(2, 400), 1200, 0.01);  \cf2 \
+	soundSource = \cf4 Resonz\cf2 .ar(\cf4 WhiteNoise\cf2 .ar(0.5), 1200, 0.01); \
+	\cf3 // lfos at different speeds moves through different quad pan positions\cf2 \
+	panOscLR = \cf4 SinOsc\cf2 .kr(freq: 0.2); 				\cf3 // starts in middle\cf2 \
+	panOscFB = \cf4 SinOsc\cf2 .kr(freq: 0.18, phase: pi/2);	\cf3 // starts in front\cf2 \
+	\cf4 Out\cf2 .ar(0,\cf4 Pan4\cf2 .ar(soundSource, \
+			xpos: panOscLR, \
+			ypos: panOscFB\
+	));\
+\}.play\
+)\
+\
+(\
+	\cf3 // lfo-controlled panning, using PanAz (azimuth panner), applies to any number of output channels in an array, and has one 'pos' argument that controls pan position between adjacent channels--a 'width' argument specifies the spread of the pan, with values greater than two panning over greater numbers of speakers\cf2 \
+\cf3 // 
+\f1\b\fs24 PanAz.ar(numChans, in, pos, level, width, orientation)
+\f0\b0\fs36 	\cf2 \
+	\{ 	\cf4 var\cf2  soundSource, panOsc;\
+	\cf3 //	soundSource = Resonz.ar(Impulse.ar(2, 400), 1200, 0.01);  \cf2 \
+	soundSource = \cf4 Resonz\cf2 .ar(\cf4 WhiteNoise\cf2 .ar(0.5), 1200, 0.01); \
+	\cf3 //	panOsc = SinOsc.kr(freq: 0.2);  // swinging pan\cf2 \
+	panOsc = \cf4 LFSaw\cf2 .kr(freq: 0.2);  \cf3 // circular pan\cf2 \
+	\cf4 Out\cf2 .ar(0,\cf4 PanAz\cf2 .ar(4,soundSource, pos: panOsc)\
+	);\
+\}.play\
+)\
+\
+\cf3 //	a variation of the above, with stereo sound source, using Pan4 as an effectSend !:\cf2 \
+(\
+\{ 	\cf4 var\cf2  stereoSoundSource, \
+		panOscLR, panOscFB, \
+		outputL, outputR, output;\
+	stereoSoundSource = \cf4 Resonz\cf2 .ar(\
+		\cf4 Impulse\cf2 .ar([2, 2.31], 100), \
+		[1200, 1801], \
+		0.5\
+	);  \
+	panOscLR = \cf4 SinOsc\cf2 .kr(freq: 0.2); \
+	panOscFB = \cf4 SinOsc\cf2 .kr(freq: 0.18, phase: pi/2);\
+	\
+	outputL = \cf4 Pan4\cf2 .ar(\
+		stereoSoundSource.at(0), \
+		xpos: panOscLR, \
+		ypos: panOscFB\
+	);\
+\
+	outputR = \cf4 Pan4\cf2 .ar(\
+		stereoSoundSource.at(1), \
+		xpos: panOscLR.neg, 		\cf3 // the negative, or opposite, of the Left channel spatialization\cf2 \
+		ypos: panOscFB.neg\
+	);\
+\
+	output = outputL + outputR;\
+\
+	x = [output.at(0), output.at(1)]; \cf3 // dry output \cf2 \
+	y = [output.at(2), output.at(3)]; \cf3 // sent to reverb\cf2 \
+\
+			\cf3 // cheap reverb...\cf2 \
+	6.do(\{ y = \cf4 AllpassN\cf2 .ar(y, 0.050, [0.050.rand, 0.050.rand], 4) \});\
+	\cf3 //	Out.ar(0,x+(y * 0.3));	// this one mixes to stereo\cf2 \
+	\cf4 Out\cf2 .ar(0,x.addAll(y * 0.3)); \cf3 // reverb only in "back" channels\cf2 \
+\}.play\
+)\
+\
+\
+\
+}

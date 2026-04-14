@@ -1,0 +1,148 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue0;\red0\green0\blue191;
+\red96\green96\blue96;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs22 \cf2 /* lsMeters -- Level meter\
+   by Luke Selden 2006\
+   \
+	USAGE -- compile the stuff below then use it in your code (remember the ~), \
+			or change it if you please. \
+	~lsMeters.value( numChannels, input bus index, target );\
+	See Bottom for examples  */\cf3 \
+\
+(\
+\cf4 SynthDef\cf3 (\cf5 "lsAmpTrack"\cf3 , \{ \cf4 arg\cf3  out=0, in=1, gain=1.0, t_reset;\
+	\cf4 var\cf3  inSig, ampSig, peak, max, min, ceil, floor, rms;\
+	\cf2 //inSig = AudioIn.ar(in);\cf3 \
+	inSig = \cf4 In\cf3 .ar(in, 1);\
+	rms = \cf4 A2K\cf3 .kr(\cf4 RunningSum\cf3 .rms(inSig*gain));\
+	ampSig = \cf4 Amplitude\cf3 .kr(inSig);\
+	peak = \cf4 PeakFollower\cf3 .kr(ampSig, 0.99);\
+	ceil = \cf4 RunningMax\cf3 .kr(ampSig, t_reset);\
+	floor = \cf4 RunningMin\cf3 .kr(peak, t_reset);\
+	\cf4 Out\cf3 .kr(out, [ampSig, peak, rms, ceil]);\
+	\
+\}).store;\
+\
+\cf2 /* This is a helper function, it creates the individual channel strips' \
+	GUI, analysis node on the server, and update routine.\
+	chanNumber: this strip's number.\
+	meterWind: parent window to draw to\
+	inBus: input bus index.\
+	meterGroup: group on which to put the analysis synth node */\cf3 \
+~makeMeter = \{ \cf4 arg\cf3  chanNumber=0, meterWind, inBus, meterGroup;\
+	\cf4 var\cf3  stripView, peakBox, rmsBox, rSlider, sSlider, pSlider, clipWarn,\
+				stripBus, stripBtn, inst, proc, refreshRate=0.1,\
+				hx=0, hw=40, mx=40, mw=290, nx=330, nw=70, yOffset, chanHeight=40;\
+		\cf2 // how far down to begin drawing this on the window\cf3 \
+	yOffset = chanNumber*chanHeight;\
+		\cf2 // Control bus for analysis data (on default server)\cf3 \
+	stripBus = \cf4 Bus\cf3 .control(numChannels: 4);\
+		\cf2 // analysis synth node.  writes to control bus. \cf3 \
+	inst = \cf4 Synth\cf3 (\cf5 "lsAmpTrack"\cf3 , [\cf6 \\out\cf3 , stripBus.index, \cf6 \\in\cf3 , inBus, \cf6 \\gain\cf3 , 1], meterGroup);\
+	\
+		\cf2 // this channel strip's background\cf3 \
+	stripView = \cf4 SCCompositeView\cf3 (meterWind, \cf4 Rect\cf3 (hx, yOffset, hw+mw+nw, chanHeight))\
+			.background_(\cf4 Color\cf3 .new(0.0, 0.0, 0.0, 1.0));\
+		\cf2 // Button that shows channel number.  If you click on it it pauses the synth node\cf3 \
+	stripBtn = \cf4 SCButton\cf3 (stripView, \cf4 Rect\cf3 (5, 5+yOffset, 30, 30))\
+		.font_(\cf4 Font\cf3 (\cf5 "Arial"\cf3 , 12))\
+		.states_([ [(chanNumber+1).asString, \cf4 Color\cf3 .black, \cf4 Color\cf3 .gray(0.8)],\
+					[\cf5 "||"\cf3 , \cf4 Color\cf3 .gray(0.8), \cf4 Color\cf3 .gray(0.2)] ])\
+		.action_(\{ \cf4 |me|\cf3  inst.run(me.value==0);\});\
+		\cf2 // Peak monitor.  I used a multislider because you can change the size and color\cf3 \
+		\cf2 // of the slider thumb.  Someone cooler than me could make a multislider that \cf3 \
+		\cf2 // handled all the channels instead of a slider for each channel.  Anyone?\cf3 \
+	pSlider = \cf4 SCMultiSliderView\cf3 (stripView, \cf4 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf6 \\false\cf3 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf6 \\true\cf3 )\
+		.isFilled_(\cf4 false\cf3 )\
+		.thumbSize_(30).index_(0)\
+		.strokeColor_(\cf4 Color\cf3 .yellow)\
+		.fillColor_(\cf4 Color\cf3 .clear)\
+		.background_(\cf4 Color\cf3 .clear);\
+		\cf2 // Signal monitor.  This shows the current signal.  Change the color if you want\cf3 \
+	sSlider = \cf4 SCMultiSliderView\cf3 (stripView, \cf4 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.size_(1).canFocus_(\cf6 \\false\cf3 )\
+		.valueThumbSize_(1)\
+		.indexIsHorizontal_(\cf6 \\true\cf3 )\
+		.isFilled_(\cf4 true\cf3 )\
+		.index_(0)\
+		.fillColor_(\cf4 Color\cf3 .new(1.0, 0.0, 0.0, 0.75))\
+		.strokeColor_(\cf4 Color\cf3 .red)\
+		.background_(\cf4 Color\cf3 .clear)\
+		.thumbSize_(30);\
+		\cf2 // Peak Range.  This shows the max peak amount\cf3 \
+	rSlider = \cf4 SCRangeSlider\cf3 (stripView, \cf4 Rect\cf3 (mx, 5+yOffset, mw-5, 30))\
+		.knobColor_(\cf4 Color\cf3 .new(0.4, 0.2, 0.0, 0.7)).canFocus_(\cf6 \\false\cf3 );\
+	\
+	\cf4 SCStaticText\cf3 (stripView, \cf4 Rect\cf3 (nx, 3+yOffset, 25, 15))\
+		.string_(\cf5 "peak"\cf3 ).font_(\cf4 Font\cf3 (\cf5 "Arial"\cf3 , 10)).stringColor_(\cf4 Color\cf3 .white);	\
+		\cf2 // This box displays the peak value.  If you click it it resets.\cf3 \
+	peakBox = \cf4 SCNumberBox\cf3 (stripView, \cf4 Rect\cf3 (nx+25, 3+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf6 \\t_reset\cf3 , 1);  \});\
+	\
+	\cf4 SCStaticText\cf3 (stripView, \cf4 Rect\cf3 (nx, 21+yOffset, 25, 15))\
+		.string_(\cf5 "rms"\cf3 ).font_(\cf4 Font\cf3 (\cf5 "Arial"\cf3 , 10)).stringColor_(\cf4 Color\cf3 .white);	\
+		\cf2 // This box displays the running RMS value.\cf3 \
+	rmsBox = \cf4 SCNumberBox\cf3 (stripView, \cf4 Rect\cf3 (nx+25, 21+yOffset, 40, 15))\
+		.align_(1)\
+		.mouseDownAction_(\{ inst.set(\cf6 \\t_reset\cf3 , 1);  \});\
+		\
+		\cf2 // This is the client-side update process.  it loops at the speed specified by\cf3 \
+		\cf2 // refreshRate (default 0.1) and polls the strip's control bus for the analysis info, then\cf3 \
+		\cf2 // sets the gui values.  note that it uses .defer because it's all gui stuff\cf3 \
+	proc = \cf4 Routine\cf3 (\{\
+		\cf4 var\cf3  sig=0, peak=0, ceil=0, min=0;\
+		loop(\{\
+			stripBus.getn(4, \{\cf4 |vals|\cf3  sig=vals[0]; peak=vals[1]; min=vals[2]; ceil=vals[3];\});\
+			\{\
+			peakBox.value_(\cf6 \\db\cf3 .asSpec.map(ceil).round);\
+			rmsBox.value_(\cf6 \\db\cf3 .asSpec.map(min).round(0.1));\
+			pSlider.currentvalue_(\cf6 \\amp\cf3 .asSpec.unmap(peak));\
+			sSlider.currentvalue_(\cf6 \\amp\cf3 .asSpec.unmap(sig));\
+			rSlider.hi_(\cf6 \\amp\cf3 .asSpec.unmap(0));\
+			rSlider.lo_(\cf6 \\amp\cf3 .asSpec.unmap(ceil));\
+			\}.defer;\
+			refreshRate.wait;\
+		\});\
+	\});\
+\};\
+\
+\cf2 /* this is the main function - it creates a window and makes each channel strip\
+	numChannels: number of channels to monitor, starting at...\
+	inBus: bus to start reading from.  Audio In bus defaults to 8 for me.\
+	target: the Synth Nodes are inserted after this object in the server order.  \
+	        if not supplied, this defaults to adding on the last node of the server */\cf3 \
+~lsMeters = \{ \cf4 arg\cf3  numChannels=1, inBus=8, target=\cf4 Server\cf3 .default;\
+	\cf4 var\cf3  meterWind, stripBus, channels, meterGroup, stripHeight=40;\
+		\cf2 // make the window, height determined by number of channels, non-resizeable\cf3 \
+	meterWind = \cf4 SCWindow\cf3 .new(\cf5 "amp"\cf3 , \cf4 Rect\cf3 (320, 0, 400, stripHeight*numChannels), \cf6 \\false\cf3 );\
+		\cf2 // when closed stop all processes and free all nodes\cf3 \
+	meterWind.onClose_(\{channels.do(\{\cf4 |item|\cf3  item.stop\}); meterGroup.free;\});\
+	meterWind.front;\
+		\cf2 // put all Synth nodes in here\cf3 \
+	meterGroup = \cf4 Group\cf3 .new(\cf4 Server\cf3 .default, \cf6 \\addAfter\cf3 );\
+		\cf2 // create the individual channel strips,  ~makeMeter returns the update process\cf3 \
+	channels = \cf4 Array\cf3 .fill(numChannels, \{\cf4 |i|\cf3  ~makeMeter.value(i, meterWind, inBus+i, meterGroup);\});\
+		\cf2 // start updating the displays\cf3 \
+	channels.do(\{\cf4 |i|\cf3  i.play;\});\
+\};\
+)\
+\
+\cf2 /*** Examples ***/\cf3 \
+\
+\cf2 // Monitor 4 audio input channels\cf3 \
+~lsMeters.value(4, 8);\
+\
+\cf2 // Monitor output\cf3 \
+~lsMeters.value(2, 0);\
+\
+\cf2 // Use target to insert after Synths or Effects \cf3 \
+x = \cf4 Pbind\cf3 (\cf6 \\degree\cf3 , \cf4 Pwhite\cf3 (0,12), \cf6 \\out\cf3 , 10, \cf6 \\dur\cf3 , 0.2, \cf6 \\amp\cf3 , \cf4 Pwhite\cf3 (0,1)).play;\
+~lsMeters.value( 1, 10, x);  \cf2 // one channel, bus 10, after x <-- good for checking effects\cf3 \
+}

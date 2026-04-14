@@ -1,0 +1,323 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;\f1\froman\fcharset77 Times-Bold;\f2\fnil\fcharset77 LucidaGrande;
+\f3\froman\fcharset77 Times-Roman;}
+{\colortbl;\red255\green255\blue255;\red191\green0\blue0;\red0\green0\blue191;\red96\green96\blue96;
+\red191\green0\blue0;\red0\green115\blue0;\red0\green0\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs36 \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 /* Extending your SCClassLibrary.  SuperCollider is a user-extensible system, and most users eventually write their own Classes to use in different contexts.  Sharing these is one of the advantages of working in a free software environment.  The SC-swiki site is a repository for shared classes, where users can post their own and download other people's contributions.  Here is the url:  http://swiki.hfbk-hamburg.de:8888/MusicTechnology/6\
+\
+Former CCM student Michael Cox created a number of Classes that provide convenient GUI controls that we'll start using this week. His AutoGui class automatically creates a set of SCSliders and SCNumberBoxes, along with a built-in Preset class to save and recall their settings.  To use them, you first need to download them from the link on the syllabus.  After downloading and unpacking them, drag the "DeadNet_Classes" folder into your SuperCollider subfolder called "SCClassLibrary".  \ul You must also remove the "Preset" folder from the same SCClassLibrary folder, because it has conflicting code.\ulnone   (This contains another library written at Wesleyan that we may be using this later in the course, so save it somewhere on your disk -- you could just move it up one directory level, within SC# but outside the SCClassLibrary folder.  Then either startup SC3, or if it's already started, type "command-K", to recompile your class library.\
+\
+We will use AutoGui to explore combinations of noise generators and various filters available in SC3.\
+\
+	1) noise classes:  WhiteNoise, PinkNoise, BrownNoise, ClipNoise, Crackle\
+		WhiteNoise	= equal power noise at all frequencies\
+		PinkNoise = equal power noise at exponential freq\
+		 						distribution (equal in each octave)\
+		BrownNoise = noise with power that drops 6 db per next octave\
+		ClipNoise = maximum energy noise, all samples are either\
+						+1 or -1\
+		Crackle = noise based on a chaotic function generator\
+	\
+	2) filter classes: \
+		LPF, 			// low-pass filter\
+		HPF, 			// high-pass filter\
+		BPF,			// bandpass filter \
+		Resonz, 	// resonant bandpass filter\
+		RLPF, 		// resonant lowpass filter\
+		RHPF, 		// resonant highpass filter\
+		Ringz, 		// same as Resonz, but resonance in "ring-time"\
+	\
+	*/\cf0 \
+\
+( \cf2 // begin by compiling this SynthDef\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "noise-filters"\cf0 ,\{ \cf3 arg\cf0  freq=200, white=0, pink=0, 	brown=0, clip=0, crkl=0, crPrm=1.95, lpf=0, 	hpf=0, bpf=0, rlpf=0, rhpf=0, resz=0,  rq=0.1, 	ringz=0, dcy=1, vol=0.5;\
+	\cf3 var\cf0  noiseMix;\
+	noiseMix = \cf3 Mix\cf0 .new([ \
+		\cf3 WhiteNoise\cf0 .ar(white),	\cf2 // equal power all frequencies\cf0 \
+		\cf3 PinkNoise\cf0 .ar(pink),	\cf2 // spectrum decays 3dB per octave\cf0 \
+		\cf3 BrownNoise\cf0 .ar(brown), \cf2 // spectrum decays 3dB per octave\cf0 \
+		\cf3 ClipNoise\cf0 .ar(clip),  \cf2 // all values are -1 or =1, max energy\cf0 \
+		\cf3 Crackle\cf0 .ar(crPrm,crkl) \cf2 // chaotic function, crParm crackles!\cf0 \
+	]);\
+	\cf3 Out\cf0 .ar(0,\cf3 Mix\cf0 .new([\
+		\cf2 // these filters have no gain\cf0 \
+		\cf3 LPF\cf0 .ar(noiseMix,freq, lpf),\
+		\cf3 HPF\cf0 .ar(noiseMix,freq, hpf),\
+		\cf3 BPF\cf0 .ar(noiseMix,freq, rq, bpf),\
+		\cf2 // these filters have gain in the passband -- rq is the bandwidth ratio (reciprocal of filter's Q), rq = bandwidth/centerFreq \cf0 \
+		\cf3 RLPF\cf0 .ar(noiseMix,freq,rq,rlpf),\
+		\cf3 RHPF\cf0 .ar(noiseMix,freq,rq,rhpf),\
+		\cf3 Resonz\cf0 .ar(noiseMix,freq, rq, resz),\
+		\cf3 Ringz\cf0 .ar(noiseMix,freq, dcy, ringz)\
+	])*vol); \cf5 //* = multiplied by the volume arg\cf0 \
+\}).store;	\cf2 // we 'store' the SynthDef here, instead of just loading it.  This writes the definition as a file called 'name.scsyndef' into the default directory, from which it will automatically load (on this machine) the next time you recompile SC3.  This means you don't have to load it anymore before using it.  It also stores stores a SynthDesc (synth-description)  in SynthDescLib, which contains its name, its control(argument) names, and default values, which is how AutoGui will know to create GUI items for it.\cf0 \
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 /* \
+You already know about ControlSpec, the Class that automatically maps a slider's output from its normal 0->1 range to any range you like, using many different possible warp (or curves) -- for example:\
+\
+//	ControlSpec.new( minval, maxval, warp, step, default,units);\
+a = ControlSpec(40,4000,\\exp,0,1) 		// 'new' is a default method\
+a.map(0.5)\
+\
+To use you AutoGui you need to create ControlSpecs for each of the named arguments that you want to control with a slider.\
+\
+*/\cf0 \
+(	\cf2 // create these named ControlSpecs, and add them to the library in 'Spec', the superclass. Make a list, then define them as symbols. \cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf6 \\white\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\pink\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\brown\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\clip\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\crPrm\cf0 ->\cf3 ControlSpec\cf0 (1.0,2.01,\cf6 \\linear\cf0 ),\
+	\cf6 \\crkl\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\lpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\hpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\bpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rlpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rhpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\resz\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rq\cf0 ->\cf3 ControlSpec\cf0 (0.001,4,\cf6 \\exponential\cf0 ),\
+	\cf6 \\ringz\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\dcy\cf0 ->\cf3 ControlSpec\cf0 (0.01,2),\
+	\cf6 \\vol\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 )]\
+);\
+)\
+(	\cf2 // now play the Synth and control it with your new GUI\cf0 \
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf4 "noise-filters"\cf0 ));\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // try the same filters using oscillators as sources\cf0 \
+( 	\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "osc-filters"\cf0 ,\{ \cf3 arg\cf0  freq=200, ffreq=1200,\
+	sine=0, saw=0, tri=0, blip=0, harms=5, pulse=0, 	plswidth=0.1, lpf=0, hpf=0, bpf=0, rlpf=0, rhpf=0, 	resz=0, rq=1, ringz=0, dcy=0.01, vol=0.5;\
+	\cf3 var\cf0  oscMix;\
+	oscMix = \cf3 Mix\cf0 .new([ \cf3 SinOsc\cf0 .ar(freq,0,sine),\
+		\cf3 LFSaw\cf0 .ar(freq,0,saw),\
+		\cf3 LFTri\cf0 .ar(freq,0,tri),\
+		\cf3 Blip\cf0 .ar(freq, harms, blip),\
+		\cf3 Pulse\cf0 .ar(freq,plswidth,pulse)\
+	]);\
+	\cf3 Out\cf0 .ar(0,\cf3 Mix\cf0 .new([\
+		\cf3 LPF\cf0 .ar(oscMix,ffreq, lpf),\
+		\cf3 HPF\cf0 .ar(oscMix,ffreq, hpf),\
+		\cf3 BPF\cf0 .ar(oscMix,ffreq, rq, bpf),\
+		\cf3 RLPF\cf0 .ar(oscMix,ffreq,rq,rlpf),\
+		\cf3 RHPF\cf0 .ar(oscMix,ffreq,rq,rhpf),\
+		\cf3 Resonz\cf0 .ar(oscMix,ffreq, rq, resz),\
+		\cf3 Ringz\cf0 .ar(oscMix,ffreq, dcy, ringz)\
+	])*vol)\
+\}).store;\
+\
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf6 \\ffreq\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\freq\cf0 ),\
+	\cf6 \\sine\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\saw\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\tri\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\blip\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\harms\cf0 ->\cf3 ControlSpec\cf0 (1,100,\cf6 \\linear\cf0 ,step:1),\
+	\cf6 \\pulse\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ), \
+	\cf6 \\plswidth\cf0 ->\cf3 ControlSpec\cf0 (0,1),\
+	\cf6 \\lpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\hpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\bpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rlpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rhpf\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\resz\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\rq\cf0 ->\cf3 ControlSpec\cf0 (0.001,4,\cf6 \\exponential\cf0 ),\
+	\cf6 \\ringz\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 ),\
+	\cf6 \\dcy\cf0 ->\cf3 ControlSpec\cf0 (0.001,2,\cf6 \\exponential\cf0 ),\
+	\cf6 \\vol\cf0 ->\cf3 ControlSpec\cf0 .specs.at(\cf6 \\amp\cf0 )]\
+);\
+)\
+(\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf4 "osc-filters"\cf0 ));\
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // modulate the filter frequency with an LFO. This means you have to understand how the add works. \cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "modFilter"\cf0 ,\{ \cf3 arg\cf0  freq=120, ffreq=800, dcy=0.005, 	mfrq=0.2, dpth=0.1, vol=0.1;\
+	\cf3 var\cf0  mod, flt;\
+	mod = \cf3 SinOsc\cf0 .kr(mfrq,0,dpth*ffreq,ffreq); \cf5 //modulator!!!!\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // this oscillator will control the frequency of the filter, which will center on ffreq, and oscillate at a low frequency up to + and - ffreq -- this is accomplished with the usage of the 'mul' and 'add' arguments, 'mul' makes the output of this oscillator swing between + and - the value of the filter's control frequency, and the 'add' argument shifts the modulating oscillator's center frequency from the 0 to ffreq\cf0 \
+	flt = \cf3 Ringz\cf0 .ar(     \cf5 //flt = filter\cf0 \
+		\cf3 Pulse\cf0 .ar(freq,0.1,0.25),	\cf2 // filter input\cf0 \
+		mod,	\cf2 // filter frequency\cf0 \
+		dcy,vol);    \cf5 //dcy = decay\cf0 \
+	\cf3 Out\cf0 .ar(0,flt)\
+\}).store;\
+\
+\cf2 // note:  we don't need to re-add any named args (like freq, ffreq and dcy) if we have already added them before and we want the same Control\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf6 \\mfrq\cf0 ->\cf3 Spec\cf0 .specs.at(\cf6 \\lofreq\cf0 ), 	\cf6 \\dpth\cf0 ->\cf3 ControlSpec\cf0 (0,1)\
+]);\
+)\
+(\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf4 "modFilter"\cf0 ));\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 //	strike a resonator, and it rings like a percussion instrument \cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "percFlt"\cf0 ,\{ \cf3 arg\cf0  rate=1, att=0.01, rls=0.1, ffreq=800, dcy=0.1,vol=0.5;\
+	\cf3 var\cf0  striker;\
+	\cf2 // Decay is  a simple low-pass filter, that provides an adjustable 60 dB decayTime in seconds for an Impulse Response-- Decay2, two of them, makes the output of one Decay into the input of another, and thus provides a smooth attackTime\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // arg in = 0.0, attackTime = 0.01, decayTime = 1.0, mul = 1.0, add = 0.0;\cf0 \
+	striker = \cf3 Decay2\cf0 .ar(\cf3 Impulse\cf0 .ar(rate),att,rls,0.25); \cf5 //Impulse is like hitting something\cf7 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf0 	\cf3 Out\cf0 .ar(0,\
+		\cf3 Ringz\cf0 .ar(striker,ffreq,dcy,vol))\
+\}).store;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Spec\cf0 .specs.addAll([\
+	\cf6 \\rate\cf0 ->\cf3 Spec\cf0 .specs.at(\cf6 \\lofreq\cf0 ),\
+	\cf6 \\rls\cf0 ->\cf3 ControlSpec\cf0 (0.001,1,\cf6 \\exponential\cf0 ),\
+	\cf6 \\att\cf0 ->\cf3 ControlSpec\cf0 (0.001,0.05,\cf6 \\exponential\cf0 )\
+]);\
+)\
+(\
+\cf3 AutoGui\cf0 (\cf3 Synth\cf0 (\cf4 "percFlt"\cf0 ));\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // play the filter frequency using Pseq, a simple sequencer that outputs a 'Stream', which is a succession of numbers from the literal Array which is given as its first argument.  The second argument 'inf', says to repeat the Array forever, but you could specify an integer that makes the Pseq stop after that number of repeats    Pseq = pattern sequencer\cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 var\cf0  seq;\
+\cf3 AutoGui\cf0 (p = \cf3 Synth\cf0 (\cf4 "percFlt"\cf0 ));\
+seq = \cf3 Pseq\cf0 (#[600, 400, 800, 1600, 3200], \cf3 inf\cf0 ).asStream; \cf5 //# = this Array cant change, AKA literal Array\cf0 \
+\cf3 Routine\cf0 (\{\
+	p.set(\cf6 \\rate\cf0 ,5);		\cf2 // set strike rate to same as seq\cf0 \
+	loop(\{\
+		p.set(\cf6 \\ffreq\cf0 ,seq.next.postln);\
+		0.2.wait;\
+	\})\
+\}).play;\
+)\
+ \cf2 // Klank is a bank of resonators, like an Array of Ringz.  The first argument of Klank is its 'specifications', itself an Array of three Arrays that contain its frequencies, amplitudes, and decay.  See its help-file for more info.   !!!This example also uses a convenient method of Function:  'play' applied to a Function will automatically create a SynthDef and play it using Out.ar(0).!!!!  This is really great for quickly testing concepts for SynthDefs.   mul  = multiply\cf0 \
+(\
+\{ \cf3 Klank\cf0 .ar(`[      \cf5 //this syntax does need the ' mark\cf0 \
+			\cf3 Array\cf0 .rand(12, 800.0, 4000.0), \cf2 //12 is how many of them it wil give us, these are frequencies\cf0 \
+			\cf3 nil\cf0 ,  							\cf2 // amplitudes (default to 1.0)\cf0 \
+			\cf3 Array\cf0 .rand(12, 0.1, 2)	\cf2 // ring times\cf0 \
+		], \
+		\cf3 Decay\cf0 .ar(\cf3 Impulse\cf0 .ar(4), \cf2 // filters' input\cf0 \
+			0.03, 	\cf2 // decayTime		\cf0 \
+			\cf3 ClipNoise\cf0 .ar(0.01) \cf2 // mul argument, creates a fuzzy strike!\cf0 \
+		)\
+	)\
+\}.play;\
+)\
+\
+\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf5 //Beyond here was not covered in class\
+\
+\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // The next example shows how you can change Klank's specifications from outside the running Synth -- we will also generate these specs randomly, so the result is about the same, but the means is importantly different!  It allows you to write your own sequences, or send values interactively from SCLang to any running Synth.  It also demonstrates the usage of Server-Commands, which underlie all of the messaging from the language to the Server that we have been using.  Much of the power of the SC environment comes from the ability to have very low-level access to controlling the Server's processes, which are accessed using Server-Commands.\cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "bell"\cf0 ,\{ \cf3 arg\cf0  freq=440,  vol=0.5;\
+	\cf3 var\cf0  harm, amp, ring;\
+	harm = \cf3 Control\cf0 .names([\cf6 \\harm\cf0 ]).ir(\cf3 Array\cf0 .series(4,1,1));\
+	amp = \cf3 Control\cf0 .names([\cf6 \\amp\cf0 ]).ir(\cf3 Array\cf0 .fill(4,0.5));\
+	ring = \cf3 Control\cf0 .names([\cf6 \\ring\cf0 ]).ir(\cf3 Array\cf0 .fill(4,1));\
+	\cf2 // a Control is the way to bring information into a running Synth (arguments to SynthDefs are implemented via Controls).  We use it here because this is the only way to send Arrays, not just single values, to a running Synth (Arrays cannot be arguments of a Synth).  The 'ir' method applied to Control means 'initialization rate' and initializes the Control's Array\cf0 \
+	\cf3 Out\cf0 .ar(0,\cf3 Klank\cf0 .ar(`[harm,amp,ring],\
+	\cf2 // the input is an array of two versions of the "striker"\cf0 \
+		\{\cf3 Decay\cf0 .ar(\cf3 Impulse\cf0 .ar(0.05),0.03,\cf3 ClipNoise\cf0 .ar(0.01))\}.dup, \
+		freq)	 \cf2 // the freqScale arg sets a "fundamental" frequency\cf0 \
+		*\cf3 EnvGen\cf0 .ar(\cf3 Env\cf0 .perc(0.1,0.5,vol), doneAction: 2)	\cf2 // multiply the Klank by an EnvGen, that kills the Synth\cf0 \
+	\cf2 // when it ends\cf0 \
+	)\
+\}).store;\
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 /* with Klank, the specification array cannot be changed after\
+a Synth has started, and to change the array between notes and after compilation we have to send new arrays to its Synth on the server. In order to do this,we use a lower-level message system, "s.sendBundle", which here sends a number of messages in an OSC package to the server, so that when the server starts a new note obeying the command "s_new" (which is always sent whenever we create a Synth), it does so with new Controls, which have been set using "/n_setn" -- see the help-file Server-Command-Reference for a complete list of these type of commands.  they underlie all of the higher level commands we have been using, such as Synth.new();\
+*/\cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Routine\cf0 (\{ \
+	\cf3 var\cf0  ctr=2000;	\cf2 // this will be the starting NodeID \cf0 \
+	loop(\{ \
+		ctr = (ctr+1);	\cf2 // we create a series of Synths\cf0 \
+						\cf2 // with increasing NodeIDs\cf0 \
+		s.sendBundle(\cf3 nil\cf0 ,\
+	\cf2 // the next message is the one that starts a Synth\cf0 \
+			[\cf4 "/s_new"\cf0 , \cf4 "bell"\cf0 , ctr, 1, 0, \cf6 \\freq\cf0 , rrand(200,800)],\
+	\cf2 /* the next message sets a series of Controls --\
+	 it says, set a number of Controls of the 'ctr' Synth\
+	 starting at the one named "harm", changing a total\
+	 of 4, which are the next 4 numbers, as created by 	Array.rand. \
+	 the operator ++ concatenates (joins) two Arrays\
+	*/\cf0 \
+			[\cf4 "/n_setn"\cf0 ,ctr,\cf4 "harm"\cf0 , 4]++ \cf3 Array\cf0 .rand(4,1,17),\
+			[\cf4 "/n_setn"\cf0 , ctr, \cf4 "ring"\cf0 , 4] ++\
+									 \cf3 Array\cf0 .fill(4,rrand(0.1,1.0)),\
+			[\cf4 "/n_setn"\cf0 , ctr, \cf4 "amp"\cf0 , 4] ++ \cf3 Array\cf0 .fill(4,0.2)\
+		);		\cf2 // this is the end of the bundled message\cf0 \
+		0.1.wait\
+	\});\
+\}).play;\
+)\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 /* let's use the same technique to create a changing additive Synth -- FSinOsc is a sine oscillator that runs much faster than SinOsc does.   */\cf0 \
+\
+\{ \cf3 FSinOsc\cf0 .ar([800, 1071, 1153, 1723], 0,0.01) \}.play;	\
+(\cf2 // now, here's a SynthDef that extends that idea\cf0 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 SynthDef\cf0 (\cf4 "klang"\cf0 ,\{ \cf3 arg\cf0  freq=100, vol=0.5;\
+	\cf3 var\cf0  harm;\
+	harm = \cf3 Control\cf0 .names([\cf6 \\harm\cf0 ]).ir(\cf3 Array\cf0 .series(4,1,1));\
+	\cf3 Out\cf0 .ar(0,\cf3 FSinOsc\cf0 .ar(harm*freq,0,0.1)*\
+		\cf3 EnvGen\cf0 .ar(\cf3 Env\cf0 .triangle(1,0.5), doneAction: 2)*vol);\
+\}).store;\
+)\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf2 // let's play it like we did for the Klank instrument\cf0 \
+(\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+\cf3 Routine\cf0 (\{ \
+	\cf3 var\cf0  ctr=2000;	\cf2 // this will be the starting NodeID \cf0 \
+	loop(\{ \
+		ctr = (ctr+1);	\
+		s.sendBundle(\cf3 nil\cf0 ,\
+			[\cf4 "/s_new"\cf0 , \cf4 "klang"\cf0 , ctr, 1, 0, \cf6 \\freq\cf0 , rrand(20,200)],\
+			[\cf4 "/n_setn"\cf0 ,ctr,\cf4 "harm"\cf0 , 4]++ \cf3 Array\cf0 .rand(4,1,8)\
+		);	\
+		0.25.wait\
+	\});\
+\}).play;\
+)\
+\
+\
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\qc
+
+\f1\b\fs48 \cf0 Assignments:
+\f2\b0 \uc0\u8232 \u8232 
+\f3 1) Combine last week's assignment on playback of recorded samples with one of the filters introduced in this week's code examples to make a SynthDef that applies filtering to sample playback. Make a short piece that uses this instrument with one or more of your samples. Consider using envelopes or low frequency oscillators to control both the frequency of your filter(s), and the amplitude of the output. 
+\f2 \uc0\u8232 \u8232 
+\f3 2) Make a short piece using Pseq. Begin by substituting your own instrument for the one in the code example that begins with the comment "play the filter using Pseq...". Make additional Pseq patterns for controlling the other parameters of your instrument, and play them either simultaneously, or sequentially. Send this as code. \
+\
+\
+}

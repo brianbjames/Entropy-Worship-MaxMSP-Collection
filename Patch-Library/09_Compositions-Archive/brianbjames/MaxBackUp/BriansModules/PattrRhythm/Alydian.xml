@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "thisPattr[1]">
+	<slot number = "1">
+		<pattr name = "speed" value = "290" />
+		<patcher name = "effectsUnits">
+			<pattr name = "EF1EFMatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 0 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 0 6 0 1 6 1 0 6 2 0 6 3 0 6 4 0 6 5 0 6 6 0 6 7 0 6 8 0 7 0 1 7 1 0 7 2 0 7 3 0 7 4 0 7 5 0 7 6 0 7 7 0 7 8 0" />
+			<patcher name = "sub patch">
+				<pattr name = "EF1FlangeLFeedBack" value = "0.18" />
+				<pattr name = "EF1FlangeRFeedBack" value = "0.32" />
+				<pattr name = "EF1Ldirlev" value = "0.93" />
+				<pattr name = "EF1Ldl" value = "0.07" />
+				<pattr name = "EF1Rdirlev" value = "0.93" />
+				<pattr name = "EF1Rdl" value = "0.07" />
+				<pattr name = "EF1flageDepth" value = "0.33" />
+				<pattr name = "EF1flangeLDelayTime" value = "280." />
+				<pattr name = "EF1flangeOutputLevel" value = "1." />
+				<pattr name = "EF1flangeRDelayTime" value = "530." />
+				<pattr name = "EF1flangeRate" value = "0.15" />
+				<pattr name = "EF1flangeSlider" value = "93" />
+			</patcher>
+			<patcher name = "reverb">
+				<pattr name = "EF1reverbVol" value = "127" />
+				<patcher name = "unit">
+					<pattr name = "EF1reverbSize" value = "0" />
+					<pattr name = "EF1reverbdecaytime" value = "0" />
+					<pattr name = "EF1reverbdiff" value = "0" />
+					<pattr name = "EF1reverbhighdamp" value = "0" />
+				</patcher>
+			</patcher>
+			<patcher name = "chorus">
+				<pattr name = "EF1LChlev" value = "0.7" />
+				<pattr name = "EF1RChlev" value = "0.7" />
+				<pattr name = "EF1chdepth" value = "0.03" />
+				<pattr name = "EF1chrate" value = "8." />
+				<pattr name = "EF1dirlevL" value = "0.3" />
+				<pattr name = "EF1dirlevR" value = "0.3" />
+				<pattr name = "EF1dwm" value = "70" />
+				<pattr name = "EF1ldlytime" value = "707." />
+				<pattr name = "EF1lfeedback" value = "0.67" />
+				<pattr name = "EF1opl" value = "0.5" />
+				<pattr name = "EF1rdlytime" value = "603." />
+				<pattr name = "EF1rfeedback" value = "0.67" />
+			</patcher>
+			<patcher name = "vocoder">
+				<pattr name = "EF1vocoderPno" value = "36" />
+				<patcher name = "ptcher">
+					<pattr name = "10.0.1.195vocoderFilterQ" value = "10." />
+					<pattr name = "10.0.1.195vocodernoisethresh" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulamp" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulseper" value = "1." />
+					<pattr name = "10.0.1.195vocoderpulwid" value = "0." />
+				</patcher>
+			</patcher>
+			<patcher name = "forbiddenPlanet">
+				<pattr name = "EF1fobiddengraphoc" value = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+				<pattr name = "EF1forbiddenamp" value = "127" />
+				<pattr name = "EF1forbiddenpulldown" value = "0" />
+			</patcher>
+			<patcher name = "3rd8vaEQ">
+				<pattr name = "#13rd8vawind" value = "0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0." />
+			</patcher>
+			<patcher name = "harmGran">
+				<pattr name = "EF1Lamp" value = "120" />
+				<pattr name = "EF1Ramp" value = "120" />
+				<pattr name = "EF1hg1" value = "3.27" />
+				<pattr name = "EF1hg2" value = "14." />
+				<pattr name = "EF1hg3" value = "382" />
+				<pattr name = "EF1hg4" value = "68" />
+				<pattr name = "EF1hg5" value = "106" />
+				<pattr name = "EF1hg6" value = "95" />
+			</patcher>
+			<patcher name = "filtergraph">
+				<pattr name = "EF1filtgraphpulldown" value = "0" />
+				<pattr name = "freq" value = "0." />
+			</patcher>
+		</patcher>
+		<patcher name = "durs">
+			<pattr name = "max" value = "2000" />
+			<pattr name = "min" value = "200" />
+		</patcher>
+		<patcher name = "notes">
+			<pattr name = "mod_a[1]" value = "3." />
+			<pattr name = "mod_b[1]" value = "4." />
+			<pattr name = "mod_c[1]" value = "3." />
+			<pattr name = "mod_d[1]" value = "5." />
+			<pattr name = "mod_e[1]" value = "4." />
+			<pattr name = "mod_f[1]" value = "4." />
+			<pattr name = "mod_g[1]" value = "10." />
+			<pattr name = "mod_h[1]" value = "7." />
+			<pattr name = "rhythm_a" value = "3." />
+			<pattr name = "rhythm_b" value = "4." />
+			<pattr name = "rhythm_c" value = "5." />
+			<pattr name = "rhythm_d" value = "5." />
+			<pattr name = "rhythm_e" value = "4." />
+			<pattr name = "rhythm_f" value = "11." />
+			<pattr name = "rhythm_g" value = "10." />
+			<pattr name = "rhythm_h" value = "7." />
+			<pattr name = "val_a" value = "109" />
+			<pattr name = "val_b" value = "218" />
+			<pattr name = "val_c" value = "162" />
+			<pattr name = "val_d" value = "436" />
+			<pattr name = "val_e" value = "500" />
+			<pattr name = "val_f" value = "438" />
+			<pattr name = "val_g" value = "868" />
+			<pattr name = "val_h" value = "1008" />
+		</patcher>
+		<patcher name = "8FMUnits">
+			<patcher name = "fmampunit">
+				<pattr name = "firstAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "firstFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "firstdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[1]">
+				<pattr name = "secondAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "secondFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "seconddur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[2]">
+				<pattr name = "threeAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "threeFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "threedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[3]">
+				<pattr name = "fourAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fourFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fourdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[4]">
+				<pattr name = "fiveAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fiveFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fivedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[5]">
+				<pattr name = "sixAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sixFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sixdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[6]">
+				<pattr name = "sevenAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sevenFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sevendur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[7]">
+				<pattr name = "eightAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "eightFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "eightdur" value = "290." />
+			</patcher>
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<pattr name = "speed" value = "290" />
+		<patcher name = "effectsUnits">
+			<pattr name = "EF1EFMatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 0 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 0 6 0 1 6 1 0 6 2 0 6 3 0 6 4 0 6 5 0 6 6 0 6 7 0 6 8 0 7 0 1 7 1 0 7 2 0 7 3 0 7 4 0 7 5 0 7 6 0 7 7 0 7 8 0" />
+			<patcher name = "sub patch">
+				<pattr name = "EF1FlangeLFeedBack" value = "0.18" />
+				<pattr name = "EF1FlangeRFeedBack" value = "0.32" />
+				<pattr name = "EF1Ldirlev" value = "0.93" />
+				<pattr name = "EF1Ldl" value = "0.07" />
+				<pattr name = "EF1Rdirlev" value = "0.93" />
+				<pattr name = "EF1Rdl" value = "0.07" />
+				<pattr name = "EF1flageDepth" value = "0.33" />
+				<pattr name = "EF1flangeLDelayTime" value = "280." />
+				<pattr name = "EF1flangeOutputLevel" value = "1." />
+				<pattr name = "EF1flangeRDelayTime" value = "530." />
+				<pattr name = "EF1flangeRate" value = "0.15" />
+				<pattr name = "EF1flangeSlider" value = "93" />
+			</patcher>
+			<patcher name = "reverb">
+				<pattr name = "EF1reverbVol" value = "127" />
+				<patcher name = "unit">
+					<pattr name = "EF1reverbSize" value = "0" />
+					<pattr name = "EF1reverbdecaytime" value = "0" />
+					<pattr name = "EF1reverbdiff" value = "0" />
+					<pattr name = "EF1reverbhighdamp" value = "0" />
+				</patcher>
+			</patcher>
+			<patcher name = "chorus">
+				<pattr name = "EF1LChlev" value = "0.7" />
+				<pattr name = "EF1RChlev" value = "0.7" />
+				<pattr name = "EF1chdepth" value = "0.03" />
+				<pattr name = "EF1chrate" value = "8." />
+				<pattr name = "EF1dirlevL" value = "0.3" />
+				<pattr name = "EF1dirlevR" value = "0.3" />
+				<pattr name = "EF1dwm" value = "70" />
+				<pattr name = "EF1ldlytime" value = "707." />
+				<pattr name = "EF1lfeedback" value = "0.67" />
+				<pattr name = "EF1opl" value = "0.5" />
+				<pattr name = "EF1rdlytime" value = "603." />
+				<pattr name = "EF1rfeedback" value = "0.67" />
+			</patcher>
+			<patcher name = "vocoder">
+				<pattr name = "EF1vocoderPno" value = "36" />
+				<patcher name = "ptcher">
+					<pattr name = "10.0.1.195vocoderFilterQ" value = "10." />
+					<pattr name = "10.0.1.195vocodernoisethresh" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulamp" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulseper" value = "1." />
+					<pattr name = "10.0.1.195vocoderpulwid" value = "0." />
+				</patcher>
+			</patcher>
+			<patcher name = "forbiddenPlanet">
+				<pattr name = "EF1fobiddengraphoc" value = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+				<pattr name = "EF1forbiddenamp" value = "127" />
+				<pattr name = "EF1forbiddenpulldown" value = "0" />
+			</patcher>
+			<patcher name = "3rd8vaEQ">
+				<pattr name = "#13rd8vawind" value = "0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0." />
+			</patcher>
+			<patcher name = "harmGran">
+				<pattr name = "EF1Lamp" value = "120" />
+				<pattr name = "EF1Ramp" value = "120" />
+				<pattr name = "EF1hg1" value = "3.27" />
+				<pattr name = "EF1hg2" value = "14." />
+				<pattr name = "EF1hg3" value = "382" />
+				<pattr name = "EF1hg4" value = "68" />
+				<pattr name = "EF1hg5" value = "106" />
+				<pattr name = "EF1hg6" value = "95" />
+			</patcher>
+			<patcher name = "filtergraph">
+				<pattr name = "EF1filtgraphpulldown" value = "0" />
+				<pattr name = "freq" value = "0." />
+			</patcher>
+		</patcher>
+		<patcher name = "durs">
+			<pattr name = "max" value = "2000" />
+			<pattr name = "min" value = "200" />
+		</patcher>
+		<patcher name = "notes">
+			<pattr name = "mod_a[1]" value = "3." />
+			<pattr name = "mod_b[1]" value = "4." />
+			<pattr name = "mod_c[1]" value = "3." />
+			<pattr name = "mod_d[1]" value = "5." />
+			<pattr name = "mod_e[1]" value = "4." />
+			<pattr name = "mod_f[1]" value = "4." />
+			<pattr name = "mod_g[1]" value = "10." />
+			<pattr name = "mod_h[1]" value = "504." />
+			<pattr name = "rhythm_a" value = "3." />
+			<pattr name = "rhythm_b" value = "4." />
+			<pattr name = "rhythm_c" value = "5." />
+			<pattr name = "rhythm_d" value = "5." />
+			<pattr name = "rhythm_e" value = "4." />
+			<pattr name = "rhythm_f" value = "11." />
+			<pattr name = "rhythm_g" value = "10." />
+			<pattr name = "rhythm_h" value = "7." />
+			<pattr name = "val_a" value = "110" />
+			<pattr name = "val_b" value = "250" />
+			<pattr name = "val_c" value = "372" />
+			<pattr name = "val_d" value = "440" />
+			<pattr name = "val_e" value = "500" />
+			<pattr name = "val_f" value = "438" />
+			<pattr name = "val_g" value = "868" />
+			<pattr name = "val_h" value = "112" />
+		</patcher>
+		<patcher name = "8FMUnits">
+			<patcher name = "fmampunit">
+				<pattr name = "firstAmpEnv" value = "250. 0. 1. 0. 0. 0 4.587156 0.21875 0 94.594597 0.46875 0 175.675674 0.234375 0 229.729736 0.609375 0 250. 0. 0" />
+				<pattr name = "firstFMEnv" value = "250. 0. 1. 0. 0. 0 4.504505 0.1875 0 31.531532 0.1875 0 36.036037 0. 0 105.855858 0.046875 0 110.360367 0. 0 250. 0. 0" />
+				<pattr name = "firstdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[1]">
+				<pattr name = "secondAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "secondFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "seconddur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[2]">
+				<pattr name = "threeAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "threeFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "threedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[3]">
+				<pattr name = "fourAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fourFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fourdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[4]">
+				<pattr name = "fiveAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fiveFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fivedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[5]">
+				<pattr name = "sixAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sixFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sixdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[6]">
+				<pattr name = "sevenAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sevenFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sevendur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[7]">
+				<pattr name = "eightAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "eightFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "eightdur" value = "290." />
+			</patcher>
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<pattr name = "speed" value = "290" />
+		<patcher name = "effectsUnits">
+			<pattr name = "EF1EFMatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 0 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 0 6 0 1 6 1 0 6 2 0 6 3 0 6 4 0 6 5 0 6 6 0 6 7 0 6 8 0 7 0 1 7 1 0 7 2 0 7 3 0 7 4 0 7 5 0 7 6 0 7 7 0 7 8 0" />
+			<patcher name = "sub patch">
+				<pattr name = "EF1FlangeLFeedBack" value = "0.18" />
+				<pattr name = "EF1FlangeRFeedBack" value = "0.32" />
+				<pattr name = "EF1Ldirlev" value = "0.93" />
+				<pattr name = "EF1Ldl" value = "0.07" />
+				<pattr name = "EF1Rdirlev" value = "0.93" />
+				<pattr name = "EF1Rdl" value = "0.07" />
+				<pattr name = "EF1flageDepth" value = "0.33" />
+				<pattr name = "EF1flangeLDelayTime" value = "280." />
+				<pattr name = "EF1flangeOutputLevel" value = "1." />
+				<pattr name = "EF1flangeRDelayTime" value = "530." />
+				<pattr name = "EF1flangeRate" value = "0.15" />
+				<pattr name = "EF1flangeSlider" value = "93" />
+			</patcher>
+			<patcher name = "reverb">
+				<pattr name = "EF1reverbVol" value = "127" />
+				<patcher name = "unit">
+					<pattr name = "EF1reverbSize" value = "0" />
+					<pattr name = "EF1reverbdecaytime" value = "0" />
+					<pattr name = "EF1reverbdiff" value = "0" />
+					<pattr name = "EF1reverbhighdamp" value = "0" />
+				</patcher>
+			</patcher>
+			<patcher name = "chorus">
+				<pattr name = "EF1LChlev" value = "0.7" />
+				<pattr name = "EF1RChlev" value = "0.7" />
+				<pattr name = "EF1chdepth" value = "0.03" />
+				<pattr name = "EF1chrate" value = "8." />
+				<pattr name = "EF1dirlevL" value = "0.3" />
+				<pattr name = "EF1dirlevR" value = "0.3" />
+				<pattr name = "EF1dwm" value = "70" />
+				<pattr name = "EF1ldlytime" value = "707." />
+				<pattr name = "EF1lfeedback" value = "0.67" />
+				<pattr name = "EF1opl" value = "0.5" />
+				<pattr name = "EF1rdlytime" value = "603." />
+				<pattr name = "EF1rfeedback" value = "0.67" />
+			</patcher>
+			<patcher name = "vocoder">
+				<pattr name = "EF1vocoderPno" value = "36" />
+				<patcher name = "ptcher">
+					<pattr name = "10.0.1.195vocoderFilterQ" value = "10." />
+					<pattr name = "10.0.1.195vocodernoisethresh" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulamp" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulseper" value = "1." />
+					<pattr name = "10.0.1.195vocoderpulwid" value = "0." />
+				</patcher>
+			</patcher>
+			<patcher name = "forbiddenPlanet">
+				<pattr name = "EF1fobiddengraphoc" value = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+				<pattr name = "EF1forbiddenamp" value = "127" />
+				<pattr name = "EF1forbiddenpulldown" value = "0" />
+			</patcher>
+			<patcher name = "3rd8vaEQ">
+				<pattr name = "#13rd8vawind" value = "0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0." />
+			</patcher>
+			<patcher name = "harmGran">
+				<pattr name = "EF1Lamp" value = "120" />
+				<pattr name = "EF1Ramp" value = "120" />
+				<pattr name = "EF1hg1" value = "3.27" />
+				<pattr name = "EF1hg2" value = "14." />
+				<pattr name = "EF1hg3" value = "382" />
+				<pattr name = "EF1hg4" value = "68" />
+				<pattr name = "EF1hg5" value = "106" />
+				<pattr name = "EF1hg6" value = "95" />
+			</patcher>
+			<patcher name = "filtergraph">
+				<pattr name = "EF1filtgraphpulldown" value = "0" />
+				<pattr name = "freq" value = "0." />
+			</patcher>
+		</patcher>
+		<patcher name = "durs">
+			<pattr name = "max" value = "2000" />
+			<pattr name = "min" value = "200" />
+		</patcher>
+		<patcher name = "notes">
+			<pattr name = "mod_a[1]" value = "3." />
+			<pattr name = "mod_b[1]" value = "4." />
+			<pattr name = "mod_c[1]" value = "3." />
+			<pattr name = "mod_d[1]" value = "5." />
+			<pattr name = "mod_e[1]" value = "4." />
+			<pattr name = "mod_f[1]" value = "4." />
+			<pattr name = "mod_g[1]" value = "10." />
+			<pattr name = "mod_h[1]" value = "7." />
+			<pattr name = "rhythm_a" value = "3." />
+			<pattr name = "rhythm_b" value = "4." />
+			<pattr name = "rhythm_c" value = "5." />
+			<pattr name = "rhythm_d" value = "5." />
+			<pattr name = "rhythm_e" value = "4." />
+			<pattr name = "rhythm_f" value = "11." />
+			<pattr name = "rhythm_g" value = "10." />
+			<pattr name = "rhythm_h" value = "7." />
+			<pattr name = "val_a" value = "75" />
+			<pattr name = "val_b" value = "178" />
+			<pattr name = "val_c" value = "261" />
+			<pattr name = "val_d" value = "356" />
+			<pattr name = "val_e" value = "535" />
+			<pattr name = "val_f" value = "708" />
+			<pattr name = "val_g" value = "833" />
+			<pattr name = "val_h" value = "464" />
+		</patcher>
+		<patcher name = "8FMUnits">
+			<patcher name = "fmampunit">
+				<pattr name = "firstAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "firstFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "firstdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[1]">
+				<pattr name = "secondAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "secondFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "seconddur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[2]">
+				<pattr name = "threeAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "threeFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "threedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[3]">
+				<pattr name = "fourAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fourFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fourdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[4]">
+				<pattr name = "fiveAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fiveFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fivedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[5]">
+				<pattr name = "sixAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sixFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sixdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[6]">
+				<pattr name = "sevenAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sevenFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sevendur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[7]">
+				<pattr name = "eightAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "eightFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "eightdur" value = "290." />
+			</patcher>
+		</patcher>
+	</slot>
+	<slot number = "7">
+		<pattr name = "speed" value = "290" />
+		<patcher name = "effectsUnits">
+			<pattr name = "EF1EFMatrix" value = "0 0 1 0 1 0 0 2 0 0 3 0 0 4 0 0 5 0 0 6 0 0 7 0 0 8 0 1 0 1 1 1 0 1 2 0 1 3 0 1 4 0 1 5 0 1 6 0 1 7 0 1 8 0 2 0 1 2 1 0 2 2 0 2 3 0 2 4 0 2 5 0 2 6 0 2 7 0 2 8 0 3 0 1 3 1 0 3 2 0 3 3 0 3 4 0 3 5 0 3 6 0 3 7 0 3 8 0 4 0 1 4 1 0 4 2 0 4 3 0 4 4 0 4 5 0 4 6 0 4 7 0 4 8 0 5 0 1 5 1 0 5 2 0 5 3 0 5 4 0 5 5 0 5 6 0 5 7 0 5 8 0 6 0 1 6 1 0 6 2 0 6 3 0 6 4 0 6 5 0 6 6 0 6 7 0 6 8 0 7 0 1 7 1 0 7 2 0 7 3 0 7 4 0 7 5 0 7 6 0 7 7 0 7 8 0" />
+			<patcher name = "sub patch">
+				<pattr name = "EF1FlangeLFeedBack" value = "0.18" />
+				<pattr name = "EF1FlangeRFeedBack" value = "0.32" />
+				<pattr name = "EF1Ldirlev" value = "0.93" />
+				<pattr name = "EF1Ldl" value = "0.07" />
+				<pattr name = "EF1Rdirlev" value = "0.93" />
+				<pattr name = "EF1Rdl" value = "0.07" />
+				<pattr name = "EF1flageDepth" value = "0.33" />
+				<pattr name = "EF1flangeLDelayTime" value = "280." />
+				<pattr name = "EF1flangeOutputLevel" value = "1." />
+				<pattr name = "EF1flangeRDelayTime" value = "530." />
+				<pattr name = "EF1flangeRate" value = "0.15" />
+				<pattr name = "EF1flangeSlider" value = "93" />
+			</patcher>
+			<patcher name = "reverb">
+				<pattr name = "EF1reverbVol" value = "127" />
+				<patcher name = "unit">
+					<pattr name = "EF1reverbSize" value = "0" />
+					<pattr name = "EF1reverbdecaytime" value = "0" />
+					<pattr name = "EF1reverbdiff" value = "0" />
+					<pattr name = "EF1reverbhighdamp" value = "0" />
+				</patcher>
+			</patcher>
+			<patcher name = "chorus">
+				<pattr name = "EF1LChlev" value = "0.7" />
+				<pattr name = "EF1RChlev" value = "0.7" />
+				<pattr name = "EF1chdepth" value = "0.03" />
+				<pattr name = "EF1chrate" value = "8." />
+				<pattr name = "EF1dirlevL" value = "0.3" />
+				<pattr name = "EF1dirlevR" value = "0.3" />
+				<pattr name = "EF1dwm" value = "70" />
+				<pattr name = "EF1ldlytime" value = "707." />
+				<pattr name = "EF1lfeedback" value = "0.67" />
+				<pattr name = "EF1opl" value = "0.5" />
+				<pattr name = "EF1rdlytime" value = "603." />
+				<pattr name = "EF1rfeedback" value = "0.67" />
+			</patcher>
+			<patcher name = "vocoder">
+				<pattr name = "EF1vocoderPno" value = "36" />
+				<patcher name = "ptcher">
+					<pattr name = "10.0.1.195vocoderFilterQ" value = "10." />
+					<pattr name = "10.0.1.195vocodernoisethresh" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulamp" value = "0." />
+					<pattr name = "10.0.1.195vocoderpulseper" value = "1." />
+					<pattr name = "10.0.1.195vocoderpulwid" value = "0." />
+				</patcher>
+			</patcher>
+			<patcher name = "forbiddenPlanet">
+				<pattr name = "EF1fobiddengraphoc" value = "0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0" />
+				<pattr name = "EF1forbiddenamp" value = "127" />
+				<pattr name = "EF1forbiddenpulldown" value = "0" />
+			</patcher>
+			<patcher name = "3rd8vaEQ">
+				<pattr name = "#13rd8vawind" value = "0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0." />
+			</patcher>
+			<patcher name = "harmGran">
+				<pattr name = "EF1Lamp" value = "120" />
+				<pattr name = "EF1Ramp" value = "120" />
+				<pattr name = "EF1hg1" value = "3.27" />
+				<pattr name = "EF1hg2" value = "14." />
+				<pattr name = "EF1hg3" value = "382" />
+				<pattr name = "EF1hg4" value = "68" />
+				<pattr name = "EF1hg5" value = "106" />
+				<pattr name = "EF1hg6" value = "95" />
+			</patcher>
+			<patcher name = "filtergraph">
+				<pattr name = "EF1filtgraphpulldown" value = "0" />
+				<pattr name = "freq" value = "0." />
+			</patcher>
+		</patcher>
+		<patcher name = "durs">
+			<pattr name = "max" value = "2000" />
+			<pattr name = "min" value = "200" />
+		</patcher>
+		<patcher name = "notes">
+			<pattr name = "mod_a[1]" value = "3." />
+			<pattr name = "mod_b[1]" value = "4." />
+			<pattr name = "mod_c[1]" value = "3." />
+			<pattr name = "mod_d[1]" value = "5." />
+			<pattr name = "mod_e[1]" value = "4." />
+			<pattr name = "mod_f[1]" value = "4." />
+			<pattr name = "mod_g[1]" value = "10." />
+			<pattr name = "mod_h[1]" value = "7." />
+			<pattr name = "rhythm_a" value = "3." />
+			<pattr name = "rhythm_b" value = "4." />
+			<pattr name = "rhythm_c" value = "5." />
+			<pattr name = "rhythm_d" value = "5." />
+			<pattr name = "rhythm_e" value = "4." />
+			<pattr name = "rhythm_f" value = "11." />
+			<pattr name = "rhythm_g" value = "10." />
+			<pattr name = "rhythm_h" value = "7." />
+			<pattr name = "val_a" value = "96" />
+			<pattr name = "val_b" value = "62" />
+			<pattr name = "val_c" value = "192" />
+			<pattr name = "val_d" value = "128" />
+			<pattr name = "val_e" value = "520" />
+			<pattr name = "val_f" value = "270" />
+			<pattr name = "val_g" value = "329" />
+			<pattr name = "val_h" value = "232" />
+		</patcher>
+		<patcher name = "8FMUnits">
+			<patcher name = "fmampunit">
+				<pattr name = "firstAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "firstFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "firstdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[1]">
+				<pattr name = "secondAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "secondFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "seconddur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[2]">
+				<pattr name = "threeAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "threeFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "threedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[3]">
+				<pattr name = "fourAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fourFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fourdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[4]">
+				<pattr name = "fiveAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "fiveFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "fivedur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[5]">
+				<pattr name = "sixAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sixFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sixdur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[6]">
+				<pattr name = "sevenAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "sevenFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "sevendur" value = "290." />
+			</patcher>
+			<patcher name = "fmampunit[7]">
+				<pattr name = "eightAmpEnv" value = "290. 0. 1. 0. 0. 0 5.321101 0.21875 0 271.7117 0.21875 0 290. 0. 0" />
+				<pattr name = "eightFMEnv" value = "290. 0. 1. 0. 0. 0 15.675675 0.46875 0 20.9 0.015625 0 290. 0. 0" />
+				<pattr name = "eightdur" value = "290." />
+			</patcher>
+		</patcher>
+	</slot>
+</pattrstorage>
+

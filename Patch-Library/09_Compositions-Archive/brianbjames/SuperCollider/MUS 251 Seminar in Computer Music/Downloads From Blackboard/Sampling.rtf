@@ -1,0 +1,65 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\froman\fcharset77 Times-Bold;\f1\fnil\fcharset77 LucidaGrande;\f2\froman\fcharset77 Times-Roman;
+}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww21440\viewh14460\viewkind0
+\deftab720
+\pard\pardeftab720\sa320\qc
+
+\f0\b\fs48 \cf0 IV. Sampling
+\f1\b0 \uc0\u8232 \u8232 
+\f2 SAMPLING 
+\f1 \uc0\u8232 
+\f2\fs36 Digital recording or and playback of relatively short sounds. Instead of scanning a small fixed wavetable containing one cycle of a waveform, a sampling system scans a large wavetable, usually much longer than a single audio frequency wavelength
+\fs48 .
+\fs32 \
+
+\f1\fs48 \uc0\u8232 
+\f2 LOOP POINTS 
+\f1 \uc0\u8232 
+\f2\fs36 start and end points for repeating playback
+\f1 \uc0\u8232 
+\fs48 \uc0\u8232 
+\f2 SPLICED VS. CROSSFADED LOOPS
+\f1 \uc0\u8232 
+\f2\fs36 clicks and thumps, envelopes at loop points
+\f1\fs48 \uc0\u8232 \u8232 
+\f2 BIDIRECTIONAL LOOPS
+\f1 \uc0\u8232 
+\f2\fs36 forwards/backwards
+\f1 \uc0\u8232 
+\fs48 \uc0\u8232 
+\f2 TIME-DOMAIN PITCH-SHIFTING - RESAMPLING
+\f1 \uc0\u8232 
+\f2\fs36 sample rate conversion
+\f1\fs48 \uc0\u8232 \u8232 
+\f2 DECIMATION-DOWNSAMPLING
+\f1 \uc0\u8232 
+\f2\fs36 skipping samples to raise pitch
+\fs32 \
+
+\fs48 INTERPOLATION-UPSAMPLING 
+\f1 \uc0\u8232 
+\f2\fs36 inserting samples to lower pitch
+\f1\fs48 \uc0\u8232 \u8232 
+\f2 GRANULAR SAMPLING
+\f1 \uc0\u8232 
+\f2\fs36 providing an envelope for each looped segment to avoid discontinuities that create clicks; loop points may be selected at random from a buffered live audio stream or from a soundfile, and then pitch-shifted. Each enveloped sample is called a grain, though this normally implies very short samples.
+\f1\fs48 \uc0\u8232 \u8232 
+\f0\b SC3 Classes:
+\f2\b0  AudioIn, Pan2, PlayBuf, Buffer, RecordBuf, 
+\f1 \uc0\u8232 
+\f2 SCWindow, SCSlider, EZSlider, ControlSpec
+\fs32 \
+
+\f0\b\fs48 SC3 methods:
+\f2\b0  alloc, bufnum, action, value, value_, recSampleFormat
+\f1 \uc0\u8232 \u8232 
+\f2 Assignment: 
+\f1 \uc0\u8232 
+\f2 1) Use the "loopSampler" SynthDef from this week's IV_Sampling.rtf file to play back your own soundfile with both downsampling and upsampling, and with moveable, bidirectional loops. Then, write a Routine that plays that SynthDef while changing the different parameters (pitch, start, and end points) each time it plays. Record one minute of your sampling piece to bring to class next week. 
+\fs32 \
+
+\fs48 2) Create a GUI interface for your instrument. Send me the code for both the Routine you used in part 1, and the GUI instrument. Please put "assgn251" in the subject line when you email it to me.
+\fs32 \
+}

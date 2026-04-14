@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+
+<pattrstorage name = "mc.maxchat.server_config">
+	<slot number = "1">
+		<pattr name = "my_server_IP" value = "75.24.212.347" />
+		<pattr name = "my_server_name" value = "maxserver" />
+	</slot>
+</pattrstorage>
+

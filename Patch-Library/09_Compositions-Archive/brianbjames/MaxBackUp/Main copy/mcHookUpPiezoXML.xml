@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<pattrstorage name = "mcHookUpPiezoXML">
+	<slot number = "1">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "2adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "2synthCarrier" value = "300." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "157" />
+			<pattr name = "2synthModulator" value = "886." />
+			<pattr name = "2synthScaleFactor" value = "976." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "400." />
+			<pattr name = "3synthEnvelopeDuration" value = "3174" />
+			<pattr name = "3synthEnvelopeFunction" value = "3164. 0. 1. 0. 0. 0 395.5 0.175439 0 719.090881 0.333333 0 1474.136353 0.403509 0 2660.636475 0.22807 0 3164. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "0." />
+			<pattr name = "3synthScaleFactor" value = "0." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "157" />
+			<pattr name = "0synthModulator" value = "668." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "127" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "1synthCarrier" value = "200." />
+			<pattr name = "1synthEnvelopeDuration" value = "3958" />
+			<pattr name = "1synthEnvelopeFunction" value = "3948. 0. 1. 0. 0. 0 493.5 0.175439 0 897.272705 0.333333 0 1839.409058 0.403509 0 3319.90918 0.22807 0 3948. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "99" />
+			<pattr name = "1synthModulator" value = "1303." />
+			<pattr name = "1synthScaleFactor" value = "1391." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "2adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "2synthCarrier" value = "300." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "128" />
+			<pattr name = "2synthModulator" value = "886." />
+			<pattr name = "2synthScaleFactor" value = "976." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "400." />
+			<pattr name = "3synthEnvelopeDuration" value = "3174" />
+			<pattr name = "3synthEnvelopeFunction" value = "3164. 0. 1. 0. 0. 0 395.5 0.175439 0 719.090881 0.333333 0 1474.136353 0.403509 0 2660.636475 0.22807 0 3164. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "2053." />
+			<pattr name = "3synthScaleFactor" value = "0." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "74" />
+			<pattr name = "0synthModulator" value = "668." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "127" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "1synthCarrier" value = "200." />
+			<pattr name = "1synthEnvelopeDuration" value = "3958" />
+			<pattr name = "1synthEnvelopeFunction" value = "3948. 0. 1. 0. 0. 0 493.5 0.175439 0 897.272705 0.333333 0 1839.409058 0.403509 0 3319.90918 0.22807 0 3948. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "99" />
+			<pattr name = "1synthModulator" value = "1303." />
+			<pattr name = "1synthScaleFactor" value = "1391." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "2adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "2synthCarrier" value = "300." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "157" />
+			<pattr name = "2synthModulator" value = "886." />
+			<pattr name = "2synthScaleFactor" value = "976." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "400." />
+			<pattr name = "3synthEnvelopeDuration" value = "3174" />
+			<pattr name = "3synthEnvelopeFunction" value = "3164. 0. 1. 0. 0. 0 395.5 0.175439 0 719.090881 0.333333 0 1474.136353 0.403509 0 2660.636475 0.22807 0 3164. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "0." />
+			<pattr name = "3synthScaleFactor" value = "0." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "157" />
+			<pattr name = "0synthModulator" value = "668." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 112.5 0.473684 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "127" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "1synthCarrier" value = "901." />
+			<pattr name = "1synthEnvelopeDuration" value = "3786" />
+			<pattr name = "1synthEnvelopeFunction" value = "3776. 0. 1. 0. 0. 0 472. 0.175439 0 944. 0.263158 0 1630.54541 0.210526 0 3776. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "99" />
+			<pattr name = "1synthModulator" value = "1303." />
+			<pattr name = "1synthScaleFactor" value = "1391." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "4">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "2adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "2synthCarrier" value = "300." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "130" />
+			<pattr name = "2synthModulator" value = "886." />
+			<pattr name = "2synthScaleFactor" value = "976." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "400." />
+			<pattr name = "3synthEnvelopeDuration" value = "3174" />
+			<pattr name = "3synthEnvelopeFunction" value = "3164. 0. 1. 0. 0. 0 395.5 0.175439 0 719.090881 0.333333 0 1474.136353 0.403509 0 2660.636475 0.22807 0 3164. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "0." />
+			<pattr name = "3synthScaleFactor" value = "0." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "157" />
+			<pattr name = "0synthModulator" value = "668." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 450. 0.087719 0 720. 0.122807 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "75" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "12780. 0. 1. 0. 0. 0 3485.45459 0.245614 0 6970.90918 0.245614 0 9875.454102 0.210526 0 12780. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "12790" />
+			<pattr name = "1synthCarrier" value = "11581." />
+			<pattr name = "1synthEnvelopeDuration" value = "3786" />
+			<pattr name = "1synthEnvelopeFunction" value = "3776. 0. 1. 0. 0. 0 472. 0.175439 0 944. 0.263158 0 1630.54541 0.210526 0 3776. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "75" />
+			<pattr name = "1synthModulator" value = "6733." />
+			<pattr name = "1synthScaleFactor" value = "8549." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "5">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "2adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "2synthCarrier" value = "4005." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "130" />
+			<pattr name = "2synthModulator" value = "5." />
+			<pattr name = "2synthScaleFactor" value = "5276." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "10348." />
+			<pattr name = "3synthEnvelopeDuration" value = "2961" />
+			<pattr name = "3synthEnvelopeFunction" value = "2951. 0. 1. 0. 0. 0 368.875 0.175439 0 670.681763 0.333333 0 1374.897705 0.403509 0 2481.522949 0.22807 0 2951. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "2." />
+			<pattr name = "3synthScaleFactor" value = "11539." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "122" />
+			<pattr name = "0synthModulator" value = "3." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 450. 0.087719 0 720. 0.122807 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "75" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "12780. 0. 1. 0. 0. 0 3485.45459 0.245614 0 6970.90918 0.245614 0 9875.454102 0.210526 0 12780. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "12790" />
+			<pattr name = "1synthCarrier" value = "11581." />
+			<pattr name = "1synthEnvelopeDuration" value = "3786" />
+			<pattr name = "1synthEnvelopeFunction" value = "3776. 0. 1. 0. 0. 0 472. 0.175439 0 944. 0.263158 0 1630.54541 0.210526 0 3776. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "75" />
+			<pattr name = "1synthModulator" value = "7." />
+			<pattr name = "1synthScaleFactor" value = "8549." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "6">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "3362. 0. 1. 0. 0. 0 458.454559 0.070175 0 1528.181763 0.350877 0 2123.371094 0.076923 0 2536.245117 0.030769 0 2978.614014 0.030769 0 3362. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "3372" />
+			<pattr name = "2adcInREnvelopeFunction" value = "4184. 0. 1. 0. 0. 0 95.090912 0.929825 0 475.454559 0.473684 0 2234.636475 0.54386 0 2642.529541 0.076923 0 3156.350342 0.030769 0 3280.636475 0.315789 0 3708.54541 0.315789 0 3708.54541 0.017544 0 4184. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "4194" />
+			<pattr name = "2synthCarrier" value = "4005." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 333.125 0.175439 0 605.681824 0.333333 0 1241.647705 0.403509 0 2241.022705 0.22807 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "130" />
+			<pattr name = "2synthModulator" value = "5." />
+			<pattr name = "2synthScaleFactor" value = "5276." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "10348." />
+			<pattr name = "3synthEnvelopeDuration" value = "2961" />
+			<pattr name = "3synthEnvelopeFunction" value = "2951. 0. 1. 0. 0. 0 368.875 0.175439 0 670.681763 0.333333 0 1374.897705 0.403509 0 2481.522949 0.22807 0 2951. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "157" />
+			<pattr name = "3synthModulator" value = "4." />
+			<pattr name = "3synthScaleFactor" value = "11539." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.982456 0 112.5 0.473684 0 135. 0.070175 0 371.25 0.087719 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "0adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 22.5 0.929825 0 112.5 0.473684 0 528.75 0.54386 0 625.263916 0.076923 0 746.84198 0.030769 0 776.25 0.315789 0 877.5 0.315789 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "0synthCarrier" value = "1123." />
+			<pattr name = "0synthEnvelopeDuration" value = "2536" />
+			<pattr name = "0synthEnvelopeFunction" value = "2526. 0. 1. 0. 0. 0 315.75 0.175439 0 574.090881 0.333333 0 1176.886353 0.403509 0 2124.136475 0.22807 0 2526. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "122" />
+			<pattr name = "0synthModulator" value = "3." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 450. 0.087719 0 720. 0.122807 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "75" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "12780. 0. 1. 0. 0. 0 3485.45459 0.245614 0 6970.90918 0.245614 0 9875.454102 0.210526 0 12780. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "12790" />
+			<pattr name = "1synthCarrier" value = "11581." />
+			<pattr name = "1synthEnvelopeDuration" value = "3786" />
+			<pattr name = "1synthEnvelopeFunction" value = "3776. 0. 1. 0. 0. 0 472. 0.175439 0 944. 0.263158 0 1630.54541 0.210526 0 3776. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "75" />
+			<pattr name = "1synthModulator" value = "7." />
+			<pattr name = "1synthScaleFactor" value = "8549." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+	<slot number = "7">
+		<pattr name = "NewXMLButton" value = "" />
+		<pattr name = "OpenXMLButton" value = "" />
+		<pattr name = "ReadAgainButton" value = "" />
+		<pattr name = "SaveXMLButton" value = "" />
+		<patcher name = "piezoAbstraction2">
+			<pattr name = "2adcInLEnvelopeFunction" value = "3362. 0. 1. 0. 0. 0 458.454559 0.070175 0 1528.181763 0.350877 0 2123.371094 0.076923 0 2536.245117 0.030769 0 2978.614014 0.030769 0 3362. 0. 0" />
+			<pattr name = "2adcInLGainSliderOut" value = "127" />
+			<pattr name = "2adcInLSliderInterpolation" value = "0." />
+			<pattr name = "2adcInLenvelopeDuration" value = "3372" />
+			<pattr name = "2adcInREnvelopeFunction" value = "4184. 0. 1. 0. 0. 0 1236.181763 0.22807 0 3280.636475 0.315789 0 3708.54541 0.017544 0 4184. 0. 0" />
+			<pattr name = "2adcInRGainSliderOut" value = "127" />
+			<pattr name = "2adcInRSliderInterpolation" value = "0." />
+			<pattr name = "2adcInRenvelopeDuration" value = "4194" />
+			<pattr name = "2synthCarrier" value = "2." />
+			<pattr name = "2synthEnvelopeDuration" value = "2675" />
+			<pattr name = "2synthEnvelopeFunction" value = "2665. 0. 1. 0. 0. 0 90.852272 0.473684 0 333.125 0.175439 0 635.965881 0.052632 0 2665. 0. 0" />
+			<pattr name = "2synthGainSliderOut" value = "157" />
+			<pattr name = "2synthModulator" value = "26." />
+			<pattr name = "2synthScaleFactor" value = "300." />
+			<pattr name = "2synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction3">
+			<pattr name = "3adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 135. 0.070175 0 270. 0.192982 0 450. 0.122807 0 625.263916 0.076923 0 746.84198 0.030769 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "3adcInLGainSliderOut" value = "157" />
+			<pattr name = "3adcInLSliderInterpolation" value = "0." />
+			<pattr name = "3adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "3adcInREnvelopeFunction" value = "990. 0. 1. 0. 0. 0 315. 0.157895 0 625.263916 0.076923 0 746.84198 0.030769 0 877.5 0.017544 0 990. 0. 0" />
+			<pattr name = "3adcInRGainSliderOut" value = "127" />
+			<pattr name = "3adcInRSliderInterpolation" value = "0." />
+			<pattr name = "3adcInRenvelopeDuration" value = "1000" />
+			<pattr name = "3synthCarrier" value = "20." />
+			<pattr name = "3synthEnvelopeDuration" value = "2961" />
+			<pattr name = "3synthEnvelopeFunction" value = "2951. 0. 1. 0. 0. 0 368.875 0.175439 0 670.681763 0.333333 0 1374.897705 0.403509 0 2481.522949 0.22807 0 2951. 0. 0" />
+			<pattr name = "3synthGainSliderOut" value = "115" />
+			<pattr name = "3synthModulator" value = "0.1" />
+			<pattr name = "3synthScaleFactor" value = "11539." />
+			<pattr name = "3synthSliderInterpolation" value = "0." />
+		</patcher>
+		<patcher name = "piezoAbstraction0">
+			<pattr name = "0adcInLEnvelopeFunction" value = "3838. 0. 1. 0. 0. 0 218.068176 0.421053 0 261.681824 0.526316 0 436.136353 0.473684 0 2424.00293 0.076923 0 2895.332764 0.030769 0 3400.333496 0.030769 0 3838. 0. 0" />
+			<pattr name = "0adcInLGainSliderOut" value = "127" />
+			<pattr name = "0adcInLSliderInterpolation" value = "0." />
+			<pattr name = "0adcInLenvelopeDuration" value = "3848" />
+			<pattr name = "0adcInREnvelopeFunction" value = "5025. 0. 1. 0. 0. 0 571.022705 0.473684 0 2683.806885 0.54386 0 3825.852295 0.385965 0 3940.056885 0.315789 0 4453.977051 0.315789 0 4453.977051 0.017544 0 5025. 0. 0" />
+			<pattr name = "0adcInRGainSliderOut" value = "127" />
+			<pattr name = "0adcInRSliderInterpolation" value = "0." />
+			<pattr name = "0adcInRenvelopeDuration" value = "5035" />
+			<pattr name = "0synthCarrier" value = "1." />
+			<pattr name = "0synthEnvelopeDuration" value = "6302" />
+			<pattr name = "0synthEnvelopeFunction" value = "6292. 0. 1. 0. 0. 0 786.5 0.175439 0 1430. 0.333333 0 2931.5 0.403509 0 5291. 0.22807 0 6292. 0. 0" />
+			<pattr name = "0synthGainSliderOut" value = "122" />
+			<pattr name = "0synthModulator" value = "401." />
+			<pattr name = "0synthScaleFactor" value = "1524." />
+			<pattr name = "0synthSliderInterpolation" value = "352." />
+		</patcher>
+		<patcher name = "piezoAbstraction1">
+			<pattr name = "1adcInLEnvelopeFunction" value = "990. 0. 1. 0. 0. 0 450. 0.087719 0 720. 0.122807 0 877.105286 0.030769 0 990. 0. 0" />
+			<pattr name = "1adcInLGainSliderOut" value = "75" />
+			<pattr name = "1adcInLSliderInterpolation" value = "0." />
+			<pattr name = "1adcInLenvelopeDuration" value = "1000" />
+			<pattr name = "1adcInREnvelopeFunction" value = "12780. 0. 1. 0. 0. 0 3485.45459 0.245614 0 6970.90918 0.245614 0 9875.454102 0.210526 0 12780. 0. 0" />
+			<pattr name = "1adcInRGainSliderOut" value = "127" />
+			<pattr name = "1adcInRSliderInterpolation" value = "0." />
+			<pattr name = "1adcInRenvelopeDuration" value = "12790" />
+			<pattr name = "1synthCarrier" value = "0.14" />
+			<pattr name = "1synthEnvelopeDuration" value = "3786" />
+			<pattr name = "1synthEnvelopeFunction" value = "3776. 0. 1. 0. 0. 0 472. 0.175439 0 772.363647 0.105263 0 1458.909058 0. 0 2102.54541 0. 0 3776. 0. 0" />
+			<pattr name = "1synthGainSliderOut" value = "75" />
+			<pattr name = "1synthModulator" value = "12." />
+			<pattr name = "1synthScaleFactor" value = "6073." />
+			<pattr name = "1synthSliderInterpolation" value = "0." />
+		</patcher>
+	</slot>
+</pattrstorage>
+

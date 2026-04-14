@@ -1,0 +1,60 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf410
+{\fonttbl\f0\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural
+
+\f0\fs28 \cf0 // OK, IT SEEMS THAT YOU HAD NO PROBLEMS WITH THIS\
+\
+(\
+\cf2 SynthDef\cf0 (\cf3 "help-Osc"\cf0 ,\{ \cf2 arg\cf0  out=0, freq=200; 	\
+	\cf2 Out\cf0 .ar(out,\
+		\cf2 SinOsc\cf0 .ar(freq, 0, 0.5)		\
+	)\
+\}).send(s);	\
+)\
+(\
+x = \cf2 Synth\cf0 (\cf3 "help-Osc"\cf0 ); \
+p = [60, 63, 67];	\
+\cf2 Routine\cf0 (\{	\
+	loop(\{ 	\
+		x.set(\cf3 "freq"\cf0 ,p.choose.midicps);	 \
+		1.0.wait	\
+	\});\
+\}).play;	\
+)\
+(\
+\cf2 var\cf0  pitchSet1, pitchSet2, pitchSet3,freqArrays, source, ctr=0; \
+pitchSet1 = [60, 63, 67]; pitchSet2 = [65, 68, 72]; pitchSet3 = [67, 70, 73];\
+freqArrays = [pitchSet1, pitchSet2, pitchSet3];\
+source = pitchSet1;\
+x = \cf2 Synth\cf0 (\cf3 "help-Osc"\cf0 );\
+\cf2 Routine\cf0 (\{\
+	loop(\{ \
+		if( ctr ==  3,\{\
+			ctr = 0;	\
+			source = freqArrays.choose.postln;  \
+		\});	\
+		x.set(\cf3 "freq"\cf0 ,source.choose.midicps);	\
+		ctr = ctr+1; \
+		0.2.wait;\
+	\});	\
+\}).play;\
+)\
+(\
+\cf2 var\cf0  pitchSet1, pitchSet2, pitchSet3,freqArrays, source, ctr=0, arrayCtr=0;\
+pitchSet1 = [60, 63, 67]; pitchSet2 = [65, 68, 72]; pitchSet3 = [67, 70, 73];\
+freqArrays = [pitchSet1, pitchSet2, pitchSet3];\
+source = pitchSet1;\
+x = \cf2 Synth\cf0 (\cf3 "help-Osc"\cf0 );\
+\cf2 Routine\cf0 (\{\
+	loop(\{ \
+		if( ctr == 0,\{\
+			source = freqArrays[arrayCtr].postln;\
+			arrayCtr = (arrayCtr+1).mod(3) \
+		\});\
+		x.set(\cf3 "freq"\cf0 ,source [ctr].midicps.postln);\
+		ctr = (ctr+1).mod(3);\
+		0.1.wait;\
+	\});\
+\}).play;\
+)}

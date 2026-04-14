@@ -1,0 +1,144 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 ArialMT;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red191\green0\blue0;\red96\green96\blue96;
+\red0\green115\blue0;}
+\deftab720
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab720\ql\qnatural\pardirnatural
+
+\f0\fs26 \cf0 ( \
+\cf2 var\cf0  	w, \
+	routineText,\
+	cloudFunc,cloudBtn,\
+	freqSlider,freqSldText, \
+	amp, ampSlider,ampSldText, \
+	posSlider,posSldText, \
+	rateSlider, rateSldText, \
+	durSlider, durSldText,\
+	bufbutt, buftext, bufs, bufnum = 0;\
+\
+bufs=\cf2 Array\cf0 .new(4);	\cf3 // keep an array of buffers\cf0 \
+	[	\
+	\cf4 "sounds/kokoratikinokokorekedineke"\cf0 ,\
+	\cf4 "sounds/Knowinvertor_mono.aif"\cf0 ,\
+	\cf4 "sounds/PianoHarp_mono1.aif"\cf0 ,\
+	\cf4 "sounds/dorothy waves.aif"\cf0 \
+	]\
+.do(\{\cf2 |filename|\cf0 \
+	bufs = bufs.add(\cf2 Buffer\cf0 .read(s,filename))\});\
+\
+\cf3 // this Function will be used, and reused, to create new granular clouds\cf0 \
+\cf3 // each cloud generated will have its own unique variables\cf0 \
+cloudFunc = \{ \cf2 var\cf0  	cloudDuration=
+\fs52 10
+\fs26 , \
+				startTime,  \
+				density,\
+				freq,lofreq,hifreq,  \
+				loamp,hiamp,\
+				pos,lopos=0.1,hipos=3, \
+				rate,lorate=1, hirate=1.2, 															dur,lodur,hidur;\
+				
+\fs34 startTime
+\fs26  = \cf2 thisThread\cf0 .seconds;	\cf3 // this gets the seconds since SC startup\cf0 \
+				density = rrand(0.01,9);	\
+				\
+				lofreq = [1,10000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider.lo);\
+				hifreq =  [1,10000,\cf5 \\exp\cf0 ].asSpec.map(freqSlider.hi); \
+				loamp = [1,4,\cf5 \\exp\cf0 ].asSpec.map(ampSlider.lo);\
+				hiamp =  [1,4,\cf5 \\exp\cf0 ].asSpec.map(ampSlider.hi); \
+				lopos = [0,10,\cf5 \\lin\cf0 ].asSpec.map(posSlider.lo);\
+				hipos =  [0,10,\cf5 \\lin\cf0 ].asSpec.map(posSlider.hi); \
+				lorate = [-5, 5,\cf5 \\lin\cf0 ].asSpec.map(rateSlider.lo);\
+				hirate =  [-5, 5,\cf5 \\lin\cf0 ].asSpec.map(rateSlider.hi);\
+				lodur = [0.01, 1,\cf5 \\exp\cf0 ].asSpec.map(rateSlider.lo);\
+				hidur =  [0.01, 1,\cf5 \\exp\cf0 ].asSpec.map(rateSlider.hi);\
+\
+				 \
+				\cf3 //  the first function after "while" is a test; if true, the next function executes -- once it fails, the Routine ends\cf0 \
+					
+\fs44 while
+\fs26 (\{ \cf2 thisThread\cf0 .seconds  < (startTime+cloudDuration) \},\
+						\{	\
+							freq=rrand(lofreq,hifreq);\
+							dur = rrand(lodur,hidur);\
+							amp = rrand(loamp,hiamp);\
+							rate = rrand(lorate, hirate);\
+							pos = rrand(lopos, hipos);\
+								
+\fs38 \cf2 Synth
+\fs26 \cf0 (\cf4 "granSinSamp"\cf0 ,	\
+									[\cf5 \\rate\cf0 ,rate,\cf5 \\startPos\cf0 , pos,\cf5 \\bufnum\cf0 ,bufnum,\cf5 \\dur\cf0 ,dur,\cf5 \\amp\cf0 ,amp\
+									]);\
+									(dur/density).wait; \
+						\});  \
+\};\
+\
+w = \cf2 SCWindow\cf0 (\cf4 "cloudGen"\cf0 ); w.front;\
+\
+cloudBtn = \cf2 SCButton\cf0 (w, \cf2 Rect\cf0 (20,25, 70,20));\
+	cloudBtn.states = [\
+		[\cf4 "startCloud"\cf0 , \cf2 Color\cf0 .black, \cf2 Color\cf0 .new(0.0, 0.5, 0.9)]];\
+	cloudBtn.action = \{ \cf2 arg\cf0  view;\
+		\cf3 // create a Routine using cloudFunc\cf0 \
+		\cf2 Routine\cf0 (cloudFunc).play(\cf2 AppClock\cf0 ); \cf3 // AppClock allows GUI interaction\cf0 \
+	\};\
+routineText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,60, 140,20));\
+	routineText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 12);\
+	routineText.stringColor = \cf2 Color\cf0 .blue;\
+	routineText.align = \cf5 \\center\cf0 ;\
+	routineText.string = \cf4 "ROUTINE FUNCTIONS"\cf0 ;\
+\
+		\
+freqSlider = \cf2 SCRangeSlider\cf0 (w, \cf2 Rect\cf0 (10,100, 280,20)).lo_(0.1).hi_(0.15);\
+freqSldText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,80, 90,20));\
+	freqSldText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	freqSldText.stringColor = \cf2 Color\cf0 .blue;\
+	freqSldText.align = \cf5 \\center\cf0 ;\
+	freqSldText.string = \cf4 "grain freq"\cf0 ;\
+\
+ampSlider = \cf2 SCRangeSlider\cf0 (w, \cf2 Rect\cf0 (10,140, 280,20)).lo_(0.5).hi_(0.8);\
+ampSldText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,120, 90,20));\
+	ampSldText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	ampSldText.stringColor = \cf2 Color\cf0 .blue;\
+	ampSldText.align = \cf5 \\center\cf0 ;\
+	ampSldText.string = \cf4 "grain amp"\cf0 ;\
+	\
+posSlider = \cf2 SCRangeSlider\cf0 (w, \cf2 Rect\cf0 (10,180, 280,20)).lo_(0.1).hi_(0.15);\
+posSldText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,160, 90,20));\
+	posSldText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	posSldText.stringColor = \cf2 Color\cf0 .blue;\
+	posSldText.align = \cf5 \\center\cf0 ;\
+	posSldText.string = \cf4 "grain pos"\cf0 ;\
+	\
+rateSlider = \cf2 SCRangeSlider\cf0 (w, \cf2 Rect\cf0 (10,220, 280,20)).lo_(0.6).hi_(0.6);\
+rateSldText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,200, 90,20));\
+	rateSldText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	rateSldText.stringColor = \cf2 Color\cf0 .blue;\
+	rateSldText.align = \cf5 \\center\cf0 ;\
+	rateSldText.string = \cf4 "rate"\cf0 ;\
+\
+durSlider = \cf2 SCRangeSlider\cf0 (w, \cf2 Rect\cf0 (10,260, 280,20)).lo_(0.2).hi_(0.3);\
+durSldText = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (10,240, 90,20));\
+	durSldText.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	durSldText.stringColor = \cf2 Color\cf0 .blue;\
+	durSldText.align = \cf5 \\center\cf0 ;\
+	durSldText.string = \cf4 "dur"\cf0 ;\
+\
+buftext = \cf2 SCStaticText\cf0 (w, \cf2 Rect\cf0 (210,5, 70,20));\
+	buftext.font = \cf2 Font\cf0 (\cf4 "Helvetica"\cf0 , 10);\
+	buftext.stringColor = \cf2 Color\cf0 .blue;\
+	buftext.align = \cf5 \\center\cf0 ;\
+	buftext.string = \cf4 "sample"\cf0 ;\
+	bufbutt = \cf2 SCButton\cf0 (w, \cf2 Rect\cf0 (210,25, 70,20));\
+	bufbutt.states = [\
+		[\cf4 "1"\cf0 , \cf2 Color\cf0 .black, \cf2 Color\cf0 .red],\
+		[\cf4 "2"\cf0 , \cf2 Color\cf0 .black, \cf2 Color\cf0 .red],\
+		[\cf4 "3"\cf0 , \cf2 Color\cf0 .black, \cf2 Color\cf0 .red],\
+		[\cf4 "4"\cf0 ,\cf2 Color\cf0 .black, \cf2 Color\cf0 .red]\
+		];\
+	bufbutt.action = \{ \cf2 arg\cf0  view;\
+		switch(view.value,\
+		0,\{bufnum=bufs[0].bufnum\}, 1,\{bufnum=bufs[1].bufnum\}, 2,\{bufnum=bufs[2].bufnum\}, \
+		3,\{bufnum=bufs[3].bufnum\})\
+		\};		\
+)}

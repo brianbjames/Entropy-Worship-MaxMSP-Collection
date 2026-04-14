@@ -1,0 +1,91 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\deftab720
+\pard\pardeftab720\sa260\ql\qnatural
+
+\f0\b\fs32 \cf0 doubleOscer
+\f1\b0\fs18 \
+\pard\pardeftab720\ql\qnatural
+\cf0 \
+back and forth bouncing between buffered waveforms.\
+\
+\
+(\
+s = Server.local;\
+b = Buffer.alloc(s, 4096, 1);\
+c = Buffer.alloc(s, 4096, 1);\
+)\
+\
+(\
+SynthDef("Oscer1",\{ arg nextTime=0.5, bufnum=0, freq=80, envLev=1.0;\
+ var env, osc, sum, out;\
+        env = EnvGen.kr(Env.new([0,1,1, 0],[0.1, 0.98,0.1]), levelScale: envLev, timeScale: nextTime*0.98, doneAction: 2);\
+        osc = Osc.ar(b.bufnum,[freq,freq+(freq*0.0025)], 0, 0.5); //[freq,freq+(freq*0.0025)]\
+        sum = (env*osc);\
+   Out.ar(0, sum);\
+\}).send(s);\
+SynthDef("Oscer2",\{ arg nextTime=0.5, bufnum=0, freq=80, envLev=1.0;\
+ var env, osc, sum, out;\
+        env = EnvGen.kr(Env.new([0,1,1, 0],[0.1, 0.98,0.1]), levelScale: envLev, timeScale: nextTime*0.98, doneAction: 2);\
+        osc = Osc.ar(c.bufnum,[freq,freq+(freq*0.0025)], 0, 0.5);\
+        sum = (env*osc);\
+   Out.ar(0, sum);\
+\}).send(s);\
+)\
+\
+(\
+t=TempoClock(110/60); \
+u=t.beatDur/4;\
+\
+Routine(\{ arg nextTime;\
+        OSCSched.global.tdeltaTillNext(4.0).wait;\
+        loop(\{\
+                nextTime = u;\
+                        s.sendBundle(nil,[\\s_new, \\Oscer1, 1001, 1, 0,\
+                                                        \\freq, 26.midicps,\
+                                                        \\envLev, rrand(0.6, 0.8),\
+                                                        \\nextTime, nextTime\
+                                                        ]);                     \
+                (nextTime*2).wait;\
+                \});\
+\}).play;        \
+Routine(\{ arg nextTime;\
+        var n = 7;\
+        OSCSched.global.tdeltaTillNext(4.0).wait;       \
+        loop(\{\
+                 nextTime = u;\
+                (nextTime*1.5).wait;\
+                b.sine1(Array.rand(n,0,1).cubed, true, true, true);\
+                (nextTime*0.5).wait;\
+                \});\
+\}).play;\
+Routine(\{ arg nextTime;\
+        OSCSched.global.tdeltaTillNext(4.0).wait;\
+        loop(\{\
+                nextTime = u;\
+                nextTime.wait;\
+                        s.sendBundle(nil,[\\s_new, \\Oscer2, 1002, 1, 0,\
+                                                        \\freq, 38.midicps,\
+                                                        \\envLev, rrand(0.5, 0.8),\
+                                                        \\nextTime, nextTime\
+                                                        ]);                     \
+                nextTime.wait;\
+                \});\
+\}).play;        \
+Routine(\{ arg nextTime;\
+        var n = 7;\
+        OSCSched.global.tdeltaTillNext(4.0).wait;       \
+        loop(\{\
+                nextTime = u;\
+                (nextTime*0.5).wait;\
+                c.sine1(Array.rand(n,0,1).cubed, true, true, true);\
+                (nextTime*1.5).wait;\
+                \});\
+\}).play;\
+)\
+\
+/*\
+authors so far:\
+Jonathan Segel\
+*/}

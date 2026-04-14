@@ -1,0 +1,67 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf420
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red85\green85\blue85;\red225\green225\blue225;}
+\deftab720
+\pard\pardeftab720\sa260\ql\qnatural
+
+\f0\b\fs32 \cf0 ceci n'est pas une pipe
+\f1\b0\fs18 \
+\pard\pardeftab720\ql\qnatural
+\cf0 \
+p = ProxySpace.push(s);\
+s.boot;\
+~out.play;\
+\
+p.fadeTime = 2;\
+\
+(\
+f = \{ arg n = 10, fmin=1000, fmax=8000.0, dtMul=0.5;\
+		[\
+			Array.rand(n, fmin, fmax).sort,\
+			nil,\
+			Array.rand(n, dtMul*0.1, dtMul).sort.reverse\
+		]\
+	\};\
+~pipe = \{ \
+	var in;\
+	in = ~in.ar(8);\
+	in.collect(\{ arg chan;\
+		Klank.ar(Ref(f.value(rrand(4, 15), dtMul: rrand(40, 1).reciprocal)), chan)\
+	\}) \
+	* 0.4\
+\}\
+)\
+\
+~out = \{ Pan2.ar(Mix(~pipe.ar(8)), LFNoise1.kr(0.1)) \};\
+~out = \{ Splay.ar(~pipe.ar(8)) * 8 \};\
+\
+\
+\
+~in = \{ PanAz.ar(8, Impulse.ar(6, 0, 0.5) + WhiteNoise.ar(0.01), MouseX.kr(-1, 1)) \}; \
+~in = \{ Array.fill(8, \{ Impulse.ar([1, 2, 3, 5].choose, pi.rand * MouseX.kr(0,1), 0.5) \}) \}; \
+\
+\
+~in[0] = \{ PanAz.ar(8, Impulse.ar(Rand(1, 4), 0, 0.5), LFNoise1.kr(0.1)) \}; \
+~in[1] = \{ PanAz.ar(8, Impulse.ar(Rand(1, 4), 0, 0.5), LFNoise1.kr(0.1)) \}; \
+~in[2] = \{ PanAz.ar(8, PinkNoise.ar(0.02), LFNoise1.kr(0.1)) \}; \
+~in[3] = \{ PanAz.ar(8, PinkNoise.ar(0.02), LFNoise1.kr(0.1)) \}; \
+~in[4] = \{ PanAz.ar(8, PinkNoise.ar(0.02), LFNoise1.kr(0.1)) \}; \
+\
+~in = \{ PanAz.ar(8, PinkNoise.ar(0.02)  LFPulse.kr(Rand(1, 4), 0, Rand(0.02, 0.8)), LFNoise1.kr(0.1)) \}; \
+\
+//add new layers\
+~in.send;\
+~in.send;\
+~in.send;\
+\
+//feed over\
+~in[0] = \{ PanAz.ar(8, ~in.ar(1, MouseY.kr(0,6)), LFNoise1.kr(0.1)) \}; \
+~in[1] = \{ PanAz.ar(8, ~in.ar(1, MouseY.kr(1,7)), LFNoise1.kr(0.1)) \}; \
+\
+\
+************\
+/*\
+authors so far:\
+\pard\pardeftab720\ql\qnatural
+{\field{\*\fldinst{HYPERLINK "http://swiki.hfbk-hamburg.de:8888/MusicTechnology/16"}}{\fldrslt \cf2 \cb3 jrh}} 03\
+*/}
