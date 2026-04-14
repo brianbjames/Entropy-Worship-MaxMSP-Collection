@@ -33,8 +33,8 @@ Patch-Library/
     Music-Theory/
     UI-Patches/
   07_AI-and-ML/
-  08_Compositions-and-Instruments/
-  09_M4L-Externals/
+  08_M4L-Externals/
+  09_Compositions-and-Instruments/
 ```
 ## 🜂 Warning
 
