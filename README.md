@@ -31,6 +31,7 @@ Patch-Library/
     Custom-Interfaces/
     OSC/
   06_UI-and-Utilities/
+    Buffers-Memory/
     Function-Generators/
     Helpers-Data-Utilities/
     Music-Theory/
