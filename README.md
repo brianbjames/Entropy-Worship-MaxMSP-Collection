@@ -43,15 +43,44 @@ Patch-Library/
     M4L/
   09_Compositions-Instruments-Archive/
 ```
-## 🜂 Warning
+## 🜂 Warning / Disclaimer / Liability
+Everything in this repository is provided **as-is**, without warranty of any kind.
 
-- Patches may be unstable  
-- Audio may clip, distort, or vanish  
-- CPU usage may spike unpredictably  
-- Results may be non-repeatable 
+No guarantees are made regarding:
 
-## ∞ Final Note
+- Stability  
+- Functionality  
+- Performance  
+- Sonic outcome  
+- Visual coherence  
+- Conceptual integrity  
+- Patch predictability  
+- Audio clipping, distorting, or vanishing
+- CPU usage spikes 
+- Results may be non-repeatable and/or irreproducible
 
-Nothing in this repository is finished and nothing here is meant to last
+The author is not responsible for:
+
+- Data loss  
+- System instability  
+- Audio damage (watch your levels)  
+- GPU/CPU overload  
+- Your time spent on debugging
+- Existential confusion  
+
+Use at your own risk. Nothing in this repository is finished and nothing here is meant to last. 
 
 ---
+## ∞ License / Terms
+
+This work is licensed under the  
+**Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
+
+You are free to:
+- Use  
+- Modify  
+- Break  
+- Recontextualize  
+
+---
+[entropyworship.com](https://entropyworship.com)
