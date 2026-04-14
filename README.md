@@ -8,6 +8,7 @@ Patch-Library/
     Analysis-FFT/
     Effects/
     Filters/
+    Instruments/
     Mixing-Routing/
     Physical-Modeling/
     Routing/
