@@ -3,19 +3,21 @@
 ```
 Patch-Library/
   00_Learning-Materials/
-  01_Experiments-Unsorted/
+  01_Experiments-Unsorted-Mysteries/
   02_Audio/
-    Analysis/
+    Analysis-FFT/
     Effects/
     Mixing-Routing/
     Physical-Modeling/
-    Synthesis/
+    Routing/
     Sampling-Granular/
-    Spectral-FFT-PhaseVocoder/
-  03_MIDI-and-Sequencing/
+    Synthesis/
+    Spectral/
+    Vocoders/
+  03_MIDI-Time-Sequencing/
     MIDI-Utilities/
     Sequencers/
-    Music-Theory/
+    Time-and-Clock/
   04_Video-and-Visuals/
     Jitter/
     Computer-Vision-Tracking/
@@ -23,15 +25,16 @@ Patch-Library/
     Video-Processing/
   05_Interaction-and-Sensors/
     Motion-Sensors/
-    Game-Controllers/
+    Game-Hardware-Controllers/
     Custom-Interfaces/
+    OSC/
   06_UI-and-Utilities/
-    UI-Widgets/
-    Time-and-Clock/
     Helpers-Data/
+    Music-Theory/
+    UI-Patches/
   07_AI-and-ML/
   08_Compositions-and-Instruments/
-  09_M4L-Externals-and-Collections/
+  09_M4L-Externals/
 ```
 ## 🜂 Warning
 
