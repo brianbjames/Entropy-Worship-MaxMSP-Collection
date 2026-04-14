@@ -63,7 +63,6 @@ Patch-Library/
 Everything in this repository is provided **as-is**, without warranty of any kind.
 
 No guarantees are made regarding:
-
 - Stability  
 - Functionality  
 - Performance  
@@ -71,12 +70,11 @@ No guarantees are made regarding:
 - Visual coherence  
 - Conceptual integrity  
 - Patch predictability  
-- Audio clipping, distorting, or vanishing
+- Audio clipping, distorting, glitching, strobing effects, power usage
 - CPU usage spikes 
 - Results may be non-repeatable and/or irreproducible
 
 The author is not responsible for:
-
 - Data loss  
 - System instability  
 - Audio damage (watch your levels)  
@@ -87,16 +85,18 @@ The author is not responsible for:
 Use at your own risk. Nothing in this repository is finished and nothing here is meant to last. 
 
 ---
-## ∞ License / Terms
+## ∞ License / Terms of Use
 
 This work is licensed under the  
 **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
 
 You are free to:
-- Use  
-- Modify  
-- Break  
-- Recontextualize  
+- Use
+- Hack
+- Modify
+- Break
+- Distribute
+- Recontextualize
 
 ---
 
