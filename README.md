@@ -11,7 +11,6 @@ Patch-Library/
     Instruments/
     Mixing-Routing/
     Physical-Modeling/
-    Routing/
     Sampling-Granular/
     Synthesis/
     Spectral/
