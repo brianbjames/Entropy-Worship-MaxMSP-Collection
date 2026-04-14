@@ -24,13 +24,13 @@ Patch-Library/
     Analysis-FFT/
     Effects/
     Filters/
+    Generative/
     Instruments/
     Mixing-Routing/
     Panning/
     Physical-Modeling/
     Sampling-Granular/
     Synthesis/
-    Spectral/
     Vocoders/
   03_MIDI-Time-Sequencing/
     MIDI-Utilities/
