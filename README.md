@@ -1,10 +1,10 @@
 # 🜃 ENTROPY WORSHIP 🜃 
 # ⚙︎ Max/MSP Collection ⚒︎
-## ☍ What Lives Here
+## ⧜ What Lives Here
 ```
-/Patches
-/M4L
-/Learning-Materials
+/Patches → All Patches
+/M4L → Max For Live Objects
+/Learning-Materials → Building Blocks and Remedial Patches
 ```
 ## 🜂 Warning
 
@@ -13,7 +13,7 @@
 - CPU usage may spike unpredictably  
 - Results may be non-repeatable 
 
-## ☍ Final Note
+## ∞ Final Note
 
 Nothing in this repository is finished and nothing here is meant to last
 
