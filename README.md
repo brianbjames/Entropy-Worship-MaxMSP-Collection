@@ -29,7 +29,7 @@ Patch-Library/
     Mixing-Routing/
     Panning/
     Physical-Modeling/
-    Sampling-Granular/
+    Samples-Granular/
     Synthesis/
     Vocoders/
   03_MIDI-Time-Sequencing/
@@ -38,10 +38,10 @@ Patch-Library/
     Time-and-Clock/
   04_Video-and-Visuals/
     Jitter/
-    Computer-Vision-Tracking/
+    Computer-Camera-Tracking/
     Audio-Reactive-Visuals/
     Video-Processing/
-  05_Interaction-and-Sensors/
+  05_Hardware-Interaction-and-Sensors/
     Motion-Sensors/
     Game-Hardware-Controllers/
     Custom-Interfaces/
