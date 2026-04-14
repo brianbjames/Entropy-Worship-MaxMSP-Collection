@@ -10,6 +10,7 @@ Patch-Library/
     Filters/
     Instruments/
     Mixing-Routing/
+    Panning/
     Physical-Modeling/
     Sampling-Granular/
     Synthesis/
@@ -30,11 +31,15 @@ Patch-Library/
     Custom-Interfaces/
     OSC/
   06_UI-and-Utilities/
+    Function-Generators/
     Helpers-Data-Utilities/
     Music-Theory/
     UI-Patches/
   07_AI-and-ML/
-  08_M4L-Externals/
+  08_M4L-Externals-Gen/
+    Externals/
+    Gen/
+    M4L/
   09_Compositions-Instruments-Archive/
 ```
 ## 🜂 Warning
