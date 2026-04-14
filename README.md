@@ -7,6 +7,7 @@ Patch-Library/
   02_Audio/
     Analysis-FFT/
     Effects/
+    Filters/
     Mixing-Routing/
     Physical-Modeling/
     Routing/
@@ -34,7 +35,7 @@ Patch-Library/
     UI-Patches/
   07_AI-and-ML/
   08_M4L-Externals/
-  09_Compositions-and-Instruments/
+  09_Compositions-Instruments-Archive/
 ```
 ## 🜂 Warning
 

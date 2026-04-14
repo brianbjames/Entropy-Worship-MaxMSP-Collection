@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+
+<pattrstorage name = "X.Generators">
+	<slot number = "1">
+		<pattr name = "preset-name" value = "default" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "1." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "none" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "none" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "none" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "none" />
+		</patcher>
+	</slot>
+	<slot number = "2">
+		<pattr name = "preset-name" value = "add pan" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "1." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "none" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "none" />
+		</patcher>
+	</slot>
+	<slot number = "3">
+		<pattr name = "preset-name" value = "add detune" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "1." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "70." />
+			<pattr name = "bend-min" value = "60." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "0" />
+			<pattr name = "bend-ramp-trigger" value = "play" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "play" />
+		</patcher>
+	</slot>
+	<slot number = "4">
+		<pattr name = "preset-name" value = "trying to jazz" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "4nt 4n 8nd 8nt 16nd 16nd 8n 16n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "rest" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "pulse" />
+			<pattr name = "pitches" value = "G0 A#0 B0 D1 D#1 E1 G1 A#1 B1 D2 D#2 E2 G2 A#2 B2 D3 D#3 E3 G3" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "1." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "pulse" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "rest" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "rest" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "none" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "none" />
+		</patcher>
+	</slot>
+	<slot number = "5">
+		<pattr name = "preset-name" value = "esssspressssivo" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "2n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n 1nd 1n 1nt 2nd 2n 2nt 4nd 4nt 8nd 8nt 16nd 16nt 32nd 32n 32nt 64nd 64nd 64n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n 128n 128nd 64n 64nd 32nt 32nd 16nt 16nd 8nt 8nd 4nt 4nd 2nt 2n 2nd 1nt 1n 1nd" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5 C#2 D#3 A3 F1 C0" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "4." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "none" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "none" />
+		</patcher>
+	</slot>
+	<slot number = "6">
+		<pattr name = "preset-name" value = "oooooops..." />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "2n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n 1nd 1n 1nt 2nd 2n 2nt 4nd 4nt 8nd 8nt 16nd 16nt 32nd 32n 32nt 64nd 64nd 64n 128nd 128n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n 128n 128nd 64n 64nd 32nt 32nd 16nt 16nd 8nt 8nd 4nt 4nd 2nt 2n 2nd 1nt 1n 1nd" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5 C#2 D#3 A3 F1 C0" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "4." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "play" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "play" />
+		</patcher>
+	</slot>
+	<slot number = "7">
+		<pattr name = "preset-name" value = "trying to speak" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "4n 8n 16n 8n 1nd 1n 1nt 2nd 2n 2nt 4nd 4nt 8nd 8nt 16nd 16nt 32nd 32n 32nt 64nd 64nd 64n 128nd 128n" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "play" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n 128n 128nd 64n 64nd 32nt 32nd 16nt 16nd 8nt 8nd 4nt 4nd 2nt 2n 2nd 1nt 1n 1nd" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "play" />
+			<pattr name = "pitches" value = "C2" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "4." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "play" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "play" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "play" />
+		</patcher>
+	</slot>
+	<slot number = "8">
+		<pattr name = "preset-name" value = "non stop speach" />
+		<patcher name = "1-®Metro">
+			<pattr name = "choice-interval" value = "4n" />
+			<pattr name = "intervals" value = "16n 32n 64n 128n 128nd 64nd 32nt 32nd 16nt 16nd" />
+			<pattr name = "monitor-pitch" value = "70" />
+		</patcher>
+		<patcher name = "2-®Play/Rest">
+			<pattr name = "play-pitch" value = "27" />
+			<pattr name = "rest-%" value = "25" />
+			<pattr name = "rest-pitch" value = "28" />
+		</patcher>
+		<patcher name = "3-®Note">
+			<pattr name = "dur-trigger" value = "pulse" />
+			<pattr name = "durations" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "note-trigger" value = "pulse" />
+			<pattr name = "pitch-trigger" value = "pulse" />
+			<pattr name = "pitches" value = "G1 G2 D3 G3 B3 D4 F4 G4 A4 B4 C#5 D5 D#5 F5 F#5 G5" />
+			<pattr name = "vel-max" value = "120." />
+			<pattr name = "vel-min" value = "20." />
+			<pattr name = "vel-pow" value = "1." />
+			<pattr name = "vel-steps" value = "11" />
+			<pattr name = "vel-trigger" value = "pulse" />
+		</patcher>
+		<patcher name = "4-®Pan">
+			<pattr name = "pan-max" value = "127." />
+			<pattr name = "pan-min" value = "0." />
+			<pattr name = "pan-pow" value = "1." />
+			<pattr name = "pan-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "pan-ramp-trigger" value = "play" />
+			<pattr name = "pan-steps" value = "8" />
+			<pattr name = "pan-trigger" value = "play" />
+		</patcher>
+		<patcher name = "5-®Bend">
+			<pattr name = "bend-max" value = "127." />
+			<pattr name = "bend-min" value = "0." />
+			<pattr name = "bend-pow" value = "1." />
+			<pattr name = "bend-ramp" value = "1n 2n 4n 8n 16n 32n 64n 128n" />
+			<pattr name = "bend-ramp-trigger" value = "none" />
+			<pattr name = "bend-steps" value = "8" />
+			<pattr name = "bend-trigger" value = "none" />
+		</patcher>
+	</slot>
+</pattrstorage>
+
