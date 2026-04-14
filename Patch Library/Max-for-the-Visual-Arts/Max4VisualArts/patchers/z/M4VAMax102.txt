@@ -1,0 +1,47 @@
+1, <category> 1 Matrix;
+2, jit_matrix_introduction "introduction to the jit Matrix";
+3, jit_matrix_and_friends "matrix and friends";
+4, matrix_positioning "matrix positioning";
+5, matrix_lookup "matrix lookup data";
+6, matrix_feedback "matrix feedback";
+10, -----------------------;
+
+11, <category> 2 Text;
+12, text_basics "text basics";
+13, text_alpha "text + alpha layer";
+14, type_text "typing text in a window";
+15, text_oulipo "max and litterature";
+16, basictext2d "a simple patch to use text";
+17, text_passingtime "interactive text patch";
+20, -----------------------;
+
+21, <category> 3 Internet;
+22, xml "use XML with Max";
+23, json "use JSON with Max";
+24, regexp_tutorial "regular expression";
+26, internet_sensors "use the internet to get data"; 
+30, -----------------------;
+
+31, <category> 4 Grab;
+32, videograb "simple video grab";
+33, timelapse "timelapse";
+34, grab2syphon "use webcam, netcam and dslr";
+35, grab_position "return the position of a light";
+36, grab_hotspot "return the position of movements";
+40, -----------------------;
+
+41, <category> 5 Computer_Vision;
+42, colourtrack "track a colour with jit.findbounds";
+43, c74_camera_data "frame differencing and silhouette";
+44, background_removal "background removal";
+45, v.regions "softVNS v.region object";
+46, faceOSC "an interface to faceOSC";
+50, -----------------------;
+
+51, <category> 6 CV_Objects;
+52, cv_faces.findreplace "cv face find & replace";
+53, cv_HSflow "basic gesture interface";
+55, cv_centroid "return the center mass (and the mass)";
+56, cv_jit.blobs "blob detections";
+57, cv_misc "miscellaneous cv";
+60, -----------------------;
