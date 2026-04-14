@@ -8,6 +8,7 @@ Patch-Library/
     Analysis/
     Effects/
     Mixing-Routing/
+    Physical-Modeling/
     Synthesis/
     Sampling-Granular/
     Spectral-FFT-PhaseVocoder/
