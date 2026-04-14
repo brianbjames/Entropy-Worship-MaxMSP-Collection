@@ -30,7 +30,7 @@ Patch-Library/
     Helpers-Data/
   07_AI-and-ML/
   08_Compositions-and-Instruments/
-  09_External-Projects-and-Collections/
+  09_M4L-Externals-and-Collections/
 ```
 ## 🜂 Warning
 
