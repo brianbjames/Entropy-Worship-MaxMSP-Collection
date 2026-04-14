@@ -1,10 +1,10 @@
-# 🜃 ENTROPY WORSHIP 🜃 
-# ⚙︎ Max/MSP Collection ⚒︎
+# ⚒︎ ENTROPY WORSHIP ⚙︎ Max/MSP Collection ⚒︎
 ## ⧜ What Lives Here
 ```
-/Patches → All Patches
-/M4L → Max For Live Objects
 /Learning-Materials → Building Blocks and Remedial Patches
+/M4L → Max For Live Objects
+/Patches → All Patches
+
 ```
 ## 🜂 Warning
 
