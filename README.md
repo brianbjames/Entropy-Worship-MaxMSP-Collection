@@ -64,9 +64,9 @@ The author is not responsible for:
 - Data loss  
 - System instability  
 - Audio damage (watch your levels)  
-- GPU/CPU overload  
+- GPU/CPU overload 
 - Your time spent on debugging
-- Existential confusion  
+- Confusion  
 
 Use at your own risk. Nothing in this repository is finished and nothing here is meant to last. 
 
@@ -83,4 +83,4 @@ You are free to:
 - Recontextualize  
 
 ---
-[entropyworship.com](https://entropyworship.com)
+[entropyworship.com](http://entropyworship.com)
