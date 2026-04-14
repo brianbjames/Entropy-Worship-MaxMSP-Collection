@@ -30,7 +30,7 @@ Patch-Library/
     Custom-Interfaces/
     OSC/
   06_UI-and-Utilities/
-    Helpers-Data/
+    Helpers-Data-Utilities/
     Music-Theory/
     UI-Patches/
   07_AI-and-ML/
